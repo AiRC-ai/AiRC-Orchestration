@@ -4,7 +4,7 @@
 
 Do not report security vulnerabilities in public issues, discussions, or pull requests.
 
-Use GitHub's private vulnerability reporting flow from this repository's **Security** tab. Include:
+Send a private report to [security@airc.ai](mailto:security@airc.ai). Include:
 
 - affected AiRC version and operating system
 - clear reproduction steps
@@ -12,7 +12,7 @@ Use GitHub's private vulnerability reporting flow from this repository's **Secur
 - impact and any known workarounds
 - logs or screenshots with credentials and personal data removed
 
-If private vulnerability reporting is unavailable, use the contact options at [airc.ai](https://airc.ai/) and state that the message concerns a security vulnerability.
+Do not include production credentials or unredacted customer data. If a safe proof requires sensitive material, describe what you have first and wait for secure-transfer instructions.
 
 ## Scope
 
@@ -22,4 +22,4 @@ Third-party services and model providers remain subject to their own security po
 
 ## Supported Releases
 
-Security fixes target the latest published release. Users may be asked to update before further diagnosis when an issue affects an older build.
+Before the first public release, security reports against authorized Beta builds are accepted when the report identifies the exact build. After public releases begin, security fixes will target the latest published release; users may be asked to update before further diagnosis when an issue affects an older build.

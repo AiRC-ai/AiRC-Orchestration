@@ -1,10 +1,13 @@
 # Install AiRC Orchestration
 
-Download installers only from the repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page. Verify the file before installation.
+> [!IMPORTANT]
+> No public AiRC Orchestration installer has been published yet. AiRC Orchestration remains in active Beta development. Follow the repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page for the first verified public build; do not download installers offered elsewhere.
+
+The steps below document the planned installation flow once public Beta artifacts are available. Verify every downloaded file before opening or installing it.
 
 ## macOS Apple Silicon
 
-1. Download `AiRC-<version>-macOS-arm64.zip` and `SHA256SUMS` from the same release.
+1. Download `AiRC-<version>-macOS-arm64.zip` and `SHA256SUMS` from the same GitHub release.
 2. Follow [Verify a download](VERIFY.md).
 3. Open the ZIP archive.
 4. Move `AiRC.app` to `/Applications`.
@@ -16,9 +19,9 @@ Some optional features require explicit macOS permissions, such as Accessibility
 
 ## Debian, Ubuntu, Kali, And Compatible Systems
 
-The initial Linux package targets x86_64 systems using Debian packages.
+The planned initial Linux package targets x86_64 systems using Debian packages.
 
-1. Download `airc_<version>_amd64.deb` and `SHA256SUMS` from the same release.
+1. Download `airc_<version>_amd64.deb` and `SHA256SUMS` from the same GitHub release.
 2. Follow [Verify a download](VERIFY.md).
 3. Install the package:
 
@@ -34,11 +37,9 @@ The initial Linux package targets x86_64 systems using Debian packages.
 
 If package dependencies cannot be resolved, run your distribution's normal package index update and retry with `apt`. Avoid forcing installation with `dpkg --force-*`.
 
-## Upgrading
+## Upgrading During Beta
 
-Install the newer package over the existing version. AiRC keeps compatibility with existing application configuration unless release notes explicitly describe a migration.
-
-Back up important projects and configuration before a major upgrade.
+Read the release notes before every upgrade and back up important projects and configuration first. Compatibility and migration behavior may change during Beta; follow any version-specific instructions included with the release.
 
 ## Uninstalling
 
