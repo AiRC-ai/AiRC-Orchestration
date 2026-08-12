@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AiRC-ai/AiRC-Orchestration/blob/main/release-manifest.schema.json",
+  "title": "AiRC Orchestration release manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "product",
+    "version",
+    "sourceCommit",
+    "publishedAt",
+    "artifacts"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "product": {
+      "const": "AiRC Orchestration"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+([+-][0-9A-Za-z.-]+)?$"
+    },
+    "sourceCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/macArtifact"
+          },
+          {
+            "$ref": "#/$defs/debianArtifact"
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "macArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "platform",
+        "architecture",
+        "fileName",
+        "size",
+        "sha256",
+        "codeSigned",
+        "notarized"
+      ],
+      "properties": {
+        "kind": {
+          "const": "macos-zip"
+        },
+        "platform": {
+          "const": "macos"
+        },
+        "architecture": {
+          "const": "arm64"
+        },
+        "fileName": {
+          "type": "string",
+          "pattern": "^AiRC-.+-macOS-arm64\\.zip$"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "codeSigned": {
+          "const": true
+        },
+        "notarized": {
+          "const": true
+        }
+      }
+    },
+    "debianArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "platform",
+        "architecture",
+        "fileName",
+        "size",
+        "sha256",
+        "packageName"
+      ],
+      "properties": {
+        "kind": {
+          "const": "debian-deb"
+        },
+        "platform": {
+          "const": "debian"
+        },
+        "architecture": {
+          "const": "amd64"
+        },
+        "fileName": {
+          "type": "string",
+          "pattern": "^airc_.+_amd64\\.deb$"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "packageName": {
+          "const": "airc"
+        }
+      }
+    }
+  }
+}

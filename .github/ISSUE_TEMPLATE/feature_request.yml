@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest an improvement to AiRC Orchestration
+title: "[Feature]: "
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    attributes:
+      label: Problem
+      description: What workflow or limitation should this solve?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed experience
+      description: Describe how the feature should work from the user's perspective.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Alternatives considered
+  - type: textarea
+    attributes:
+      label: Additional context

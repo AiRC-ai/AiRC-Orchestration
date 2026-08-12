@@ -1,0 +1,55 @@
+name: Bug report
+description: Report a reproducible AiRC Orchestration problem
+title: "[Bug]: "
+labels: [bug, needs-triage]
+body:
+  - type: checkboxes
+    attributes:
+      label: Before submitting
+      options:
+        - label: I installed the latest release from this repository.
+          required: true
+        - label: I removed credentials, private URLs, personal data, and customer data.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true
+  - type: input
+    attributes:
+      label: AiRC version
+      placeholder: 1.45.0+airc11
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Operating system
+      options:
+        - macOS Apple silicon
+        - Debian or Ubuntu amd64
+        - Kali amd64
+        - Other Debian-compatible amd64
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and its impact.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Open ...
+        2. Select ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Include provider type, model name, screenshots, or sanitized logs when relevant.

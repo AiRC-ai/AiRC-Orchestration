@@ -1,0 +1,41 @@
+name: Validate release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Draft or published release tag to validate
+        required: true
+        type: string
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-linux:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Download release assets
+        run: gh release download "$RELEASE_TAG" --dir release
+      - name: Validate release structure and Debian package
+        run: scripts/validate-release.sh release
+
+  validate-macos:
+    runs-on: macos-14
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Download release assets
+        run: gh release download "$RELEASE_TAG" --dir release
+      - name: Validate release structure, signature, and notarization
+        run: |
+          scripts/validate-release.sh release
+          scripts/verify-macos-release.sh release/AiRC-*-macOS-arm64.zip

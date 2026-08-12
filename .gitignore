@@ -1,0 +1,12 @@
+.DS_Store
+release/
+dist/
+*.zip
+*.deb
+*.dmg
+*.pkg
+*.rpm
+*.AppImage
+*.exe
+*.msi
+*.debug

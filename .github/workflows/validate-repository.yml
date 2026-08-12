@@ -1,0 +1,19 @@
+name: Validate repository
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Validate public distribution repository
+        run: scripts/validate-repository.sh
+      - name: Test release validation contract
+        run: scripts/test-release-validation.sh
