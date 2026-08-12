@@ -1,13 +1,13 @@
 name: Bug report
 description: Report a reproducible AiRC Orchestration problem
 title: "[Bug]: "
-labels: [bug, needs-triage]
+labels: [bug]
 body:
   - type: checkboxes
     attributes:
       label: Before submitting
       options:
-        - label: I installed the latest release from this repository.
+        - label: I checked the Releases page and understand that a public installer may not be available yet.
           required: true
         - label: I removed credentials, private URLs, personal data, and customer data.
           required: true
@@ -15,8 +15,8 @@ body:
           required: true
   - type: input
     attributes:
-      label: AiRC version
-      placeholder: 1.45.0+airc11
+      label: AiRC build or source revision
+      placeholder: Build identifier, release tag, or commit SHA
     validations:
       required: true
   - type: dropdown
