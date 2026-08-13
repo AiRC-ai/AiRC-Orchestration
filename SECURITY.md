@@ -22,4 +22,4 @@ Third-party services and model providers remain subject to their own security po
 
 ## Supported Releases
 
-Before the first public release, security reports against authorized Beta builds are accepted when the report identifies the exact build. After public releases begin, security fixes will target the latest published release; users may be asked to update before further diagnosis when an issue affects an older build.
+Security fixes target the latest published Beta release. Reports against authorized private test builds are also accepted when they identify the exact build. Users may be asked to update before further diagnosis when an issue affects an older release.

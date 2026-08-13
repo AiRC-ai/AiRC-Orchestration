@@ -16,12 +16,29 @@ fi
 
 release_directory=$(cd "$release_directory" && pwd)
 
-for required_file in SHA256SUMS release-manifest.json LICENSE NOTICE THIRD_PARTY_NOTICES.md; do
+for required_file in SHA256SUMS release-manifest.json LICENSE LICENSES.md APACHE-2.0.txt NOTICE THIRD_PARTY_NOTICES.md; do
   if [[ ! -f "$release_directory/$required_file" ]]; then
     echo "missing release file: $required_file" >&2
     exit 1
   fi
 done
+
+grep -Fq 'AiRC ORCHESTRATION PROPRIETARY BETA LICENSE' "$release_directory/LICENSE" || {
+  echo "release is missing the AiRC proprietary license terms" >&2
+  exit 1
+}
+grep -Fq 'Apache License' "$release_directory/APACHE-2.0.txt" || {
+  echo "release is missing the retained Apache license terms" >&2
+  exit 1
+}
+grep -Fq 'Original AiRC code, modifications' "$release_directory/LICENSES.md" || {
+  echo "release license map does not identify AiRC-owned materials" >&2
+  exit 1
+}
+grep -Fq 'Components originally distributed under Apache License 2.0' "$release_directory/LICENSES.md" || {
+  echo "release license map does not identify inherited components" >&2
+  exit 1
+}
 
 mapfile_compat() {
   local pattern=$1
@@ -48,6 +65,8 @@ allowed_files=$(printf '%s\n' \
   "$(basename "$macos_file")" \
   "$(basename "$debian_file")" \
   LICENSE \
+  LICENSES.md \
+  APACHE-2.0.txt \
   NOTICE \
   SHA256SUMS \
   THIRD_PARTY_NOTICES.md \
@@ -188,7 +207,7 @@ if command -v dpkg-deb >/dev/null 2>&1; then
   [[ $package_architecture == amd64 ]] || { echo "unexpected Debian architecture: $package_architecture" >&2; exit 1; }
   [[ $package_version == "$manifest_version" ]] || { echo "Debian version does not match manifest" >&2; exit 1; }
   [[ $package_maintainer == AiRC* ]] || { echo "unexpected Debian maintainer: $package_maintainer" >&2; exit 1; }
-  [[ $package_homepage == https://airc.ai/ ]] || { echo "unexpected Debian homepage: $package_homepage" >&2; exit 1; }
+  [[ $package_homepage == https://github.com/AiRC-ai/AiRC-Orchestration ]] || { echo "unexpected Debian homepage: $package_homepage" >&2; exit 1; }
 
   debian_root=$(mktemp -d)
   trap 'rm -rf "$debian_root"' EXIT

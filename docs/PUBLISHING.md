@@ -9,6 +9,8 @@ This repository is a release boundary. It must receive only final, verified arti
 - `SHA256SUMS`
 - `release-manifest.json`
 - `LICENSE`
+- `LICENSES.md`
+- `APACHE-2.0.txt`
 - `NOTICE`
 - `THIRD_PARTY_NOTICES.md`
 
@@ -71,6 +73,7 @@ The private source repository must provide:
   dispatching workflows in this repository; and
 - required reviewer approval for the signing environment.
 
-The automation deliberately creates a draft. A maintainer must inspect the
-validation results and publish it manually. The public repository never needs
+The automation creates a draft, runs both public validation jobs, and publishes
+the release only after they pass. A maintainer should still inspect the final
+release notes, artifacts, and checksums. The public repository never needs
 access to the private source repository.

@@ -44,6 +44,8 @@ debian_name="airc_${version}_amd64.deb"
 cp "$macos_input" "$output_directory/$macos_name"
 cp "$debian_input" "$output_directory/$debian_name"
 cp "$repository_root/LICENSE" "$output_directory/LICENSE"
+cp "$repository_root/LICENSES.md" "$output_directory/LICENSES.md"
+cp "$repository_root/licenses/Apache-2.0.txt" "$output_directory/APACHE-2.0.txt"
 cp "$repository_root/NOTICE" "$output_directory/NOTICE"
 cp "$repository_root/THIRD_PARTY_NOTICES.md" "$output_directory/THIRD_PARTY_NOTICES.md"
 

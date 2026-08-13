@@ -1,5 +1,6 @@
 AiRC Orchestration
-Copyright 2026 AiRC.ai
+Original AiRC materials and modifications:
+Copyright 2026 Ryan Cox and AiRC.ai. All rights reserved.
 
 This distribution includes software components originally developed by
 Block, Inc. and other contributors and made available under the Apache
@@ -7,5 +8,9 @@ License, Version 2.0.
 
 Copyright 2024 Block, Inc.
 
-Copyright and license notices for third-party components are retained in
+The Apache-licensed material remains governed by the Apache License, Version
+2.0, included at licenses/Apache-2.0.txt in this repository and as
+APACHE-2.0.txt in each release.
+
+Copyright and license notices for other third-party components are retained in
 the application distribution and summarized in THIRD_PARTY_NOTICES.md.

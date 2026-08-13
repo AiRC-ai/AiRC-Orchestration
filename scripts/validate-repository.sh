@@ -7,6 +7,8 @@ cd "$repository_root"
 required_files=(
   README.md
   LICENSE
+  LICENSES.md
+  licenses/Apache-2.0.txt
   NOTICE
   THIRD_PARTY_NOTICES.md
   SECURITY.md
@@ -46,6 +48,28 @@ if rg -n --hidden \
 fi
 
 python3 -m json.tool release-manifest.schema.json >/dev/null
+
+grep -Fq 'AiRC ORCHESTRATION PROPRIETARY BETA LICENSE' LICENSE || {
+  echo "root license is not the AiRC proprietary Beta license" >&2
+  exit 1
+}
+grep -Fq 'Apache License' licenses/Apache-2.0.txt || {
+  echo "retained Apache license is missing or invalid" >&2
+  exit 1
+}
+grep -Fq 'Original AiRC code, modifications' LICENSES.md || {
+  echo "license map does not identify AiRC-owned materials" >&2
+  exit 1
+}
+grep -Fq 'Components originally distributed under Apache License 2.0' LICENSES.md || {
+  echo "license map does not identify inherited components" >&2
+  exit 1
+}
+
+if rg -n -i 'no public installer|first public installer|installers are still being prepared' README.md docs SUPPORT.md SECURITY.md CONTRIBUTING.md .github/ISSUE_TEMPLATE; then
+  echo "stale pre-release availability language found" >&2
+  exit 1
+fi
 
 if rg -n -i 'derived from goose|honk|goose is working' README.md docs SUPPORT.md SECURITY.md CONTRIBUTING.md; then
   echo "public-facing branding regression found" >&2

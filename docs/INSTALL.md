@@ -1,9 +1,9 @@
 # Install AiRC Orchestration
 
 > [!IMPORTANT]
-> No public AiRC Orchestration installer has been published yet. AiRC Orchestration remains in active Beta development. Follow the repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page for the first verified public build; do not download installers offered elsewhere.
+> AiRC Orchestration remains in active Beta development. Download only from the repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page; do not install packages offered elsewhere.
 
-The steps below document the planned installation flow once public Beta artifacts are available. Verify every downloaded file before opening or installing it.
+Verify every downloaded file before opening or installing it.
 
 ## macOS Apple Silicon
 
@@ -17,9 +17,9 @@ The public macOS build must be signed and notarized. Do not bypass Gatekeeper fo
 
 Some optional features require explicit macOS permissions, such as Accessibility, Screen Recording, microphone, calendar, or reminders access. Grant only the permissions needed for features you choose to use.
 
-## Debian, Ubuntu, Kali, And Compatible Systems
+## Debian-Family Linux
 
-The planned initial Linux package targets x86_64 systems using Debian packages.
+The Linux package targets x86_64 (`amd64`) systems that support Debian packages.
 
 1. Download `airc_<version>_amd64.deb` and `SHA256SUMS` from the same GitHub release.
 2. Follow [Verify a download](VERIFY.md).

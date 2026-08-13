@@ -7,7 +7,7 @@ body:
     attributes:
       label: Before submitting
       options:
-        - label: I checked the Releases page and understand that a public installer may not be available yet.
+        - label: I checked the Releases page and reproduced this on the latest available build.
           required: true
         - label: I removed credentials, private URLs, personal data, and customer data.
           required: true
@@ -25,8 +25,7 @@ body:
       options:
         - macOS Apple silicon
         - Debian or Ubuntu amd64
-        - Kali amd64
-        - Other Debian-compatible amd64
+        - Debian-family Linux amd64
     validations:
       required: true
   - type: textarea

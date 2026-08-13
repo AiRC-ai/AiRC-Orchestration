@@ -39,7 +39,7 @@ Package: airc
 Version: $version
 Architecture: amd64
 Maintainer: AiRC <support@airc.ai>
-Homepage: https://airc.ai/
+Homepage: https://github.com/AiRC-ai/AiRC-Orchestration
 Description: AiRC Orchestration validation fixture
 EOF
 

@@ -1,6 +1,6 @@
 # Support
 
-AiRC Orchestration is in active Beta development. No public installer has been published yet; issues are currently most useful when they clearly identify the authorized Beta build being tested.
+AiRC Orchestration is in active Beta development. Issues are most useful when they clearly identify the exact build from the public [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page or an authorized private test build.
 
 ## Before Opening An Issue
 
@@ -20,6 +20,8 @@ Use the issue templates for:
 - browser or computer-control behavior where enabled
 - user interface problems
 - feature requests
+
+Use the [bug report form](https://github.com/AiRC-ai/AiRC-Orchestration/issues/new?template=bug_report.yml) for defects and the [feature request form](https://github.com/AiRC-ai/AiRC-Orchestration/issues/new?template=feature_request.yml) for product ideas.
 
 Include the AiRC build, operating system version, processor architecture, provider type, expected behavior, observed behavior, and minimal reproduction steps.
 

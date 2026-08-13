@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/AiRC-ai/AiRC-Orchestration/releases">Follow Beta releases</a>
+  <a href="https://github.com/AiRC-ai/AiRC-Orchestration/releases/latest">Download the latest Beta</a>
   &nbsp;|&nbsp;
   <a href="https://airc.ai/">AiRC.ai</a>
   &nbsp;|&nbsp;
@@ -22,7 +22,7 @@
 </p>
 
 > [!IMPORTANT]
-> **AiRC Orchestration is in active Beta development.** Features, interfaces, integrations, and packaging may change. No public installer has been published yet; follow this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page for the first verified Beta build.
+> **AiRC Orchestration is proprietary Beta software.** Features, interfaces, integrations, and packaging may change. Download only from this repository's verified [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page and review the license before use.
 
 AiRC Orchestration is a desktop AI orchestration platform for work that lasts longer than one prompt. It keeps the project, task, model, tools, goal, plan, and execution evidence together so an AI workflow can make progress without losing its operating context.
 
@@ -66,16 +66,16 @@ This is the official public home for product presentation, release artifacts, in
 
 Availability depends on the selected model, provider, operating system, configured capabilities, and permissions granted by the user.
 
-## Beta Availability
+## Beta Downloads
 
-The first public installers are still being prepared. These are the current public packaging targets, not downloadable releases:
+The current release target is `1.45.0+airc13`. Each installer and its verification files are published together on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-| Planned platform | Architecture | Planned release file |
+| Platform | Architecture | Release file |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | `AiRC-<version>-macOS-arm64.zip` |
-| Debian, Ubuntu, Kali, and compatible distributions | x86_64 (`amd64`) | `airc_<version>_amd64.deb` |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc13-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/latest/download/AiRC-1.45.0+airc13-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc13_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/latest/download/airc_1.45.0+airc13_amd64.deb) |
 
-When a Beta release is published, it is expected to include `SHA256SUMS`, a machine-readable `release-manifest.json`, and the applicable license and third-party notices. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
+Every Beta release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 
 ## Release Trust Boundary
 
@@ -105,4 +105,4 @@ Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
 
 ## License
 
-Documentation, scripts, and AiRC-owned media in this repository are provided under the [Apache License 2.0](LICENSE). Any published application artifact is governed by the license terms included with that release. Third-party components and third-party media retain their respective licenses and notices. See [NOTICE](NOTICE) and [Third-party notices](THIRD_PARTY_NOTICES.md).
+Original AiRC software, modifications, documentation, release tooling, artwork, and branding are proprietary and governed by the [AiRC Orchestration Proprietary Beta License](LICENSE). Inherited open-source and third-party components retain their respective licenses and notices. See the [license map](LICENSES.md), [NOTICE](NOTICE), [Apache License 2.0](licenses/Apache-2.0.txt), and [third-party notices](THIRD_PARTY_NOTICES.md).
