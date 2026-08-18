@@ -68,12 +68,14 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Beta Downloads
 
-The current release target is `1.45.0+airc13`. Each installer and its verification files are published together on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
+The current Beta release is **1.45.0+airc6**. Each installer and its verification files are published together on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-| Platform | Architecture | Release file |
+| Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc13-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/latest/download/AiRC-1.45.0+airc13-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc13_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/latest/download/airc_1.45.0+airc13_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc6-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc6/AiRC-1.45.0+airc6-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc6_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc6/airc_1.45.0+airc6_amd64.deb) |
+
+The macOS build is signed with a Developer ID certificate, notarized by Apple, and has a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
 Every Beta release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 
