@@ -93,6 +93,8 @@ Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
 
 ## Responsible Beta Use
 
+AiRC Orchestration is signed and notarized. The macOS build carries a valid Developer ID signature, an Apple notarization ticket, and passes Gatekeeper without warnings. The Debian package is architecture-verified with matching checksums. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
+
 - Review model, tool, extension, automation, and operating-system permissions before use.
 - Keep approval controls at the narrowest practical level for consequential actions.
 - Treat browser and computer-control capabilities as privileged and enable them only when needed.
