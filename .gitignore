@@ -10,3 +10,11 @@ dist/
 *.exe
 *.msi
 *.debug
+
+# Playwright MCP session artifacts
+.playwright-mcp/
+
+# Stray screenshots captured during development
+/drivemad_after_ok.png
+/hos-after-reward.png
+/hos-before-reward.png

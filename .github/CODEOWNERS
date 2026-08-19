@@ -1,0 +1,32 @@
+# CODEOWNERS for the AiRC Orchestration public release repository.
+#
+# Every change to release-critical paths requires review by the AiRC
+# maintainers team. GitHub branch protection should enforce CODEOWNERS
+# review on pull requests targeting main.
+
+# Release validation scripts — control installer trust
+/scripts/                          @airc-ai/maintainers
+
+# Release manifest schema — defines the public release contract
+/release-manifest.schema.json      @airc-ai/maintainers
+
+# CI/CD workflows — gate every published release
+/.github/workflows/                @airc-ai/maintainers
+/.github/CODEOWNERS                @airc-ai/maintainers
+/.github/release.yml                @airc-ai/maintainers
+/.github/pull_request_template.md   @airc-ai/maintainers
+
+# Issue templates — user-facing support surface
+/.github/ISSUE_TEMPLATE/            @airc-ai/maintainers
+
+# User-facing documentation — trust instructions for downloads
+/docs/                             @airc-ai/maintainers
+
+# Root legal and governance files
+/LICENSE                           @airc-ai/maintainers
+/NOTICE                            @airc-ai/maintainers
+/THIRD_PARTY_NOTICES.md            @airc-ai/maintainers
+/SECURITY.md                       @airc-ai/maintainers
+/SUPPORT.md                        @airc-ai/maintainers
+/CONTRIBUTING.md                   @airc-ai/maintainers
+/README.md                         @airc-ai/maintainers
