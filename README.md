@@ -31,11 +31,13 @@ This repository is the public home for product presentation, release artifacts, 
 ## See It In Action
 
 <p align="center">
-  <img src="assets/airc-whisper-browser-workflow.gif" alt="AiRC Orchestration Beta using the selected muse-glimmer model and the in-app browser to inspect and summarize the public AiRC Whisper repository" width="960">
+  <a href="https://github.com/AiRC-ai/AiRC-Orchestration">
+    <img src="assets/airc-whisper-browser-workflow.gif" alt="AiRC Orchestration Beta using the in-app browser to inspect and summarize the public AiRC Whisper repository" width="960">
+  </a>
 </p>
 
 <p align="center">
-  <sub>A real Beta session using the <code>muse-glimmer:30b-q4_K_M-dflash</code> model and the in-app browser to find, inspect, and summarize the public <a href="https://github.com/AiRC-ai/AiRC-Whisper">AiRC Whisper</a> repository. Every frame was reviewed for private data. <a href="assets/README.md">Capture provenance</a>.</sub>
+  <sub>Real Beta session: the <code>muse-glimmer</code> model uses the in-app browser to find, inspect, and summarize the public <a href="https://github.com/AiRC-ai/AiRC-Whisper">AiRC Whisper</a> repository. Every frame was reviewed for private data. <a href="assets/README.md">Capture provenance</a>.</sub>
 </p>
 
 <table>
@@ -53,16 +55,63 @@ This repository is the public home for product presentation, release artifacts, 
 
 ## Why It's Different
 
-| Capability | What it does for you |
+### Project-centered work
+
+Tasks, message history, model state, enabled capabilities, and working directory stay tied to the project — no re-explaining context when you come back. Multiple sessions can run concurrently, each with its own model and tool configuration, and the most recent sessions are tracked for quick switching.
+
+### Goals and plans
+
+Give long-running work an explicit objective and track its progress. **Plan Mode** lets the AI explore read-only — reading files, inspecting code, browsing — before making any changes. When the plan is ready, execution begins with the full context already in place.
+
+### Model flexibility
+
+Switch between hosted, local, or remote model providers per session, with model-aware context and reasoning controls. AiRC supports OpenAI-compatible and Anthropic-compatible API formats, with a provider catalog that auto-fills configuration for popular hosted providers. Local inference can run models directly on your machine, and an Inference Mesh mode distributes work across peer nodes.
+
+### Four approval modes
+
+Control how much autonomy the AI has on a per-session basis:
+
+| Mode | Behavior |
 | --- | --- |
-| **Project-centered work** | Tasks, message history, model state, enabled capabilities, and working directory stay tied to the project — no re-explaining context. |
-| **Goals and plans** | Give long-running work an explicit objective, track progress, and explore read-only in Plan Mode before changes begin. |
-| **Model flexibility** | Switch between hosted, local, or remote model providers per session, with model-aware context and reasoning controls. |
-| **Composable capabilities** | Combine tools, extensions, skills, recipes, apps, and automations instead of being locked into one chat surface. |
-| **Supervised execution** | Use the optional Orchestrator layer to start, monitor, message, and interrupt agent sessions while the main task stays coordinated. |
-| **Bounded delegation** | Send focused work to subagents with scoped providers, models, and tools — the main task stays in control. |
-| **Natural-language automation** | Create one-time or recurring work from plain-language instructions, with project and model context attached. |
-| **Integrated work surfaces** | Use development tools, terminal workflows, browser work, and computer control where enabled and explicitly permitted. |
+| **Auto** | Tool calls execute automatically — best for trusted, fast workflows |
+| **Smart Approve** | Only sensitive tool calls prompt for approval — the balance point |
+| **Approve** | Every tool call asks before executing — full control |
+| **Chat** | No tool calls — pure conversation |
+
+### Composable capabilities
+
+Combine tools, extensions, skills, recipes, apps, and automations instead of being locked into one chat surface:
+
+- **Extensions** — MCP-compatible tool servers that add capabilities (file system, shell, browser, databases, APIs)
+- **Skills** — Loaded from `SKILL.md` files; extend AiRC with domain-specific instructions
+- **Recipes** — Shareable, parameterized workflows encoded as deep links (`airc://recipe?config=...`)
+- **Apps** — Applications built by AiRC through chat or imported from shared packages; appear in a grid and launch standalone
+- **Automations** — One-time or recurring scheduled work with project and model context attached, managed from plain language
+
+### Supervised execution
+
+Use the optional **Orchestrator** layer to start, monitor, message, and interrupt agent sessions while the main task stays coordinated. The Orchestrator can list active sessions, view their state, send messages to them, and interrupt them — all from within the main chat.
+
+### Bounded delegation
+
+Send focused work to subagents with scoped providers, models, and tools — the main task stays in control. Delegated subagent sessions appear inline with their tool calls and results, and you can jump directly into a subagent's session to inspect what happened.
+
+### Natural-language automation
+
+Create and manage one-time or recurring work from plain-language instructions, with project and model context attached. Automations support cron scheduling, pausing, resuming, and manual run-now. Each run creates a session you can inspect afterward.
+
+### Integrated work surfaces
+
+Use development tools, terminal workflows, browser work, and computer control where enabled and explicitly permitted:
+
+- **Developer tools** — File editing, shell execution, code analysis
+- **In-app browser** — Open and inspect web pages directly inside AiRC
+- **Computer control** — Platform-level automation (macOS, Linux, Windows) for screen, input, and document workflows
+- **Tunnel access** — Securely connect to AiRC from a mobile device through an encrypted tunnel
+
+### Voice and dictation
+
+Speak instead of type. AiRC supports dictation through multiple providers — OpenAI, ElevenLabs, Groq, and fully local on-device models — with downloadable model management.
 
 Availability depends on the selected model, provider, operating system, configured capabilities, and permissions granted by the user.
 
