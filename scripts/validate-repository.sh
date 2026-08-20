@@ -71,7 +71,7 @@ if rg -n -i 'no public installer|first public installer|installers are still bei
   exit 1
 fi
 
-if rg -n -i 'derived from goose|honk|goose is working' README.md docs SUPPORT.md SECURITY.md CONTRIBUTING.md; then
+if rg -n -i 'derived from goose|honk|goose is working|goose://|goose:' README.md docs SUPPORT.md SECURITY.md CONTRIBUTING.md .github/ISSUE_TEMPLATE; then
   echo "public-facing branding regression found" >&2
   exit 1
 fi
