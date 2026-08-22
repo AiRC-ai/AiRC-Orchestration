@@ -52,7 +52,7 @@ scripts/verify-macos-release.sh /path/to/staging-directory/AiRC-<version>-macOS-
 
 1. Create a draft GitHub release named `AiRC <version>` with tag `v<version>`.
 2. Upload every file from the staging directory.
-3. Run the **Validate release** workflow for the draft tag.
+3. Run the **Validate release** workflow for the draft tag. The workflow uses the authenticated Releases API so draft assets are validated before publication.
 4. Review release notes, checks, file names, sizes, architectures, and checksums.
 5. Publish only after both Linux and macOS validation jobs pass.
 
