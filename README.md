@@ -117,14 +117,14 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current Beta release is **1.45.0+airc18**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
+The current Beta release is **1.45.0+airc19**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-This release completes the long-task recovery work by pacing historical replay before the desktop transport can overflow and by stopping automatic recovery from repeatedly reopening a task that already recorded a load failure. Full history remains available, explicit Retry remains available, and the size-aware activation, bounded rendering, first-launch, browser, Computer Use, provider, automation, goal, and AiRC branding improvements from the 1.45 Beta line remain included. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc18) for verification and installation details.
+This release prevents duplicate user and assistant content during live delivery and historical replay. Sent prompts now reconcile with full or split server echoes, exact duplicate replay events are idempotent, and opening **Edit** sees the original single prompt. Legitimate repeated model output remains intact, and all long-task recovery, bounded rendering, first-launch, browser, Computer Use, provider, automation, goal, and AiRC branding improvements from the 1.45 Beta line remain included. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc19) for verification and installation details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc18-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc18/AiRC-1.45.0+airc18-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc18_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc18/airc_1.45.0+airc18_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc19-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc19/AiRC-1.45.0+airc19-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc19_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc19/airc_1.45.0+airc19_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
