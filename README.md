@@ -117,14 +117,14 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current Beta release is **1.45.0+airc28**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
+The current Beta release is **1.45.0+airc42**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-This release hardens the complete supervised-workflow path. It isolates Computer Use state and safety controls by task, keeps goals and orchestrator corrections moving after recovery, prevents repeated identical tool loops, bounds browser and prompt-history resources, refreshes provider context and billing metadata, and preserves reliable replay of long conversations. On macOS, tests can no longer reach the user's real Keychain, AiRC credentials remain under the `airc` service, and the app no longer probes the retired `goose` service. The duplicate-send and final-summary repairs from earlier 1.45 builds remain included. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc28) for verification and installation details.
+This release advances the production-hardening work across task recovery, long conversations, goals and plans, Orchestrator state, automations, Computer Use, and project tools. Missing or deleted tasks now stop at one clear recovery view without retry or error-toast loops. Automation diagnostics are redacted and bounded before persistence, task-owned controls wait for authoritative replay, and stock legacy Clock content upgrades to `AiRC CLOCK`. On macOS, AiRC continues to use only the `airc` Keychain service and isolated tests cannot access the user's login Keychain. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc42) for verification and installation details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc28-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc28/AiRC-1.45.0+airc28-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc28_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc28/airc_1.45.0+airc28_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc42-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc42/AiRC-1.45.0+airc42-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc42_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc42/airc_1.45.0+airc42_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
