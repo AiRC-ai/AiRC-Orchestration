@@ -117,14 +117,14 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current Beta release is **1.45.0+airc49**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
+The current Beta release is **1.45.0+airc54**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-This release closes a multi-window activation race in global Orchestrator and live-extension settings. Tasks that are opening, resuming, forking, or beginning work now participate in one serialized topology, so every window converges on the same final settings without duplicate agents, missing extensions, stale review ownership, or blocked long-conversation replay. It also retains the durable task identifiers, stale-route recovery, long-session loading, Computer Use, provider metadata, context reporting, and complete AiRC branding from the preceding 1.45 builds. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc49) for verification and installation details.
+This release prevents internal acceptance-task identifiers from entering a normal user profile or opening a failed-task and Orchestrator error screen. It also hardens desktop/backend ownership so a restarted backend exits with its AiRC desktop owner instead of remaining behind after service shutdown. Extended sessions now survive a forced backend replacement while retaining their loaded conversation and context state. The release retains the serialized multi-window Orchestrator and extension settings, durable task identifiers, long-session loading, Computer Use, provider metadata, context reporting, and complete AiRC branding from the preceding 1.45 builds. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc54) for verification and installation details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc49-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc49/AiRC-1.45.0+airc49-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc49_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc49/airc_1.45.0+airc49_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc54-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc54/AiRC-1.45.0+airc54-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc54_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc54/airc_1.45.0+airc54_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
