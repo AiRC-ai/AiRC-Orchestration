@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Download release assets
         run: scripts/download-release-assets.sh "$RELEASE_TAG" release
-      - name: Validate release structure and Debian package
+      - name: Validate release structure and available installers
         run: scripts/validate-release.sh release
 
   validate-macos:
@@ -35,7 +35,10 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Download release assets
         run: scripts/download-release-assets.sh "$RELEASE_TAG" release
-      - name: Validate release structure, signature, and notarization
+      - name: Validate release structure and available macOS installer
         run: |
           scripts/validate-release.sh release
-          scripts/verify-macos-release.sh release/AiRC-*-macOS-arm64.zip
+          macos_archive=$(find release -maxdepth 1 -type f -name 'AiRC-*-macOS-arm64.zip' -print -quit)
+          if [[ -n $macos_archive ]]; then
+            scripts/verify-macos-release.sh "$macos_archive"
+          fi

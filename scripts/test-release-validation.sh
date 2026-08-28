@@ -20,6 +20,7 @@ debian_fixture="$temporary_directory/airc.deb"
 application_root="$temporary_directory/macos/AiRC.app/Contents"
 package_root="$temporary_directory/debian"
 staging_directory="$temporary_directory/staging"
+macos_staging_directory="$temporary_directory/macos-staging"
 
 mkdir -p "$application_root/MacOS" \
   "$package_root/DEBIAN" \
@@ -71,6 +72,25 @@ else
   "$repository_root/scripts/stage-release.sh" \
     "$version" "$source_commit" "$macos_fixture" "$debian_fixture" "$staging_directory" \
     >/dev/null
+fi
+
+if [[ $(uname -s) == Darwin ]]; then
+  if "$repository_root/scripts/stage-release.sh" \
+    "$version" "$source_commit" "$macos_fixture" - "$macos_staging_directory" \
+    >/dev/null 2>&1; then
+    echo "unsigned macOS-only fixture unexpectedly passed native release verification" >&2
+    exit 1
+  fi
+  "$repository_root/scripts/validate-release.sh" "$macos_staging_directory" >/dev/null
+else
+  "$repository_root/scripts/stage-release.sh" \
+    "$version" "$source_commit" "$macos_fixture" - "$macos_staging_directory" \
+    >/dev/null
+fi
+
+if find "$macos_staging_directory" -maxdepth 1 -type f -name '*.deb' -print -quit | grep -q .; then
+  echo "macOS-only release unexpectedly contains a Debian package" >&2
+  exit 1
 fi
 
 printf 'unexpected file\n' > "$staging_directory/debug.txt"

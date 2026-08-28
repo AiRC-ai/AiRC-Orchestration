@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# -ne 5 ]]; then
-  echo "usage: $0 <version> <source-commit> <macos-zip> <debian-deb> <output-directory>" >&2
+  echo "usage: $0 <version> <source-commit> <macos-zip-or-> <debian-deb-or-> <output-directory>" >&2
   exit 2
 fi
 
@@ -22,7 +22,13 @@ if [[ ! $source_commit =~ ^[0-9a-f]{40}$ ]]; then
   exit 1
 fi
 
+if [[ $macos_input == - && $debian_input == - ]]; then
+  echo "at least one release input is required" >&2
+  exit 1
+fi
+
 for input in "$macos_input" "$debian_input"; do
+  [[ $input == - ]] && continue
   if [[ ! -f $input ]]; then
     echo "missing release input: $input" >&2
     exit 1
@@ -38,11 +44,17 @@ repository_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 mkdir -p "$output_directory"
 output_directory=$(cd "$output_directory" && pwd)
 
-macos_name="AiRC-${version}-macOS-arm64.zip"
-debian_name="airc_${version}_amd64.deb"
+macos_name=''
+debian_name=''
 
-cp "$macos_input" "$output_directory/$macos_name"
-cp "$debian_input" "$output_directory/$debian_name"
+if [[ $macos_input != - ]]; then
+  macos_name="AiRC-${version}-macOS-arm64.zip"
+  cp "$macos_input" "$output_directory/$macos_name"
+fi
+if [[ $debian_input != - ]]; then
+  debian_name="airc_${version}_amd64.deb"
+  cp "$debian_input" "$output_directory/$debian_name"
+fi
 cp "$repository_root/LICENSE" "$output_directory/LICENSE"
 cp "$repository_root/LICENSES.md" "$output_directory/LICENSES.md"
 cp "$repository_root/licenses/Apache-2.0.txt" "$output_directory/APACHE-2.0.txt"
@@ -74,13 +86,9 @@ def artifact(file_name, **metadata):
     }
 
 
-manifest = {
-    "schemaVersion": 1,
-    "product": "AiRC Orchestration",
-    "version": version,
-    "sourceCommit": source_commit,
-    "publishedAt": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
-    "artifacts": [
+artifacts = []
+if macos_name:
+    artifacts.append(
         artifact(
             macos_name,
             kind="macos-zip",
@@ -88,15 +96,26 @@ manifest = {
             architecture="arm64",
             codeSigned=True,
             notarized=True,
-        ),
+        )
+    )
+if debian_name:
+    artifacts.append(
         artifact(
             debian_name,
             kind="debian-deb",
             platform="debian",
             architecture="amd64",
             packageName="airc",
-        ),
-    ],
+        )
+    )
+
+manifest = {
+    "schemaVersion": 1,
+    "product": "AiRC Orchestration",
+    "version": version,
+    "sourceCommit": source_commit,
+    "publishedAt": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
+    "artifacts": artifacts,
 }
 
 (root / "release-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -107,7 +126,7 @@ PY
 
 "$repository_root/scripts/validate-release.sh" "$output_directory"
 
-if [[ $(uname -s) == Darwin ]]; then
+if [[ $(uname -s) == Darwin && -n $macos_name ]]; then
   "$repository_root/scripts/verify-macos-release.sh" "$output_directory/$macos_name"
 fi
 

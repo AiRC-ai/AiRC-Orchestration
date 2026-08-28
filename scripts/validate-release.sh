@@ -48,30 +48,35 @@ mapfile_compat() {
 macos_files=$(mapfile_compat 'AiRC-*-macOS-arm64.zip')
 debian_files=$(mapfile_compat 'airc_*_amd64.deb')
 
-if [[ $(printf '%s\n' "$macos_files" | sed '/^$/d' | wc -l | tr -d ' ') -ne 1 ]]; then
-  echo "release must contain exactly one macOS arm64 ZIP" >&2
+macos_count=$(printf '%s\n' "$macos_files" | sed '/^$/d' | wc -l | tr -d ' ')
+debian_count=$(printf '%s\n' "$debian_files" | sed '/^$/d' | wc -l | tr -d ' ')
+
+if [[ $macos_count -gt 1 ]]; then
+  echo "release may contain at most one macOS arm64 ZIP" >&2
   exit 1
 fi
 
-if [[ $(printf '%s\n' "$debian_files" | sed '/^$/d' | wc -l | tr -d ' ') -ne 1 ]]; then
-  echo "release must contain exactly one Debian amd64 package" >&2
+if [[ $debian_count -gt 1 ]]; then
+  echo "release may contain at most one Debian amd64 package" >&2
+  exit 1
+fi
+
+if [[ $((macos_count + debian_count)) -eq 0 ]]; then
+  echo "release must contain at least one installer" >&2
   exit 1
 fi
 
 macos_file=$(printf '%s\n' "$macos_files" | sed '/^$/d')
 debian_file=$(printf '%s\n' "$debian_files" | sed '/^$/d')
 
-allowed_files=$(printf '%s\n' \
-  "$(basename "$macos_file")" \
-  "$(basename "$debian_file")" \
-  LICENSE \
-  LICENSES.md \
-  APACHE-2.0.txt \
-  NOTICE \
-  SHA256SUMS \
-  THIRD_PARTY_NOTICES.md \
-  release-manifest.json \
-  | sort)
+allowed_files=$(
+  {
+    [[ -n $macos_file ]] && basename "$macos_file"
+    [[ -n $debian_file ]] && basename "$debian_file"
+    printf '%s\n' LICENSE LICENSES.md APACHE-2.0.txt NOTICE SHA256SUMS \
+      THIRD_PARTY_NOTICES.md release-manifest.json
+  } | sort
+)
 actual_files=$(find "$release_directory" -maxdepth 1 -type f -exec basename {} \; | sort)
 
 if [[ $actual_files != "$allowed_files" ]]; then
@@ -118,33 +123,29 @@ if published_at.tzinfo is None:
     raise SystemExit("manifest publication timestamp must include a timezone")
 
 artifacts = manifest["artifacts"]
-if len(artifacts) != 2:
-    raise SystemExit("manifest must contain exactly two artifacts")
+if not 1 <= len(artifacts) <= 2:
+    raise SystemExit("manifest must contain one or two artifacts")
 
 by_kind = {item.get("kind"): item for item in artifacts}
-if set(by_kind) != {"macos-zip", "debian-deb"}:
-    raise SystemExit("manifest must contain macOS ZIP and Debian package entries")
+if len(by_kind) != len(artifacts) or not set(by_kind) <= {"macos-zip", "debian-deb"}:
+    raise SystemExit("manifest contains duplicate or unsupported artifact kinds")
 
-mac = by_kind["macos-zip"]
-deb = by_kind["debian-deb"]
-if (mac.get("platform"), mac.get("architecture"), mac.get("codeSigned"), mac.get("notarized")) != (
-    "macos",
-    "arm64",
-    True,
-    True,
-):
+mac = by_kind.get("macos-zip")
+deb = by_kind.get("debian-deb")
+if mac and (
+    mac.get("platform"), mac.get("architecture"), mac.get("codeSigned"), mac.get("notarized")
+) != ("macos", "arm64", True, True):
     raise SystemExit("macOS signing or architecture metadata is invalid")
-if (deb.get("platform"), deb.get("architecture"), deb.get("packageName")) != (
-    "debian",
-    "amd64",
-    "airc",
+if deb and (deb.get("platform"), deb.get("architecture"), deb.get("packageName")) != (
+    "debian", "amd64", "airc"
 ):
     raise SystemExit("Debian package metadata is invalid")
 
-expected_names = {
-    f'AiRC-{manifest["version"]}-macOS-arm64.zip',
-    f'airc_{manifest["version"]}_amd64.deb',
-}
+expected_names = set()
+if mac:
+    expected_names.add(f'AiRC-{manifest["version"]}-macOS-arm64.zip')
+if deb:
+    expected_names.add(f'airc_{manifest["version"]}_amd64.deb')
 if {item.get("fileName") for item in artifacts} != expected_names:
     raise SystemExit("artifact names do not match manifest version")
 
@@ -182,20 +183,21 @@ checksum_lines = {
 if checksum_lines != {item["fileName"]: item["sha256"] for item in artifacts}:
     raise SystemExit("SHA256SUMS does not exactly match manifest artifacts")
 
-mac_archive = root / mac["fileName"]
-with zipfile.ZipFile(mac_archive) as archive:
-    names = archive.namelist()
-    if not names or not any(name.startswith("AiRC.app/") for name in names):
-        raise SystemExit("macOS ZIP does not contain a top-level AiRC.app")
-    for name in names:
-        path = pathlib.PurePosixPath(name)
-        if path.is_absolute() or ".." in path.parts:
-            raise SystemExit(f"unsafe path in macOS ZIP: {name}")
-        if path.parts and path.parts[0] != "AiRC.app":
-            raise SystemExit(f"unexpected top-level path in macOS ZIP: {name}")
+if mac:
+    mac_archive = root / mac["fileName"]
+    with zipfile.ZipFile(mac_archive) as archive:
+        names = archive.namelist()
+        if not names or not any(name.startswith("AiRC.app/") for name in names):
+            raise SystemExit("macOS ZIP does not contain a top-level AiRC.app")
+        for name in names:
+            path = pathlib.PurePosixPath(name)
+            if path.is_absolute() or ".." in path.parts:
+                raise SystemExit(f"unsafe path in macOS ZIP: {name}")
+            if path.parts and path.parts[0] != "AiRC.app":
+                raise SystemExit(f"unexpected top-level path in macOS ZIP: {name}")
 PY
 
-if command -v dpkg-deb >/dev/null 2>&1; then
+if [[ -n $debian_file ]] && command -v dpkg-deb >/dev/null 2>&1; then
   package_name=$(dpkg-deb -f "$debian_file" Package)
   package_architecture=$(dpkg-deb -f "$debian_file" Architecture)
   package_version=$(dpkg-deb -f "$debian_file" Version)

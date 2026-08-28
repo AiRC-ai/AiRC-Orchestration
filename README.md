@@ -100,6 +100,14 @@ Send focused work to subagents with scoped providers, models, and tools — the 
 
 Create and manage one-time or recurring work from plain-language instructions, with project and model context attached. Automations support cron scheduling, pausing, resuming, and manual run-now. Each run creates a session you can inspect afterward.
 
+### Privacy-first product feedback
+
+AiRC asks before sharing anonymous usage data. The first-party service records
+only a small allowlisted set of product events and platform details; it does not
+collect conversations, code, prompts, tool arguments, file paths, model names,
+account identifiers, or personal data. The preference is off until the user
+opts in and can be changed at any time in **Settings > App > Privacy**.
+
 ### Integrated work surfaces
 
 Use development tools, terminal workflows, browser work, and computer control where enabled and explicitly permitted:
@@ -117,13 +125,21 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current Beta release is **1.45.0+airc67**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
+The current macOS Beta is **1.45.0+airc68**. The current Debian Beta remains
+**1.45.0+airc67**. Each installer ships with verification files on the
+[Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-This release makes Orchestrator settings safe across multiple windows: simultaneous changes now merge atomically instead of allowing one window to overwrite another window's unrelated setting. It retains the fresh-task isolation, stale-route rejection, provider metadata, Computer Use, automation, and extended-session protections from the preceding builds. Installed AiRC4 acceptance loaded a real 138,825-token task containing 10,059 stored messages and about 45 MB of content in 29.7 seconds through one normal loading cycle, with no disconnect, failed-task state, or Orchestrator alert. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc67) for verification and installation details.
+The macOS release adds explicit opt-in anonymous usage reporting through AiRC's
+first-party service. It preserves an existing opt-out, fails closed when the
+service is unavailable, queues only bounded allowlisted events in memory, and
+never sends conversation or code content. It also retains the task, provider,
+Orchestrator, Computer Use, automation, and extended-session protections from
+the preceding builds. See the [macOS release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc68)
+for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc67-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc67/AiRC-1.45.0+airc67-macOS-arm64.zip) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc68-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc68/AiRC-1.45.0+airc68-macOS-arm64.zip) |
 | Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc67_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc67/airc_1.45.0+airc67_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
@@ -135,7 +151,7 @@ Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`,
 No installer is published until it passes the repository's release gates:
 
 - macOS signing, notarization, stapling, and Gatekeeper acceptance
-- Debian package metadata and architecture verification
+- Debian package metadata and architecture verification when a Debian installer is included
 - version, file-name, checksum, and manifest consistency
 - clean-install, launch, branding, and upgrade checks
 - inspection for private source, credentials, logs, user data, and internal build artifacts
