@@ -117,14 +117,14 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current Beta release is **1.45.0+airc66**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
+The current Beta release is **1.45.0+airc67**. Each installer ships with verification files on the [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-This release strengthens fresh-task isolation for custom models, rejects stale internal task routes before they can open a failed-task or Orchestrator error screen, and hardens extended-session loading. Installed acceptance loaded a real 138,825-token task containing 10,059 stored messages and about 45 MB of content in one normal loading cycle without a disconnect or failed-task state. A clean first turn also persisted one user message and one assistant response with no unrelated tool call. The Debian package retains its lightweight dependency selection and excludes unused cross-platform native payload. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc66) for verification and installation details.
+This release makes Orchestrator settings safe across multiple windows: simultaneous changes now merge atomically instead of allowing one window to overwrite another window's unrelated setting. It retains the fresh-task isolation, stale-route rejection, provider metadata, Computer Use, automation, and extended-session protections from the preceding builds. Installed AiRC4 acceptance loaded a real 138,825-token task containing 10,059 stored messages and about 45 MB of content in 29.7 seconds through one normal loading cycle, with no disconnect, failed-task state, or Orchestrator alert. See the [full release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc67) for verification and installation details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc66-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc66/AiRC-1.45.0+airc66-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc66_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc66/airc_1.45.0+airc66_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc67-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc67/AiRC-1.45.0+airc67-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc67_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc67/airc_1.45.0+airc67_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
