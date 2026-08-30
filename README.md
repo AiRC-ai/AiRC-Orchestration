@@ -125,23 +125,22 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current Beta for macOS and Debian is **1.45.0+airc72**. Both installers were
+The current Beta for macOS and Debian is **1.45.0+airc74**. Both installers were
 built from the same verified source revision and ship with checksums, a
 machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-This release improves long-session loading and isolation, keeps automation runs
-inside their owning task, makes automation cancellation responsive during
-startup, normalizes human-friendly schedule cadences, and strengthens model
-context, throughput, and usage reporting. It retains explicit opt-in,
-privacy-bounded anonymous usage reporting and never sends conversation or code
-content. See the [airc72 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc72)
+This release hardens exactly-once chat persistence, progressive long-session
+loading, draft preservation, renderer recovery, and live Ollama context
+metadata. It retains explicit opt-in, privacy-bounded anonymous usage reporting
+and never sends conversation or code content. See the
+[airc74 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc74)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc72-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc72/AiRC-1.45.0+airc72-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc72_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc72/airc_1.45.0+airc72_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc74-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc74/AiRC-1.45.0+airc74-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc74_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc74/airc_1.45.0+airc74_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
