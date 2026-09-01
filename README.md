@@ -125,27 +125,32 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current Beta for macOS and Debian is **1.45.0+airc80**. Both installers were
+The current Beta for macOS and Debian is **1.45.0+airc81**. Both installers were
 built from the same verified source revision and ship with checksums, a
 machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-This release updates Ollama Local, Ollama Remote, and Ollama Cloud integration
-for current model metadata and reasoning behavior. AiRC now combines live
-Ollama capability data with its verified model catalog, refreshes context
-limits and vision, tool, and thinking support, filters embedding-only models
-from chat selection, and exposes only the reasoning controls each model can
-actually use. Custom live models and aliases remain available. The release
-retains the long-session, exactly-once-send, automation, goal, plan,
-Orchestrator, recovery, status-presentation, and privacy gates from the
-previous production candidate. See the
-[airc80 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc80)
+This release adds consented, anonymous installation and reliability analytics
+so AiRC can distinguish completed setup, active installations, sessions,
+versions, platforms, installation methods, coarse country/region distribution,
+provider categories, and aggregate errors and crashes. AiRC creates a random
+application identifier and the server immediately replaces it with a protected
+one-way value. Raw IP addresses, exact locations, conversations, prompts, code,
+tool arguments, paths, model names, names, email addresses, and account
+identifiers are not stored. Sparse geographic and reliability breakdowns are
+hidden to reduce re-identification risk, and retained analytics expire
+automatically. The
+release retains the current Ollama metadata and reasoning behavior together
+with the long-session, exactly-once-send, automation, goal, plan, Orchestrator,
+recovery, status-presentation, and privacy gates from the previous production
+candidate. See the
+[airc81 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc81)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc80-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc80/AiRC-1.45.0+airc80-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc80_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc80/airc_1.45.0+airc80_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc81-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc81/AiRC-1.45.0+airc81-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc81_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc81/airc_1.45.0+airc81_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
