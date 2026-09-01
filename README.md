@@ -133,7 +133,9 @@ machine-readable release manifest, and legal notices on the
 This release adds consented, anonymous installation and reliability analytics
 so AiRC can distinguish completed setup, active installations, sessions,
 versions, platforms, installation methods, coarse country/region distribution,
-provider categories, and aggregate errors and crashes. AiRC creates a random
+provider categories, and aggregate errors and crashes. Completed setup requires
+either onboarding completion or a real opted-in desktop session; downloads and
+empty launches do not count. AiRC creates a random
 application identifier and the server immediately replaces it with a protected
 one-way value. Raw IP addresses, exact locations, conversations, prompts, code,
 tool arguments, paths, model names, names, email addresses, and account
