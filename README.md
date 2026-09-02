@@ -125,34 +125,37 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current Beta for macOS and Debian is **1.45.0+airc81**. Both installers were
+The current Beta for macOS and Debian is **1.45.0+airc82**. Both installers were
 built from the same verified source revision and ship with checksums, a
 machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-This release adds consented, anonymous installation and reliability analytics
-so AiRC can distinguish completed setup, active installations, sessions,
-versions, platforms, installation methods, coarse country/region distribution,
-provider categories, and aggregate errors and crashes. Completed setup requires
-either onboarding completion or a real opted-in desktop session; downloads and
-empty launches do not count. AiRC creates a random
-application identifier and the server immediately replaces it with a protected
-one-way value. Raw IP addresses, exact locations, conversations, prompts, code,
-tool arguments, paths, model names, names, email addresses, and account
-identifiers are not stored. Sparse geographic and reliability breakdowns are
-hidden to reduce re-identification risk, and retained analytics expire
-automatically. The
-release retains the current Ollama metadata and reasoning behavior together
-with the long-session, exactly-once-send, automation, goal, plan, Orchestrator,
-recovery, status-presentation, and privacy gates from the previous production
-candidate. See the
-[airc81 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc81)
+This maintenance release makes telemetry participation reliable across local
+and remote desktop backends by saving the user's choice and consent-contract
+version as one atomic operation. A connection interruption can no longer leave
+AiRC with a partially saved choice. The consented service distinguishes
+completed setup, active installations, sessions, versions, platforms,
+installation methods, coarse country/region distribution, protected coarse
+source-network aggregates, provider categories, and aggregate errors and
+crashes. Downloads and empty launches do not count as completed installs.
+
+AiRC creates a random identifier scoped to one installation, and the service
+immediately replaces it with a protected one-way value. Raw IP addresses, exact
+locations, conversations, prompts, code, tool arguments, paths, model names,
+names, email addresses, and account identifiers are not stored. Sparse
+geographic and reliability breakdowns are hidden to reduce re-identification
+risk, and retained analytics expire automatically. The release retains the
+current Ollama metadata and reasoning behavior together with the long-session,
+exactly-once-send, automation, goal, plan, Orchestrator, recovery,
+status-presentation, and privacy gates from the previous production candidate.
+See the
+[airc82 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc82)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc81-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc81/AiRC-1.45.0+airc81-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc81_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc81/airc_1.45.0+airc81_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc82-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc82/AiRC-1.45.0+airc82-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc82_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc82/airc_1.45.0+airc82_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
