@@ -5,6 +5,7 @@ This repository is a release boundary. It must receive only final, verified arti
 ## Release Artifacts
 
 - `AiRC-<version>-macOS-arm64.zip` when publishing macOS
+- `latest-mac.yml` when publishing macOS; generated from the exact notarized ZIP
 - `airc_<version>_amd64.deb` when publishing Debian
 - `SHA256SUMS`
 - `release-manifest.json`
@@ -24,8 +25,9 @@ Before staging a release:
 4. Verify clean install and in-place upgrade behavior.
 5. Sign and notarize the macOS application with the production identity.
 6. Confirm Gatekeeper acceptance and stapled notarization after extracting the final ZIP.
-7. When publishing Debian, confirm package name `airc`, architecture `amd64`, version, desktop entry, executable, and icon.
-8. Confirm the release contains no credentials, logs, user data, source archives, debug symbols, or unsupported package formats.
+7. Confirm `latest-mac.yml` names the exact ZIP and matches its size and SHA-512 digest.
+8. When publishing Debian, confirm package name `airc`, architecture `amd64`, version, desktop entry, executable, and icon.
+9. Confirm the release contains no credentials, logs, user data, source archives, debug symbols, or unsupported package formats.
 
 ## Stage The Release
 
@@ -40,7 +42,10 @@ scripts/stage-release.sh \
   /path/to/staging-directory
 ```
 
-The script renames the macOS archive consistently, generates the manifest and checksums, copies legal notices, and runs cross-platform validation.
+The script renames the macOS archive consistently, generates the release manifest,
+checksums, and signed-update feed metadata, copies legal notices, and runs
+cross-platform validation. The updater metadata uses a monotonically increasing
+native macOS version while retaining the full `+aircNN` release name for display.
 
 Use `-` for a platform that is not included. For example, a macOS-only release
 passes `/path/to/AiRC.zip -` for the two installer arguments. At least one

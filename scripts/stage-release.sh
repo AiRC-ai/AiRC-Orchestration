@@ -63,9 +63,11 @@ cp "$repository_root/THIRD_PARTY_NOTICES.md" "$output_directory/THIRD_PARTY_NOTI
 
 python3 - "$version" "$source_commit" "$output_directory" "$macos_name" "$debian_name" <<'PY'
 import datetime
+import base64
 import hashlib
 import json
 import pathlib
+import re
 import sys
 
 version, source_commit, output_directory, macos_name, debian_name = sys.argv[1:]
@@ -87,6 +89,7 @@ def artifact(file_name, **metadata):
 
 
 artifacts = []
+published_at = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
 if macos_name:
     artifacts.append(
         artifact(
@@ -114,7 +117,7 @@ manifest = {
     "product": "AiRC Orchestration",
     "version": version,
     "sourceCommit": source_commit,
-    "publishedAt": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
+    "publishedAt": published_at,
     "artifacts": artifacts,
 }
 
@@ -122,6 +125,40 @@ manifest = {
 (root / "SHA256SUMS").write_text(
     "".join(f'{item["sha256"]}  {item["fileName"]}\n' for item in manifest["artifacts"])
 )
+
+if macos_name:
+    version_match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)\+airc(\d+)", version, re.IGNORECASE)
+    if not version_match:
+        raise SystemExit("macOS releases require an AiRC version such as 1.45.0+airc85")
+    major, minor, patch, airc_revision = (int(part) for part in version_match.groups())
+    if airc_revision >= 100_000:
+        raise SystemExit("AiRC release revision is too large for the macOS updater")
+    native_version = f"{major}.{minor}.{patch * 100_000 + airc_revision}"
+    archive_path = root / macos_name
+    digest = hashlib.sha512()
+    with archive_path.open("rb") as artifact_file:
+        for chunk in iter(lambda: artifact_file.read(1024 * 1024), b""):
+            digest.update(chunk)
+    sha512 = base64.b64encode(digest.digest()).decode("ascii")
+
+    def yaml_string(value):
+        return json.dumps(str(value))
+
+    update_manifest = "\n".join(
+        [
+            f"version: {yaml_string(native_version)}",
+            "files:",
+            f"  - url: {yaml_string(macos_name)}",
+            f"    sha512: {yaml_string(sha512)}",
+            f"    size: {archive_path.stat().st_size}",
+            f"path: {yaml_string(macos_name)}",
+            f"sha512: {yaml_string(sha512)}",
+            f"releaseName: {yaml_string(version)}",
+            f"releaseDate: {yaml_string(published_at)}",
+            "",
+        ]
+    )
+    (root / "latest-mac.yml").write_text(update_manifest)
 PY
 
 "$repository_root/scripts/validate-release.sh" "$output_directory"

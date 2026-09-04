@@ -13,7 +13,7 @@ done
 temporary_directory=$(mktemp -d)
 trap 'rm -rf "$temporary_directory"' EXIT
 
-version=1.45.0+aircfixture
+version=1.45.0+airc999
 source_commit=0123456789abcdef0123456789abcdef01234567
 macos_fixture="$temporary_directory/AiRC.zip"
 debian_fixture="$temporary_directory/airc.deb"
@@ -93,12 +93,39 @@ if find "$macos_staging_directory" -maxdepth 1 -type f -name '*.deb' -print -qui
   exit 1
 fi
 
+if [[ ! -f "$macos_staging_directory/latest-mac.yml" ]]; then
+  echo "macOS-only release is missing updater metadata" >&2
+  exit 1
+fi
+
 printf 'unexpected file\n' > "$staging_directory/debug.txt"
 if "$repository_root/scripts/validate-release.sh" "$staging_directory" >/dev/null 2>&1; then
   echo "release validator accepted an unexpected file" >&2
   exit 1
 fi
 rm "$staging_directory/debug.txt"
+
+mv "$staging_directory/latest-mac.yml" "$temporary_directory/latest-mac.yml"
+if "$repository_root/scripts/validate-release.sh" "$staging_directory" >/dev/null 2>&1; then
+  echo "release validator accepted missing macOS updater metadata" >&2
+  exit 1
+fi
+mv "$temporary_directory/latest-mac.yml" "$staging_directory/latest-mac.yml"
+
+cp "$staging_directory/latest-mac.yml" "$temporary_directory/latest-mac.yml"
+python3 - "$staging_directory/latest-mac.yml" <<'PY'
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+content = path.read_text()
+path.write_text(content.replace('sha512: "', 'sha512: "tampered-', 1))
+PY
+if "$repository_root/scripts/validate-release.sh" "$staging_directory" >/dev/null 2>&1; then
+  echo "release validator accepted tampered macOS updater metadata" >&2
+  exit 1
+fi
+mv "$temporary_directory/latest-mac.yml" "$staging_directory/latest-mac.yml"
 
 printf 'tampered\n' >> "$staging_directory/airc_${version}_amd64.deb"
 if "$repository_root/scripts/validate-release.sh" "$staging_directory" >/dev/null 2>&1; then

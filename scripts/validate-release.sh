@@ -72,6 +72,7 @@ debian_file=$(printf '%s\n' "$debian_files" | sed '/^$/d')
 allowed_files=$(
   {
     [[ -n $macos_file ]] && basename "$macos_file"
+    [[ -n $macos_file ]] && printf '%s\n' latest-mac.yml
     [[ -n $debian_file ]] && basename "$debian_file"
     printf '%s\n' LICENSE LICENSES.md APACHE-2.0.txt NOTICE SHA256SUMS \
       THIRD_PARTY_NOTICES.md release-manifest.json
@@ -96,6 +97,7 @@ fi
 
 python3 - "$release_directory" "$repository_root/release-manifest.schema.json" <<'PY'
 import hashlib
+import base64
 import json
 import pathlib
 import re
@@ -195,6 +197,44 @@ if mac:
                 raise SystemExit(f"unsafe path in macOS ZIP: {name}")
             if path.parts and path.parts[0] != "AiRC.app":
                 raise SystemExit(f"unexpected top-level path in macOS ZIP: {name}")
+
+    version_match = re.fullmatch(
+        r"(\d+)\.(\d+)\.(\d+)\+airc(\d+)", manifest["version"], re.IGNORECASE
+    )
+    if not version_match:
+        raise SystemExit("macOS updater metadata requires an AiRC release version")
+    major, minor, patch, airc_revision = (int(part) for part in version_match.groups())
+    if airc_revision >= 100_000:
+        raise SystemExit("AiRC release revision is too large for the macOS updater")
+    native_version = f"{major}.{minor}.{patch * 100_000 + airc_revision}"
+    sha512_digest = hashlib.sha512()
+    with mac_archive.open("rb") as artifact_file:
+        for chunk in iter(lambda: artifact_file.read(1024 * 1024), b""):
+            sha512_digest.update(chunk)
+    sha512 = base64.b64encode(sha512_digest.digest()).decode("ascii")
+
+    def yaml_string(value):
+        return json.dumps(str(value))
+
+    expected_update_manifest = "\n".join(
+        [
+            f"version: {yaml_string(native_version)}",
+            "files:",
+            f"  - url: {yaml_string(mac['fileName'])}",
+            f"    sha512: {yaml_string(sha512)}",
+            f"    size: {mac_archive.stat().st_size}",
+            f"path: {yaml_string(mac['fileName'])}",
+            f"sha512: {yaml_string(sha512)}",
+            f"releaseName: {yaml_string(manifest['version'])}",
+            f"releaseDate: {yaml_string(manifest['publishedAt'])}",
+            "",
+        ]
+    )
+    update_manifest_path = root / "latest-mac.yml"
+    if not update_manifest_path.is_file():
+        raise SystemExit("macOS release is missing latest-mac.yml")
+    if update_manifest_path.read_text() != expected_update_manifest:
+        raise SystemExit("latest-mac.yml does not exactly match the macOS artifact")
 PY
 
 if [[ -n $debian_file ]] && command -v dpkg-deb >/dev/null 2>&1; then
