@@ -125,15 +125,15 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current macOS Beta is **1.45.0+airc87**. The current Debian-family Linux
-Beta remains **1.45.0+airc82**. Each published installer ships with checksums,
+The current macOS and Debian-family Linux Beta is **1.45.0+airc88**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc87` macOS maintenance release adds a localized **Last checked** time
-after every manual update check, making it clear when the displayed result was
-refreshed. It retains the packaged updater network-transport fix from `airc86`.
-The updater is available under
+The `airc88` release restores the project-aware chat workflow: choose a project
+when starting a chat, create a task directly from a project, move or unassign
+an existing task, and use global **New Chat** for a genuinely fresh session.
+It retains the packaged updater network-transport fix and localized **Last
+checked** time from earlier maintenance releases. The updater is available under
 **Settings > App > Updates**. You can check manually at any time or enable
 **Download updates automatically**. AiRC only accepts update metadata published
 with the official release, verifies the declared file size and SHA-512 digest,
@@ -144,16 +144,16 @@ Open automation tasks now refresh while their scheduled run is active. The
 existing transcript remains readable during each background refresh, completed
 output is replayed before the run is marked finished, and **Stop** targets the
 active scheduled run. This update retains the improved Computer Use permission
-setup from `airc84` and the model, provider, long-session, exactly-once-send,
-goal, plan, Orchestrator, recovery, status-presentation, and privacy behavior
-from prior releases. See the
-[airc87 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc87)
+setup and the model, provider, long-session, exactly-once-send, goal, plan,
+Orchestrator, recovery, status-presentation, and privacy behavior from prior
+releases. See the
+[airc88 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc88)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc87-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc87/AiRC-1.45.0+airc87-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc82_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc82/airc_1.45.0+airc82_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc88-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc88/AiRC-1.45.0+airc88-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc88_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc88/airc_1.45.0+airc88_amd64.deb) |
 
 The macOS build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
