@@ -125,14 +125,19 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download The Beta
 
-The current macOS Apple silicon Beta is **1.45.0+airc90**. Each published installer ships with checksums,
+The current macOS Apple silicon and Debian-family Linux Beta is **1.45.0+airc91**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc90` release brings Codex-like sidebar controls to AiRC: drag-and-drop
-reorder for pinned tasks and projects, durable pin order, drop-to-pin and
-drop-to-move between projects, and collapsible Pinned, Automations, Projects,
-and Chats sections. It retains the project-aware chat workflow, queued follow-up
+The `airc91` release adds full DeepSeek provider support. The model list is
+discovered live from the vendor's `/models` endpoint, DeepSeek models report
+their published 1M token context length and 384K maximum output, and cost
+estimates use the official rates including the discounted context-cache input
+rate. Thinking mode maps to DeepSeek's documented effort levels and can be
+disabled, `deepseek-flash` advertises image attachments while
+`deepseek-v4-pro` correctly reports none, and DeepSeek's documented error codes
+route context overflow, insufficient balance, and rate limits to the right
+recovery. It retains the project-aware chat workflow, queued follow-up
 messages while a task is running, automation refresh while a scheduled run is
 active, and the updater, Computer Use, model, provider, long-session,
 exactly-once-send, goal, plan, Orchestrator, recovery, and privacy behavior from
@@ -144,20 +149,15 @@ accepts update metadata published with the official release, verifies the
 declared file size and SHA-512 digest, and offers **Install & Restart** after a
 verified download. Automatic downloads can also install safely when AiRC
 restarts. See the
-[airc90 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc90)
+[airc91 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc91)
 for verification details.
-
-Debian-family Linux remains on the independently published
-[`1.45.0+airc89`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc89)
-package until a matching `airc90` Linux installer is built from this source
-revision.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc90-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc90/AiRC-1.45.0+airc90-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc89_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc89/airc_1.45.0+airc89_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc91-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc91/AiRC-1.45.0+airc91-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc91_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc91/airc_1.45.0+airc91_amd64.deb) |
 
-The macOS `airc90` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
+The macOS `airc91` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
 Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. macOS releases also include `latest-mac.yml`, which binds the in-app updater to the exact signed and notarized ZIP. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 
@@ -175,7 +175,7 @@ Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
 
 ## Using The Beta Responsibly
 
-The current macOS build carries a valid Developer ID signature, an Apple notarization ticket, and passes Gatekeeper without warnings. The independently published Debian `airc89` package is architecture-verified with matching checksums. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
+The current macOS build carries a valid Developer ID signature, an Apple notarization ticket, and passes Gatekeeper without warnings. The Debian `airc91` package is architecture-verified with matching checksums. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
 
 - Review model, tool, extension, automation, and operating-system permissions before use.
 - Keep approval controls at the narrowest practical level for consequential actions.
