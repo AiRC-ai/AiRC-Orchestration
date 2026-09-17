@@ -1,6 +1,6 @@
 # Support
 
-AiRC Orchestration is in active Beta development. Issues are most useful when they clearly identify the exact build from the public [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page or an authorized private test build.
+AiRC Orchestration is under active development. Issues are most useful when they clearly identify the exact build from the public [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page or an authorized private test build.
 
 ## Before Opening An Issue
 

@@ -22,4 +22,4 @@ Third-party services and model providers remain subject to their own security po
 
 ## Supported Releases
 
-Security fixes target the latest published Beta release. Reports against authorized private test builds are also accepted when they identify the exact build. Users may be asked to update before further diagnosis when an issue affects an older release.
+Security fixes target the latest published release. Reports against authorized private test builds are also accepted when they identify the exact build. Users may be asked to update before further diagnosis when an issue affects an older release.

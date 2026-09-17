@@ -6,7 +6,7 @@ category applies independently.
 
 | Material | Governing terms |
 | --- | --- |
-| Original AiRC code, modifications, documentation, release tooling, artwork, and branding | [AiRC Orchestration Proprietary Beta License](LICENSE) |
+| Original AiRC code, modifications, documentation, release tooling, artwork, and branding | [AiRC Orchestration Proprietary License](LICENSE) |
 | Components originally distributed under Apache License 2.0, including retained upstream portions | [Apache License 2.0](licenses/Apache-2.0.txt) and [NOTICE](NOTICE) |
 | Other bundled dependencies and media | Their respective licenses and [Third-party notices](THIRD_PARTY_NOTICES.md) |
 

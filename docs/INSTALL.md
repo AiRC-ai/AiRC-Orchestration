@@ -1,7 +1,7 @@
 # Install AiRC Orchestration
 
 > [!IMPORTANT]
-> AiRC Orchestration remains in active Beta development. Download only from the repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page; do not install packages offered elsewhere.
+> AiRC Orchestration is under active development. Download only from the repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page; do not install packages offered elsewhere.
 
 Verify every downloaded file before opening or installing it.
 
@@ -37,9 +37,9 @@ The Linux package targets x86_64 (`amd64`) systems that support Debian packages.
 
 If package dependencies cannot be resolved, run your distribution's normal package index update and retry with `apt`. Avoid forcing installation with `dpkg --force-*`.
 
-## Upgrading During Beta
+## Upgrading Between Releases
 
-Read the release notes before every upgrade and back up important projects and configuration first. Compatibility and migration behavior may change during Beta; follow any version-specific instructions included with the release.
+Read the release notes before every upgrade and back up important projects and configuration first. Compatibility and migration behavior may evolve between releases; follow any version-specific instructions included with the release.
 
 ## Uninstalling
 

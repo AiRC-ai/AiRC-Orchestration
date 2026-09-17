@@ -9,12 +9,12 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-Beta-f59e0b" alt="Status: Beta">
+  <img src="https://img.shields.io/badge/status-active-16a34a" alt="Status: Active">
   <a href="https://github.com/AiRC-ai/AiRC-Orchestration/actions/workflows/validate-repository.yml"><img src="https://github.com/AiRC-ai/AiRC-Orchestration/actions/workflows/validate-repository.yml/badge.svg" alt="Repository validation"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/AiRC-ai/AiRC-Orchestration/releases/latest">Download the latest Beta</a>
+  <a href="https://github.com/AiRC-ai/AiRC-Orchestration/releases/latest">Download the latest release</a>
   &nbsp;|&nbsp;
   <a href="https://airc.ai/">AiRC.ai</a>
   &nbsp;|&nbsp;
@@ -22,7 +22,7 @@
 </p>
 
 > [!IMPORTANT]
-> **AiRC Orchestration is proprietary Beta software.** Features, interfaces, integrations, and packaging may change. Download only from this repository's verified [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page and review the license before use.
+> **AiRC Orchestration is proprietary software.** Features, interfaces, integrations, and packaging may evolve between releases. Download only from this repository's verified [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page and review the license before use.
 
 Most AI chat tools reset the moment you close the tab. AiRC Orchestration is built for work that takes hours or days — it keeps your project, task, model, tools, goal, plan, and execution evidence connected so an AI workflow can make real progress without losing context.
 
@@ -32,12 +32,12 @@ This repository is the public home for product presentation, release artifacts, 
 
 <p align="center">
   <a href="https://github.com/AiRC-ai/AiRC-Orchestration">
-    <img src="assets/airc-whisper-browser-workflow.gif" alt="AiRC Orchestration Beta using the in-app browser to inspect and summarize the public AiRC Whisper repository" width="960">
+    <img src="assets/airc-whisper-browser-workflow.gif" alt="AiRC Orchestration using the in-app browser to inspect and summarize the public AiRC Whisper repository" width="960">
   </a>
 </p>
 
 <p align="center">
-  <sub>Real Beta session: the <code>muse-glimmer</code> model uses the in-app browser to find, inspect, and summarize the public <a href="https://github.com/AiRC-ai/AiRC-Whisper">AiRC Whisper</a> repository. Every frame was reviewed for private data. <a href="assets/README.md">Capture provenance</a>.</sub>
+  <sub>Real session: the <code>muse-glimmer</code> model uses the in-app browser to find, inspect, and summarize the public <a href="https://github.com/AiRC-ai/AiRC-Whisper">AiRC Whisper</a> repository. Every frame was reviewed for private data. <a href="assets/README.md">Capture provenance</a>.</sub>
 </p>
 
 <table>
@@ -123,14 +123,17 @@ Speak instead of type. AiRC supports dictation through multiple providers — Op
 
 Availability depends on the selected model, provider, operating system, configured capabilities, and permissions granted by the user.
 
-## Download The Beta
+## Download
 
-The current macOS Apple silicon and Debian-family Linux Beta is **1.45.0+airc92**. Each published installer ships with checksums,
+The current macOS Apple silicon and Debian-family Linux release is **1.45.0+airc93**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc92` release puts more of what the model and plan actually are in
-front of you. Selecting a model now shows the underlying vendor model name — for
+The `airc93` release marks AiRC Orchestration's move out of Beta and hardens
+macOS release packaging so signed, notarized builds work from any location —
+including FileProvider-managed folders like iCloud Desktop & Documents that
+previously broke codesigning with stray file metadata. It also keeps the
+model and plan transparency introduced in `airc92`: selecting a model shows the underlying vendor model name — for
 example `DeepSeek-V4.1-Flash` behind `deepseek-flash` — alongside its published
 1M context length and whether it accepts images, so DeepSeek Flash is visibly a
 1M-context vision model while DeepSeek V4 Pro reports text only. The plan area
@@ -158,15 +161,15 @@ accepts update metadata published with the official release, verifies the
 declared file size and SHA-512 digest, and offers **Install & Restart** after a
 verified download. Automatic downloads can also install safely when AiRC
 restarts. See the
-[airc92 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc92)
+[airc93 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc93)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc92-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc92/AiRC-1.45.0+airc92-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc92_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc92/airc_1.45.0+airc92_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc93-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc93/AiRC-1.45.0+airc93-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc93_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc93/airc_1.45.0+airc93_amd64.deb) |
 
-The macOS `airc92` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
+The macOS `airc93` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
 Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. macOS releases also include `latest-mac.yml`, which binds the in-app updater to the exact signed and notarized ZIP. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 
@@ -182,22 +185,22 @@ No installer is published until it passes the repository's release gates:
 
 Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
 
-## Using The Beta Responsibly
+## Using AiRC Responsibly
 
-The current macOS build carries a valid Developer ID signature, an Apple notarization ticket, and passes Gatekeeper without warnings. The Debian `airc92` package is architecture-verified with matching checksums. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
+The current macOS build carries a valid Developer ID signature, an Apple notarization ticket, and passes Gatekeeper without warnings. The Debian `airc93` package is architecture-verified with matching checksums. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
 
 - Review model, tool, extension, automation, and operating-system permissions before use.
 - Keep approval controls at the narrowest practical level for consequential actions.
 - Treat browser and computer-control capabilities as privileged — enable them only when needed.
-- Keep important work backed up; Beta interfaces and migration behavior may change.
+- Keep important work backed up; interfaces and migration behavior may evolve between releases.
 - Never post diagnostics publicly without removing messages, configuration, credentials, private URLs, and personal data.
 
 ## Support And Security
 
-- **Product or Beta-testing issues** — read [Support](SUPPORT.md) and open an issue.
+- **Product issues** — read [Support](SUPPORT.md) and open an issue.
 - **Security vulnerabilities** — follow [Security](SECURITY.md). Do not disclose a vulnerability in a public issue.
 - **Product information** — visit [airc.ai](https://airc.ai/).
 
 ## License
 
-Original AiRC software, modifications, documentation, release tooling, artwork, and branding are proprietary and governed by the [AiRC Orchestration Proprietary Beta License](LICENSE). Inherited open-source and third-party components retain their respective licenses and notices. See the [license map](LICENSES.md), [NOTICE](NOTICE), [Apache License 2.0](licenses/Apache-2.0.txt), and [third-party notices](THIRD_PARTY_NOTICES.md).
+Original AiRC software, modifications, documentation, release tooling, artwork, and branding are proprietary and governed by the [AiRC Orchestration Proprietary License](LICENSE). Inherited open-source and third-party components retain their respective licenses and notices. See the [license map](LICENSES.md), [NOTICE](NOTICE), [Apache License 2.0](licenses/Apache-2.0.txt), and [third-party notices](THIRD_PARTY_NOTICES.md).

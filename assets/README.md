@@ -1,6 +1,6 @@
 # Public Demo Asset Provenance
 
-The visuals in this directory were prepared specifically for public product presentation. They are captures of the real AiRC Orchestration Beta interface, not mockups.
+The visuals in this directory were prepared specifically for public product presentation. They are captures of the real AiRC Orchestration interface, not mockups.
 
 ## AiRC Whisper Browser Workflow
 

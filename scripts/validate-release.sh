@@ -23,7 +23,7 @@ for required_file in SHA256SUMS release-manifest.json LICENSE LICENSES.md APACHE
   fi
 done
 
-grep -Fq 'AiRC ORCHESTRATION PROPRIETARY BETA LICENSE' "$release_directory/LICENSE" || {
+grep -Fq 'AiRC ORCHESTRATION PROPRIETARY LICENSE' "$release_directory/LICENSE" || {
   echo "release is missing the AiRC proprietary license terms" >&2
   exit 1
 }

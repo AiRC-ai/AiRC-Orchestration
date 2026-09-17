@@ -49,8 +49,8 @@ fi
 
 python3 -m json.tool release-manifest.schema.json >/dev/null
 
-grep -Fq 'AiRC ORCHESTRATION PROPRIETARY BETA LICENSE' LICENSE || {
-  echo "root license is not the AiRC proprietary Beta license" >&2
+grep -Fq 'AiRC ORCHESTRATION PROPRIETARY LICENSE' LICENSE || {
+  echo "root license is not the AiRC proprietary license" >&2
   exit 1
 }
 grep -Fq 'Apache License' licenses/Apache-2.0.txt || {
