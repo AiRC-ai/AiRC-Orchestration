@@ -125,11 +125,11 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-The current macOS Apple silicon and Debian-family Linux release is **1.45.0+airc95**. Each published installer ships with checksums,
+The current macOS Apple silicon and Debian-family Linux release is **1.45.0+airc96**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc95` release makes delegation first-class. **Sub-agent Swarm** adds Agent, Swarm, and Agents+Swarm modes beside the model selector: the active model can orchestrate a roster of sub-agents you configure in **Settings > Chat > Sub-agents**, each running on its own provider and model — results are synthesized back into the main task, delegation targets are restricted to the roster while a mode is active, and a live **Sub-agents rail** shows every sub-agent with a task-specific name, provider, model, status, and token usage. **Stream budgets** keep parallel work inside each provider account's concurrent-stream capacity — local models default to one stream, Ollama Cloud to ten, other APIs conservatively to three — with swarms using 80% of that capacity and per-provider overrides in Settings. The **Vision Bridge** sends images to a multimodal model you choose when the active model cannot see them, so text-only models still work with screenshots and images, and a configurable watchdog stops sub-agent runs that exceed their time budget. It also adds the **provider usage page** with live account balances and plan usage, peak/off-peak pricing windows, and refreshed rate cards, and retains the cross-task Session Messaging and non-Beta packaging introduced earlier.
+The `airc96` release polishes Sub-agent Swarm for daily use. Sub-agents are now named and scoped by the primary model itself — every delegation carries a short task-specific name and a one-line purpose, and the live Sub-agents rail shows them as they work. The primary model is guided to delegate proactively when work is parallelizable and to keep making progress instead of idling while async sub-agents run. The rail opens automatically when you enable a mode or when an agent starts, and each running card shows the agent's latest tool activity alongside its provider, model, status, and token usage. It retains Agent, Swarm, and Agents+Swarm modes, stream budgets, the Vision Bridge, the provider usage page, and cross-task Session Messaging from prior releases.
 
 It retains the project-aware chat workflow, queued follow-up messages while a
 task is running, cross-task session messaging, automation refresh while a scheduled run is active, and the
@@ -142,15 +142,15 @@ accepts update metadata published with the official release, verifies the
 declared file size and SHA-512 digest, and offers **Install & Restart** after a
 verified download. Automatic downloads can also install safely when AiRC
 restarts. See the
-[airc95 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc95)
+[airc96 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc96)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc95-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc95/AiRC-1.45.0+airc95-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc95_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc95/airc_1.45.0+airc95_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc96-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc96/AiRC-1.45.0+airc96-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc96_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc96/airc_1.45.0+airc96_amd64.deb) |
 
-The macOS `airc95` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
+The macOS `airc96` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
 Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. macOS releases also include `latest-mac.yml`, which binds the in-app updater to the exact signed and notarized ZIP. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 
