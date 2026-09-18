@@ -125,11 +125,11 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-The current macOS Apple silicon and Debian-family Linux release is **1.45.0+airc96**. Each published installer ships with checksums,
+The current macOS Apple silicon and Debian-family Linux release is **1.45.0+airc97**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc96` release polishes Sub-agent Swarm for daily use. Sub-agents are now named and scoped by the primary model itself — every delegation carries a short task-specific name and a one-line purpose, and the live Sub-agents rail shows them as they work. The primary model is guided to delegate proactively when work is parallelizable and to keep making progress instead of idling while async sub-agents run. The rail opens automatically when you enable a mode or when an agent starts, and each running card shows the agent's latest tool activity alongside its provider, model, status, and token usage. It retains Agent, Swarm, and Agents+Swarm modes, stream budgets, the Vision Bridge, the provider usage page, and cross-task Session Messaging from prior releases.
+The `airc97` release fixes a startup crash in the Sub-agents rail. A live subscription to session notifications rebuilt its snapshot on every read, which could push the renderer into an update loop (React error #185) and show the app's error screen on launch — the rail now subscribes safely and only re-renders when notifications actually change. It retains the airc96 experience: sub-agents named and scoped by the primary model, proactive delegation guidance, an auto-opening Sub-agents rail with live activity, stream budgets, the Vision Bridge, the provider usage page, and cross-task Session Messaging.
 
 It retains the project-aware chat workflow, queued follow-up messages while a
 task is running, cross-task session messaging, automation refresh while a scheduled run is active, and the
@@ -142,15 +142,15 @@ accepts update metadata published with the official release, verifies the
 declared file size and SHA-512 digest, and offers **Install & Restart** after a
 verified download. Automatic downloads can also install safely when AiRC
 restarts. See the
-[airc96 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc96)
+[airc97 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc97)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc96-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc96/AiRC-1.45.0+airc96-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc96_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc96/airc_1.45.0+airc96_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc97-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc97/AiRC-1.45.0+airc97-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc97_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc97/airc_1.45.0+airc97_amd64.deb) |
 
-The macOS `airc96` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
+The macOS `airc97` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket — Gatekeeper accepts it without warnings.
 
 Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. macOS releases also include `latest-mac.yml`, which binds the in-app updater to the exact signed and notarized ZIP. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 
