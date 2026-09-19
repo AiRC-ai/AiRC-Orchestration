@@ -35,7 +35,7 @@
     "artifacts": {
       "type": "array",
       "minItems": 1,
-      "maxItems": 2,
+      "maxItems": 3,
       "items": {
         "oneOf": [
           {
@@ -43,6 +43,9 @@
           },
           {
             "$ref": "#/$defs/debianArtifact"
+          },
+          {
+            "$ref": "#/$defs/windowsArtifact"
           }
         ]
       }
@@ -128,6 +131,45 @@
         },
         "packageName": {
           "const": "airc"
+        }
+      }
+    },
+    "windowsArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "platform",
+        "architecture",
+        "fileName",
+        "size",
+        "sha256",
+        "codeSigned"
+      ],
+      "properties": {
+        "kind": {
+          "const": "windows-installer"
+        },
+        "platform": {
+          "const": "windows"
+        },
+        "architecture": {
+          "const": "x64"
+        },
+        "fileName": {
+          "type": "string",
+          "pattern": "^AiRC-.+-Setup\\.exe$"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "codeSigned": {
+          "type": "boolean"
         }
       }
     }

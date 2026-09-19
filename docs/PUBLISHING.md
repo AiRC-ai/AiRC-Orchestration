@@ -27,7 +27,8 @@ Before staging a release:
 6. Confirm Gatekeeper acceptance and stapled notarization after extracting the final ZIP.
 7. Confirm `latest-mac.yml` names the exact ZIP and matches its size and SHA-512 digest.
 8. When publishing Debian, confirm package name `airc`, architecture `amd64`, version, desktop entry, executable, and icon.
-9. Confirm the release contains no credentials, logs, user data, source archives, debug symbols, or unsupported package formats.
+9. When publishing Windows, confirm the Squirrel installer performs a per-user install, launches the branded application, and record its Authenticode state accurately.
+10. Confirm the release contains no credentials, logs, user data, source archives, debug symbols, or unsupported package formats.
 
 ## Stage The Release
 
@@ -39,16 +40,19 @@ scripts/stage-release.sh \
   <40-character-source-commit> \
   /path/to/AiRC.zip \
   /path/to/airc_<version>_amd64.deb \
+  /path/to/AiRC-<version>-Setup.exe \
   /path/to/staging-directory
 ```
 
-The script renames the macOS archive consistently, generates the release manifest,
-checksums, and signed-update feed metadata, copies legal notices, and runs
-cross-platform validation. The updater metadata uses a monotonically increasing
-native macOS version while retaining the full `+aircNN` release name for display.
+The script renames the macOS archive and Windows installer consistently, generates
+the release manifest, checksums, and signed-update feed metadata, copies legal
+notices, and runs cross-platform validation. The updater metadata uses a
+monotonically increasing native macOS version while retaining the full `+aircNN`
+release name for display. Set `AIRC_WINDOWS_CODE_SIGNED=true` only after a Windows
+runner reports a valid Authenticode signature for the exact installer.
 
 Use `-` for a platform that is not included. For example, a macOS-only release
-passes `/path/to/AiRC.zip -` for the two installer arguments. At least one
+passes `/path/to/AiRC.zip - -` for the three installer arguments. At least one
 installer is always required.
 
 On macOS, also run:

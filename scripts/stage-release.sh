@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 5 ]]; then
-  echo "usage: $0 <version> <source-commit> <macos-zip-or-> <debian-deb-or-> <output-directory>" >&2
+if [[ $# -ne 6 ]]; then
+  echo "usage: $0 <version> <source-commit> <macos-zip-or-> <debian-deb-or-> <windows-setup-exe-or-> <output-directory>" >&2
   exit 2
 fi
 
@@ -10,7 +10,8 @@ version=$1
 source_commit=$2
 macos_input=$3
 debian_input=$4
-output_directory=$5
+windows_input=$5
+output_directory=$6
 
 if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+([+-][0-9A-Za-z.-]+)?$ ]]; then
   echo "invalid version: $version" >&2
@@ -22,12 +23,12 @@ if [[ ! $source_commit =~ ^[0-9a-f]{40}$ ]]; then
   exit 1
 fi
 
-if [[ $macos_input == - && $debian_input == - ]]; then
+if [[ $macos_input == - && $debian_input == - && $windows_input == - ]]; then
   echo "at least one release input is required" >&2
   exit 1
 fi
 
-for input in "$macos_input" "$debian_input"; do
+for input in "$macos_input" "$debian_input" "$windows_input"; do
   [[ $input == - ]] && continue
   if [[ ! -f $input ]]; then
     echo "missing release input: $input" >&2
@@ -46,6 +47,7 @@ output_directory=$(cd "$output_directory" && pwd)
 
 macos_name=''
 debian_name=''
+windows_name=''
 
 if [[ $macos_input != - ]]; then
   macos_name="AiRC-${version}-macOS-arm64.zip"
@@ -55,22 +57,27 @@ if [[ $debian_input != - ]]; then
   debian_name="airc_${version}_amd64.deb"
   cp "$debian_input" "$output_directory/$debian_name"
 fi
+if [[ $windows_input != - ]]; then
+  windows_name="AiRC-${version}-Setup.exe"
+  cp "$windows_input" "$output_directory/$windows_name"
+fi
 cp "$repository_root/LICENSE" "$output_directory/LICENSE"
 cp "$repository_root/LICENSES.md" "$output_directory/LICENSES.md"
 cp "$repository_root/licenses/Apache-2.0.txt" "$output_directory/APACHE-2.0.txt"
 cp "$repository_root/NOTICE" "$output_directory/NOTICE"
 cp "$repository_root/THIRD_PARTY_NOTICES.md" "$output_directory/THIRD_PARTY_NOTICES.md"
 
-python3 - "$version" "$source_commit" "$output_directory" "$macos_name" "$debian_name" <<'PY'
+python3 - "$version" "$source_commit" "$output_directory" "$macos_name" "$debian_name" "$windows_name" <<'PY'
 import datetime
 import base64
 import hashlib
 import json
+import os
 import pathlib
 import re
 import sys
 
-version, source_commit, output_directory, macos_name, debian_name = sys.argv[1:]
+version, source_commit, output_directory, macos_name, debian_name, windows_name = sys.argv[1:]
 root = pathlib.Path(output_directory)
 
 
@@ -109,6 +116,17 @@ if debian_name:
             platform="debian",
             architecture="amd64",
             packageName="airc",
+        )
+    )
+if windows_name:
+    code_signed = str(os.environ.get("AIRC_WINDOWS_CODE_SIGNED", "false")).lower() == "true"
+    artifacts.append(
+        artifact(
+            windows_name,
+            kind="windows-installer",
+            platform="windows",
+            architecture="x64",
+            codeSigned=code_signed,
         )
     )
 

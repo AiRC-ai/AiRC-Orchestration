@@ -42,3 +42,42 @@ jobs:
           if [[ -n $macos_archive ]]; then
             scripts/verify-macos-release.sh "$macos_archive"
           fi
+
+  validate-windows:
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Download release assets
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force release | Out-Null
+          gh release download $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --dir release --clobber
+      - name: Verify Windows installer integrity and signing state
+        shell: pwsh
+        run: |
+          $manifest = Get-Content -Raw release/release-manifest.json | ConvertFrom-Json
+          $artifact = @($manifest.artifacts | Where-Object { $_.kind -eq 'windows-installer' })
+          if ($artifact.Count -eq 0) {
+            Write-Host 'No Windows installer is included in this release.'
+            exit 0
+          }
+          if ($artifact.Count -ne 1) {
+            throw 'The release must contain exactly one Windows installer manifest entry.'
+          }
+          $installer = Join-Path release $artifact[0].fileName
+          if (-not (Test-Path -LiteralPath $installer -PathType Leaf)) {
+            throw "Missing Windows installer: $installer"
+          }
+          $actualHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $installer).Hash.ToLowerInvariant()
+          if ($actualHash -ne $artifact[0].sha256) {
+            throw "Windows installer hash mismatch: $actualHash"
+          }
+          $signature = Get-AuthenticodeSignature -LiteralPath $installer
+          $signatureIsValid = $signature.Status -eq 'Valid'
+          if ([bool]$artifact[0].codeSigned -ne $signatureIsValid) {
+            throw "Windows signing metadata does not match Authenticode status: $($signature.Status)"
+          }
+          Write-Host "Windows installer verified; Authenticode status: $($signature.Status)"

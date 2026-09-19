@@ -47,9 +47,11 @@ mapfile_compat() {
 
 macos_files=$(mapfile_compat 'AiRC-*-macOS-arm64.zip')
 debian_files=$(mapfile_compat 'airc_*_amd64.deb')
+windows_files=$(mapfile_compat 'AiRC-*-Setup.exe')
 
 macos_count=$(printf '%s\n' "$macos_files" | sed '/^$/d' | wc -l | tr -d ' ')
 debian_count=$(printf '%s\n' "$debian_files" | sed '/^$/d' | wc -l | tr -d ' ')
+windows_count=$(printf '%s\n' "$windows_files" | sed '/^$/d' | wc -l | tr -d ' ')
 
 if [[ $macos_count -gt 1 ]]; then
   echo "release may contain at most one macOS arm64 ZIP" >&2
@@ -61,19 +63,26 @@ if [[ $debian_count -gt 1 ]]; then
   exit 1
 fi
 
-if [[ $((macos_count + debian_count)) -eq 0 ]]; then
+if [[ $windows_count -gt 1 ]]; then
+  echo "release may contain at most one Windows installer" >&2
+  exit 1
+fi
+
+if [[ $((macos_count + debian_count + windows_count)) -eq 0 ]]; then
   echo "release must contain at least one installer" >&2
   exit 1
 fi
 
 macos_file=$(printf '%s\n' "$macos_files" | sed '/^$/d')
 debian_file=$(printf '%s\n' "$debian_files" | sed '/^$/d')
+windows_file=$(printf '%s\n' "$windows_files" | sed '/^$/d')
 
 allowed_files=$(
   {
     [[ -n $macos_file ]] && basename "$macos_file"
     [[ -n $macos_file ]] && printf '%s\n' latest-mac.yml
     [[ -n $debian_file ]] && basename "$debian_file"
+    [[ -n $windows_file ]] && basename "$windows_file"
     printf '%s\n' LICENSE LICENSES.md APACHE-2.0.txt NOTICE SHA256SUMS \
       THIRD_PARTY_NOTICES.md release-manifest.json
   } | sort
@@ -125,15 +134,18 @@ if published_at.tzinfo is None:
     raise SystemExit("manifest publication timestamp must include a timezone")
 
 artifacts = manifest["artifacts"]
-if not 1 <= len(artifacts) <= 2:
-    raise SystemExit("manifest must contain one or two artifacts")
+if not 1 <= len(artifacts) <= 3:
+    raise SystemExit("manifest must contain one to three artifacts")
 
 by_kind = {item.get("kind"): item for item in artifacts}
-if len(by_kind) != len(artifacts) or not set(by_kind) <= {"macos-zip", "debian-deb"}:
+if len(by_kind) != len(artifacts) or not set(by_kind) <= {
+    "macos-zip", "debian-deb", "windows-installer"
+}:
     raise SystemExit("manifest contains duplicate or unsupported artifact kinds")
 
 mac = by_kind.get("macos-zip")
 deb = by_kind.get("debian-deb")
+windows = by_kind.get("windows-installer")
 if mac and (
     mac.get("platform"), mac.get("architecture"), mac.get("codeSigned"), mac.get("notarized")
 ) != ("macos", "arm64", True, True):
@@ -142,12 +154,18 @@ if deb and (deb.get("platform"), deb.get("architecture"), deb.get("packageName")
     "debian", "amd64", "airc"
 ):
     raise SystemExit("Debian package metadata is invalid")
+if windows and (windows.get("platform"), windows.get("architecture")) != ("windows", "x64"):
+    raise SystemExit("Windows installer architecture metadata is invalid")
+if windows and not isinstance(windows.get("codeSigned"), bool):
+    raise SystemExit("Windows installer signing metadata is invalid")
 
 expected_names = set()
 if mac:
     expected_names.add(f'AiRC-{manifest["version"]}-macOS-arm64.zip')
 if deb:
     expected_names.add(f'airc_{manifest["version"]}_amd64.deb')
+if windows:
+    expected_names.add(f'AiRC-{manifest["version"]}-Setup.exe')
 if {item.get("fileName") for item in artifacts} != expected_names:
     raise SystemExit("artifact names do not match manifest version")
 
@@ -160,6 +178,10 @@ for item in artifacts:
         "debian-deb": {
             "kind", "platform", "architecture", "fileName", "size", "sha256",
             "packageName",
+        },
+        "windows-installer": {
+            "kind", "platform", "architecture", "fileName", "size", "sha256",
+            "codeSigned",
         },
     }[item["kind"]]
     if set(item) != expected_keys:
@@ -274,6 +296,21 @@ if [[ -n $debian_file ]] && command -v dpkg-deb >/dev/null 2>&1; then
       exit 1
     }
   done
+fi
+
+if [[ -n $windows_file ]]; then
+  python3 - "$windows_file" <<'PY'
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+data = path.read_bytes()
+if len(data) < 64 or data[:2] != b"MZ":
+    raise SystemExit("Windows installer does not contain a DOS executable header")
+pe_offset = int.from_bytes(data[0x3C:0x40], "little")
+if pe_offset < 64 or pe_offset + 4 > len(data) or data[pe_offset:pe_offset + 4] != b"PE\0\0":
+    raise SystemExit("Windows installer does not contain a valid PE signature")
+PY
 fi
 
 echo "release validation passed"
