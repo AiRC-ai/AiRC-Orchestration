@@ -17,6 +17,17 @@ The public macOS build must be signed and notarized. Do not bypass Gatekeeper fo
 
 Some optional features require explicit macOS permissions, such as Accessibility, Screen Recording, microphone, calendar, or reminders access. Grant only the permissions needed for features you choose to use.
 
+## Windows
+
+The Windows package targets 64-bit Windows 10 and Windows 11.
+
+1. Download `AiRC-<version>-Setup.exe` and `SHA256SUMS` from the same GitHub release.
+2. Follow [Verify a download](VERIFY.md).
+3. Open `AiRC-<version>-Setup.exe`.
+4. The one-click Squirrel installer installs AiRC for the current user and launches it. Administrator access is not normally required.
+
+The current Windows installer is not Authenticode-signed, so Microsoft Defender SmartScreen may show an unrecognized-app warning. Continue only after verifying the exact installer against the release checksum and confirming it came from this repository. The release manifest records the signing state for every Windows installer.
+
 ## Debian-Family Linux
 
 The Linux package targets x86_64 (`amd64`) systems that support Debian packages.
@@ -54,3 +65,7 @@ sudo apt remove airc
 ```
 
 Package removal does not automatically delete user projects or configuration.
+
+### Windows
+
+Uninstall **AiRC** from **Settings > Apps > Installed apps**. User projects and configuration are not removed automatically.

@@ -18,7 +18,19 @@ grep 'macOS-arm64\.zip$' SHA256SUMS | shasum -a 256 -c -
 grep '_amd64\.deb$' SHA256SUMS | sha256sum -c -
 ```
 
-The installer must report `OK`. A checksum mismatch is never safe to ignore.
+### Windows
+
+In PowerShell, from the folder containing the installer and `SHA256SUMS`:
+
+```powershell
+$installer = Get-ChildItem -File 'AiRC-*-Setup.exe' | Select-Object -First 1
+$expected = (Select-String -Path SHA256SUMS -Pattern 'Setup\.exe$').Line.Split()[0].ToLowerInvariant()
+$actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $installer.FullName).Hash.ToLowerInvariant()
+if ($actual -ne $expected) { throw "AiRC installer checksum mismatch" }
+"AiRC installer checksum verified: $actual"
+```
+
+The verification command must succeed. A checksum mismatch is never safe to ignore.
 
 ## Verify macOS Signing And Notarization
 
@@ -43,6 +55,15 @@ Confirm:
 - package: `airc`
 - architecture: `amd64`
 - version matches the GitHub release
+
+## Inspect Windows Signing State
+
+```powershell
+Get-AuthenticodeSignature -LiteralPath .\AiRC-<version>-Setup.exe |
+  Select-Object Status, StatusMessage
+```
+
+Compare the result with the `codeSigned` value for the Windows installer in `release-manifest.json`. The current installer is unsigned, so Windows may report `NotSigned`; that is expected only when the manifest also records `false` and the SHA-256 checksum matches.
 
 ## Verify The Release Manifest
 

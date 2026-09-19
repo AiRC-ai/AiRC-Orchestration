@@ -7,6 +7,7 @@ This repository is a release boundary. It must receive only final, verified arti
 - `AiRC-<version>-macOS-arm64.zip` when publishing macOS
 - `latest-mac.yml` when publishing macOS; generated from the exact notarized ZIP
 - `airc_<version>_amd64.deb` when publishing Debian
+- `AiRC-<version>-Setup.exe` when publishing Windows
 - `SHA256SUMS`
 - `release-manifest.json`
 - `LICENSE`
