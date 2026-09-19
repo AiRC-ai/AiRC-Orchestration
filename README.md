@@ -125,11 +125,11 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-The current macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc105**. Each published installer ships with checksums,
+The current macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc106**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc105` release tightens sub-agent configuration and delegation. Settings now define the model slots available to the primary model instead of assigning fixed worker names or jobs. The primary model gives every delegated run a task-specific name and purpose, and AiRC validates both before starting it. The nested model picker now owns the active modal layer, so it cannot render behind the sub-agent editor; closing the picker restores the editor and its state. Windows packages now carry AiRC-owned company, product, description, copyright, internal-name, and original-filename metadata, enforced by a package-time regression gate whose PowerShell metadata projection is covered by a regression test and a real packaged-executable check. This release also retains the live Task Context agent view, process-wide stream limits, capacity guidance, and recovered-task ownership repair from prior releases.
+The `airc106` release makes configured sub-agent models first-class runtime choices for the primary model. Before delegation, AiRC now supplies each enabled slot's provider, model, reasoning support and levels, context and output limits, attachment and tool capabilities, access policy, route availability, and current global and provider stream capacity. An inherit slot resolves to the task's active provider, model, and reasoning effort. Repeated slots remain distinct choices while sharing the correct process-wide capacity budget. The primary model still assigns every run a task-specific name and purpose, and unavailable routes are rejected before launch. Settings now show stable slot IDs, and the model picker remains above its editor instead of rendering behind it.
 
 It retains the project-aware chat workflow, queued follow-up messages while a
 task is running, cross-task session messaging, automation refresh while a scheduled run is active, and the
@@ -142,16 +142,16 @@ accepts update metadata published with the official release, verifies the
 declared file size and SHA-512 digest, and offers **Install & Restart** after a
 verified download. Automatic downloads can also install safely when AiRC
 restarts. See the
-[airc105 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc105)
+[airc106 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc106)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc105-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc105/AiRC-1.45.0+airc105-macOS-arm64.zip) |
-| Windows | x86_64 (`x64`) | [`AiRC-1.45.0+airc105-Setup.exe`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc105/AiRC-1.45.0+airc105-Setup.exe) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc105_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc105/airc_1.45.0+airc105_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc106-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc106/AiRC-1.45.0+airc106-macOS-arm64.zip) |
+| Windows | x86_64 (`x64`) | [`AiRC-1.45.0+airc106-Setup.exe`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc106/AiRC-1.45.0+airc106-Setup.exe) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc106_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc106/airc_1.45.0+airc106_amd64.deb) |
 
-The macOS `airc105` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket. Windows uses a one-click, per-user installer; it is currently unsigned, so Windows SmartScreen may request confirmation on first launch.
+The macOS `airc106` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket. Windows uses a one-click, per-user installer; it is currently unsigned, so Windows SmartScreen may request confirmation on first launch.
 
 Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. macOS releases also include `latest-mac.yml`, which binds the in-app updater to the exact signed and notarized ZIP. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 
