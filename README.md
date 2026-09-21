@@ -113,7 +113,8 @@ opts in and can be changed at any time in **Settings > App > Privacy**.
 Use development tools, terminal workflows, browser work, and computer control where enabled and explicitly permitted:
 
 - **Developer tools** — File editing, shell execution, code analysis
-- **In-app browser** — Open and inspect web pages directly inside AiRC
+- **In-app browser** — Open and inspect web pages directly inside AiRC; Browser tabs stay scoped to the selected task, and background task workspaces remain hidden until selected
+- **Workspace toolbar** — Reach Browser, task context and sub-agent activity, and project terminal controls from the active task while it is loading or running
 - **Computer control** — Platform-level automation (macOS, Linux, Windows) for screen, input, and document workflows
 - **Tunnel access** — Securely connect to AiRC from a mobile device through an encrypted tunnel
 
