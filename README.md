@@ -126,11 +126,11 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-The current macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc111**. Each published installer ships with checksums,
+The current macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc114**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc111` release makes configured sub-agent models first-class runtime choices for the primary model and restores task-scoped sub-agent activity after reopening a task. Before delegation, AiRC supplies each enabled slot's provider, model, reasoning support and levels, context and output limits, attachment and tool capabilities, access policy, route availability, and current global and provider stream capacity. An inherit slot resolves to the task's active provider, model, and reasoning effort. Repeated slots remain distinct choices while sharing the correct process-wide capacity budget. The primary model still assigns every run a task-specific name and purpose, and unavailable routes are rejected before launch. Settings show stable slot IDs, and the model picker remains above its editor instead of rendering behind it.
+The `airc114` release hardens local task-history storage. Large complete tool results now use private, app-owned, content-addressed artifacts instead of temporary files, with atomic writes, checksum verification, full export and copy recovery, and cleanup alongside their task. The schema v23 upgrade creates a verified pre-migration backup, protects database files with owner-only permissions, and adds an indexed replay order for long tasks. Token and usage counts remain 64-bit end to end, desktop session transfers support histories up to 512 MiB, recoverable legacy spills are imported, and AiRC warns instead of silently choosing when legacy and AiRC histories have diverged.
 
 It retains the project-aware chat workflow, queued follow-up messages while a
 task is running, cross-task session messaging, automation refresh while a scheduled run is active, and the
@@ -143,16 +143,16 @@ accepts update metadata published with the official release, verifies the
 declared file size and SHA-512 digest, and offers **Install & Restart** after a
 verified download. Automatic downloads can also install safely when AiRC
 restarts. See the
-[airc111 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc111)
+[airc114 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc114)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc111-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc111/AiRC-1.45.0+airc111-macOS-arm64.zip) |
-| Windows | x86_64 (`x64`) | [`AiRC-1.45.0+airc111-Setup.exe`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc111/AiRC-1.45.0+airc111-Setup.exe) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc111_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc111/airc_1.45.0+airc111_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc114-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc114/AiRC-1.45.0+airc114-macOS-arm64.zip) |
+| Windows | x86_64 (`x64`) | [`AiRC-1.45.0+airc114-Setup.exe`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc114/AiRC-1.45.0+airc114-Setup.exe) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc114_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc114/airc_1.45.0+airc114_amd64.deb) |
 
-The macOS `airc111` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket. Windows uses a one-click, per-user installer; this manually published build is currently unsigned, so Windows SmartScreen may request confirmation on first launch. The release manifest records that signing state explicitly.
+The macOS `airc114` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket. The Windows one-click, per-user installer is Authenticode-signed. The release manifest records both signing states explicitly.
 
 Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. macOS releases also include `latest-mac.yml`, which binds the in-app updater to the exact signed and notarized ZIP. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 
