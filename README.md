@@ -126,11 +126,11 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-The current recommended macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc115**. Each published installer ships with checksums,
+The current recommended macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc121**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc115` release is the latest verified public build and the recommended security release. It strengthens permission enforcement for MCP apps, keeps externally supplied recipes inert until their exact content is approved, restricts plaintext ACP access to the local machine, verifies remote-backend certificates before credentials are sent, and leaves newly discovered project plugins disabled until trusted. It also makes terminal rendering safe for untrusted output, bounds Developer tree work, prevents standalone app windows from reading the ACP bearer credential, and adds bounded code search and durable admission controls to the Ask AI service.
+The `airc121` release is the latest verified public build. On macOS it reliably triggers the system Local Network permission flow with a bounded startup probe, then stops probing after the permission window closes. The signed and notarized installed app was accepted against a real LAN service from AiRC's own terminal. On Windows, upgrades and uninstall now remove two legacy Start Menu shortcuts left by earlier installers. It carries forward the security protections and application behavior from `airc115`.
 
 It includes the configured sub-agent model choices and restored task-scoped sub-agent activity introduced on the `airc111` line. Before delegation, AiRC supplies each enabled slot's provider, model, reasoning support and levels, context and output limits, attachment and tool capabilities, access policy, route availability, and current global and provider stream capacity. An inherit slot resolves to the task's active provider, model, and reasoning effort. Repeated slots remain distinct choices while sharing the correct process-wide capacity budget. The primary model still assigns every run a task-specific name and purpose, and unavailable routes are rejected before launch. Settings show stable slot IDs, and the model picker remains above its editor instead of rendering behind it.
 
@@ -145,16 +145,16 @@ accepts update metadata published with the official release, verifies the
 declared file size and SHA-512 digest, and offers **Install & Restart** after a
 verified download. Automatic downloads can also install safely when AiRC
 restarts. See the
-[airc115 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc115)
+[airc121 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc121)
 for verification details.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc115-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc115/AiRC-1.45.0+airc115-macOS-arm64.zip) |
-| Windows | x86_64 (`x64`) | [`AiRC-1.45.0+airc115-Setup.exe`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc115/AiRC-1.45.0+airc115-Setup.exe) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc115_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc115/airc_1.45.0+airc115_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc121-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc121/AiRC-1.45.0+airc121-macOS-arm64.zip) |
+| Windows | x86_64 (`x64`) | [`AiRC-1.45.0+airc121-Setup.exe`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc121/AiRC-1.45.0+airc121-Setup.exe) |
+| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc121_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc121/airc_1.45.0+airc121_amd64.deb) |
 
-The macOS `airc115` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket. Windows uses a one-click, per-user installer; this build is intentionally unsigned, so Windows SmartScreen may request confirmation on first launch. The release manifest records that unsigned state explicitly.
+The macOS `airc121` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket. The first time a feature connects to a local device or service, macOS may ask for Local Network access. Choose **Allow** when you want AiRC to make that connection; you can review the setting later under **System Settings > Privacy & Security > Local Network**. Windows uses a one-click, per-user installer; this build is intentionally unsigned, so Windows SmartScreen may request confirmation on first launch. The release manifest records that unsigned state explicitly.
 
 Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. macOS releases also include `latest-mac.yml`, which binds the in-app updater to the exact signed and notarized ZIP. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
 

@@ -15,7 +15,9 @@ Verify every downloaded file before opening or installing it.
 
 The public macOS build must be signed and notarized. Do not bypass Gatekeeper for an official release. If macOS rejects the application, preserve the exact message and open a support issue.
 
-Some optional features require explicit macOS permissions, such as Accessibility, Screen Recording, microphone, calendar, or reminders access. Grant only the permissions needed for features you choose to use.
+Some optional features require explicit macOS permissions, such as Accessibility, Screen Recording, microphone, calendar, reminders, or Local Network access. Grant only the permissions needed for features you choose to use. When AiRC first connects to a device or service on your local network, choose **Allow** in the macOS prompt. You can review or change this later under **System Settings > Privacy & Security > Local Network**.
+
+If a local connection works in Terminal but not in AiRC, confirm that AiRC is allowed under **Local Network**, then quit and reopen the app before retrying. Do not disable macOS privacy protections or bypass the signed application package.
 
 ## Windows
 
