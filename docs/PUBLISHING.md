@@ -66,11 +66,35 @@ scripts/verify-macos-release.sh /path/to/staging-directory/AiRC-<version>-macOS-
 
 1. Create a draft GitHub release named `AiRC <version>` with tag `v<version>`.
 2. Upload every file from the staging directory.
-3. Run the **Validate release** workflow for the draft tag. The workflow uses a narrowly scoped `contents: write` token because GitHub exposes draft releases only to identities with push access; all other workflow permissions remain disabled.
+3. Run the **Validate release** workflow for the draft tag, or use the equivalent manual validation below when Actions is unavailable. The workflow uses a narrowly scoped `contents: write` token because GitHub exposes draft releases only to identities with push access; all other workflow permissions remain disabled.
 4. Review release notes, checks, file names, sizes, architectures, and checksums.
 5. Publish only after validation passes for every installer included in the release.
 
 Do not replace assets on a published release. If an installer changes, issue a new version with new checksums and a new manifest.
+
+### Manual Validation
+
+Actions availability is not a prerequisite for publishing verified artifacts.
+When a workflow cannot run, download the draft's hosted assets into a new empty
+directory and run the same repository validators yourself:
+
+```bash
+scripts/download-release-assets.sh v<version> /path/to/draft-download
+scripts/validate-release.sh /path/to/draft-download
+scripts/verify-macos-release.sh /path/to/draft-download/AiRC-<version>-macOS-arm64.zip
+```
+
+Run the last command on macOS. Record the successful validator results, full
+source revision, artifact inventory and hashes, and native Windows Authenticode
+inspection. The Windows release is intentionally unsigned unless separately
+authorized otherwise: require `NotSigned` for Setup, desktop and embedded
+backend, and `codeSigned: false` in the manifest. An unsigned installer is not
+an exception to integrity, upgrade, launch or runtime acceptance.
+
+Only then publish the draft. Download the published assets into another empty
+directory, repeat validation, and verify the Latest release and updater metadata.
+Do not replace failed native checks with hosted-file checks or waive required
+gates because Actions is unavailable.
 
 ## Source Repository Automation
 
