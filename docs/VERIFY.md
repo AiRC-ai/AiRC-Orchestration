@@ -2,6 +2,11 @@
 
 Verify installers before opening or installing them.
 
+Use an empty download directory for each release. Do not mix installers or
+checksums from different versions. Integrity verification proves file identity,
+not completion of runtime acceptance or release promotion; see
+[airc134 status](AIRC134.md).
+
 ## Check SHA-256
 
 Download `SHA256SUMS` into the same directory as the installer. Verify only the installer for your operating system.
@@ -23,8 +28,14 @@ grep '_amd64\.deb$' SHA256SUMS | sha256sum -c -
 In PowerShell, from the folder containing the installer and `SHA256SUMS`:
 
 ```powershell
-$installer = Get-ChildItem -File 'AiRC-*-Setup.exe' | Select-Object -First 1
-$expected = (Select-String -Path SHA256SUMS -Pattern 'Setup\.exe$').Line.Split()[0].ToLowerInvariant()
+$installers = @(Get-ChildItem -File 'AiRC-*-Setup.exe')
+if ($installers.Count -ne 1) { throw "Expected exactly one AiRC Setup installer" }
+$installer = $installers[0]
+$entries = @(Get-Content -LiteralPath SHA256SUMS | Where-Object {
+  $_ -match '^([0-9a-fA-F]{64})\s+\*?(.+)$' -and $Matches[2] -ceq $installer.Name
+})
+if ($entries.Count -ne 1) { throw "Expected one checksum for this exact installer" }
+$expected = $entries[0].Substring(0, 64).ToLowerInvariant()
 $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $installer.FullName).Hash.ToLowerInvariant()
 if ($actual -ne $expected) { throw "AiRC installer checksum mismatch" }
 "AiRC installer checksum verified: $actual"

@@ -5,6 +5,10 @@
 
 Verify every downloaded file before opening or installing it.
 
+Use the recommended release linked in the [main README](../README.md). The
+[airc134 candidate](AIRC134.md) still has open acceptance gates; a draft is not
+a recommended release or an automatic update.
+
 ## macOS Apple Silicon
 
 1. Download `AiRC-<version>-macOS-arm64.zip` and `SHA256SUMS` from the same GitHub release.
@@ -17,7 +21,7 @@ The public macOS build must be signed and notarized. Do not bypass Gatekeeper fo
 
 Some optional features require explicit macOS permissions, such as Accessibility, Screen Recording, microphone, calendar, reminders, or Local Network access. Grant only the permissions needed for features you choose to use. When AiRC first connects to a device or service on your local network, choose **Allow** in the macOS prompt. You can review or change this later under **System Settings > Privacy & Security > Local Network**.
 
-If a local connection works in Terminal but not in AiRC, confirm that AiRC is allowed under **Local Network**, then quit and reopen the app before retrying. Do not disable macOS privacy protections or bypass the signed application package.
+If a local connection works in Terminal but not in AiRC, confirm that AiRC is allowed under **Local Network**. Wait for all running tasks and automations to finish before quitting and reopening the app to retry. Do not disable macOS privacy protections or bypass the signed application package.
 
 ## Windows
 
@@ -53,6 +57,12 @@ If package dependencies cannot be resolved, run your distribution's normal packa
 ## Upgrading Between Releases
 
 Read the release notes before every upgrade and back up important projects and configuration first. Compatibility and migration behavior may evolve between releases; follow any version-specific instructions included with the release.
+
+Do not install over an active AiRC session or select **Install & Restart** while
+tasks are running. Finish the work first and retain a verified previous installer
+and configuration backup until the new version is accepted. Windows uses the
+full Setup installer for each revision; a folder named `app-1.45.0` alone does
+not identify the installed `+airc` revision. Check the app's displayed version.
 
 ## Uninstalling
 

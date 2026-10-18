@@ -2,6 +2,12 @@
 
 The visuals in this directory were prepared specifically for public product presentation. They are captures of the real AiRC Orchestration interface, not mockups.
 
+These August 2026 captures are historical demonstrations, not screenshots or
+acceptance evidence for `airc134`. No new candidate screenshots, private chats,
+or diagnostic recordings have been added. Current release availability and
+validation scope are documented in the [main README](../README.md) and
+[airc134 status](../docs/AIRC134.md).
+
 ## AiRC Whisper Browser Workflow
 
 - **User prompt:** `use the in app browser and open the public AiRC Whisper GitHub page then summarize the app`

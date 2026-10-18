@@ -115,7 +115,7 @@ Use development tools, terminal workflows, browser work, and computer control wh
 - **Developer tools** — File editing, shell execution, code analysis
 - **In-app browser** — Open and inspect web pages directly inside AiRC; Browser tabs stay scoped to the selected task, and background task workspaces remain hidden until selected
 - **Workspace toolbar** — Reach Browser, task context and sub-agent activity, and project terminal controls from the active task while it is loading or running
-- **Computer control** — Platform-level automation (macOS, Linux, Windows) for screen, input, and document workflows
+- **Computer Use** — Native screen and input control on macOS, with user-granted permissions; this is separate from the cross-platform in-app Browser
 - **Tunnel access** — Securely connect to AiRC from a mobile device through an encrypted tunnel
 
 ### Voice and dictation
@@ -125,6 +125,13 @@ Speak instead of type. AiRC supports dictation through multiple providers — Op
 Availability depends on the selected model, provider, operating system, configured capabilities, and permissions granted by the user.
 
 ## Download
+
+**Release status (October 17, 2026):** `airc121` remains the recommended public
+release. The `airc134` candidate contains steering, configured-ratio compaction,
+and screenshot image-limit fixes, but required runtime acceptance is still open.
+A draft release is not available through Latest or the automatic updater. See
+[airc134 changes and acceptance status](docs/AIRC134.md); do not treat a draft
+or a source-test pass as a completed release.
 
 The current recommended macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc121**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
@@ -170,6 +177,24 @@ No installer is published until it passes the repository's release gates:
 - inspection for private source, credentials, logs, user data, and internal build artifacts
 
 Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
+
+## Steering, Context, Images, And Browser Graphics
+
+The [airc134 candidate](docs/AIRC134.md) addresses blocked steering admission,
+compaction delayed until model capacity, and explicit provider image-count
+rejections. Steering is accepted during a running reply and delivered at agent
+input boundaries; it does not interrupt an in-progress model generation.
+Compaction checks the configured ratio before subsequent model rounds. Image
+recovery is bounded and preserves saved history and user attachments.
+
+The in-app Browser supports WebGL subject to Chromium, driver, and host graphics
+availability. Installed Mac testing rendered verified WebGL1 and WebGL2 pixels
+through ANGLE/Metal on an Apple M2 Max. This does not establish hardware GPU
+acceleration, WebGL2 support, or performance on every Windows, Linux, VM, or
+remote-desktop configuration. A provider's image-count error is not a WebGL error.
+
+Finish or stop your own work before any upgrade that closes AiRC. Do not restart
+the app to troubleshoot a browser or provider issue while other tasks are running.
 
 ## Using AiRC Responsibly
 

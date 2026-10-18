@@ -70,6 +70,25 @@ scripts/verify-macos-release.sh /path/to/staging-directory/AiRC-<version>-macOS-
 4. Review release notes, checks, file names, sizes, architectures, and checksums.
 5. Publish only after validation passes for every installer included in the release.
 
+Keep a candidate draft while any required source or packaged-runtime gate is
+open. File validation and uploading all installers do not establish real-account,
+native safety, permission, migration, protocol, or updater acceptance. The
+[airc134 status](AIRC134.md) distinguishes these checks. Do not label a candidate
+as recommended, move Latest, or integrate unqualified source merely to make
+documentation match a desired release date.
+
+Documentation-only updates may be published separately. Keep the existing stable
+download links until promotion succeeds, identify the candidate and its limits,
+and retain the exact frozen source revision in the candidate manifest. Update
+the root README, installation and verification guides, release notes, and any
+version-specific status page together after verified promotion. Historical demo
+assets must not be represented as screenshots of the new version.
+
+After changing the PowerShell download-verification example, run
+`pwsh -NoProfile -File scripts/test-download-verification.ps1`. It exercises the
+actual documented snippet with valid files and rejected missing, ambiguous,
+wrong-name, duplicate, and tampered-checksum fixtures in a disposable directory.
+
 Do not replace assets on a published release. If an installer changes, issue a new version with new checksums and a new manifest.
 
 ### Manual Validation
