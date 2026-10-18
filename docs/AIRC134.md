@@ -4,6 +4,13 @@ Updated October 17, 2026. Version `1.45.0+airc134` is a release candidate, not
 the recommended public release. The public Latest release remains `airc121`.
 Draft assets require maintainer access and are not an automatic-update feed.
 
+The three installers and eight companion files are now uploaded to a
+maintainer-only draft. Fresh authenticated downloads match the accepted files.
+The [release-validation workflow](https://github.com/AiRC-ai/AiRC-Orchestration/actions/runs/39100962801)
+passes on Linux, macOS, and Windows, including macOS signature/notarization
+checks and Windows Setup's actual `NotSigned` state. These are hosted-file
+checks, not completion of the remaining runtime gates below.
+
 ## Changes
 
 - **Live steering:** Enter and Send can admit ordinary-text steering while a
@@ -68,8 +75,8 @@ Stop; it does not cover every safety or multi-window case.
 - Signed installed Mac Local Network identity and an approved real LAN request.
 - A real newer-updater download, integrity check, and install handoff, with an
   explicitly approved rollout order and protected rollback.
-- Private source integration, draft hosted-download validation, final promotion,
-  and independent public hosted verification.
+- Private source integration, final promotion, and independent public hosted
+  verification. Draft hosted-download validation has passed separately.
 
 No required check is waived by a successful build, draft upload, hosted checksum,
 or README update. Running tasks must not be interrupted for acceptance or an
