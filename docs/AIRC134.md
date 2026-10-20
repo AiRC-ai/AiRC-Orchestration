@@ -8,12 +8,14 @@ All three installers and eight companion files are publicly downloadable.
 production acceptance or an automatic-update rollout.
 
 Authenticated hosted-file downloads match the accepted files.
-The [release-validation workflow](https://github.com/AiRC-ai/AiRC-Orchestration/actions/runs/39100962801)
+The [release-triggered validation workflow](https://github.com/AiRC-ai/AiRC-Orchestration/actions/runs/39361540791)
 passes on Linux, macOS, and Windows, including macOS signature/notarization
 checks and Windows Setup's actual `NotSigned` state. These are hosted-file
-checks, not completion of the remaining runtime gates below. Public-download
-integrity is checked separately after publication; it cannot replace runtime
-acceptance.
+checks, not completion of the remaining runtime gates below. All eleven files
+were independently downloaded without authentication after publication and
+matched the frozen release files and GitHub asset digests. The downloaded Mac
+archive also passed signature, Gatekeeper, notarization-ticket, and architecture
+verification. Public-download integrity cannot replace runtime acceptance.
 
 ## Changes
 
