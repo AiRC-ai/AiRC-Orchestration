@@ -6,8 +6,10 @@
 Verify every downloaded file before opening or installing it.
 
 Use the recommended release linked in the [main README](../README.md). The
-[airc134 candidate](AIRC134.md) still has open acceptance gates; a draft is not
-a recommended release or an automatic update.
+[airc134 public prerelease](AIRC134.md) is also available for manual installation,
+with further Windows verification deferred and other acceptance gaps disclosed.
+It is not the stable Latest release or a recommended automatic update. Finish
+running work, back up important data, and keep the previous installer first.
 
 ## macOS Apple Silicon
 

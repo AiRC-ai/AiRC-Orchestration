@@ -1,6 +1,10 @@
 # Publishing A Release
 
-This repository is a release boundary. It must receive only final, verified artifacts from the private application source repository.
+This repository is a release boundary. It must receive only versioned,
+integrity-verified artifacts from the private application source repository.
+Production releases require the full acceptance below. Explicitly authorized
+public prereleases must disclose incomplete runtime checks and remain separate
+from the recommended stable release.
 
 ## Release Artifacts
 
@@ -70,12 +74,29 @@ scripts/verify-macos-release.sh /path/to/staging-directory/AiRC-<version>-macOS-
 4. Review release notes, checks, file names, sizes, architectures, and checksums.
 5. Publish only after validation passes for every installer included in the release.
 
-Keep a candidate draft while any required source or packaged-runtime gate is
-open. File validation and uploading all installers do not establish real-account,
+By default, keep a candidate draft while any required source or packaged-runtime
+gate is open. File validation and uploading all installers do not establish real-account,
 native safety, permission, migration, protocol, or updater acceptance. The
 [airc134 status](AIRC134.md) distinguishes these checks. Do not label a candidate
 as recommended, move Latest, or integrate unqualified source merely to make
 documentation match a desired release date.
+
+### Explicit Public Prerelease Authorization
+
+On October 19, 2026, the maintainer requested publication of airc134 with further
+Windows verification deferred. Publish that candidate only as a public
+**prerelease**, retaining airc121 as stable/Latest. Keep all recorded failures and
+pending checks, name the limits in the release notes and status page, and do not
+claim production acceptance or integrate unqualified source into private main.
+This authorization changes availability, not installer bytes or test results.
+
+For this explicitly authorized prerelease, complete hosted-file integrity,
+manifest, macOS signing/notarization, and unsigned-Windows-state validation;
+publish with `prerelease: true` and `make_latest: false`; then independently
+download the anonymous public assets and repeat the applicable file validators.
+Do not install, restart applications, alter permissions, or disturb running
+tasks as part of publication. Full production qualification remains required
+before a later stable promotion. Never infer this exception for other releases.
 
 Documentation-only updates may be published separately. Keep the existing stable
 download links until promotion succeeds, identify the candidate and its limits,
@@ -111,7 +132,8 @@ backend, and `codeSigned: false` in the manifest. An unsigned installer is not
 an exception to integrity, upgrade, launch or runtime acceptance.
 
 Only then publish the draft. Download the published assets into another empty
-directory, repeat validation, and verify the Latest release and updater metadata.
+directory, repeat validation, and verify the intended stable Latest release and
+updater metadata. An authorized prerelease must not replace stable Latest.
 Do not replace failed native checks with hosted-file checks or waive required
 gates because Actions is unavailable.
 

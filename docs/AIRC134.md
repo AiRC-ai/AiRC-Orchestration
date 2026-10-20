@@ -1,15 +1,19 @@
 # airc134 Changes And Acceptance Status
 
-Updated October 17, 2026. Version `1.45.0+airc134` is a release candidate, not
-the recommended public release. The public Latest release remains `airc121`.
-Draft assets require maintainer access and are not an automatic-update feed.
+Updated October 19, 2026. Version `1.45.0+airc134` is a
+[public prerelease](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134),
+published at the maintainer's request with further Windows verification deferred.
+All three installers and eight companion files are publicly downloadable.
+`airc121` remains the recommended stable Latest release. This is not completed
+production acceptance or an automatic-update rollout.
 
-The three installers and eight companion files are now uploaded to a
-maintainer-only draft. Fresh authenticated downloads match the accepted files.
+Authenticated hosted-file downloads match the accepted files.
 The [release-validation workflow](https://github.com/AiRC-ai/AiRC-Orchestration/actions/runs/39100962801)
 passes on Linux, macOS, and Windows, including macOS signature/notarization
 checks and Windows Setup's actual `NotSigned` state. These are hosted-file
-checks, not completion of the remaining runtime gates below.
+checks, not completion of the remaining runtime gates below. Public-download
+integrity is checked separately after publication; it cannot replace runtime
+acceptance.
 
 ## Changes
 
@@ -43,8 +47,8 @@ rebuild or replace these bytes.
 | Debian-family Linux amd64 | `airc_1.45.0+airc134_amd64.deb` | Package metadata and payload integrity verified |
 
 Windows may display an unrecognized-app warning. Signing status does not waive
-checksum, clean-install, upgrade, or runtime requirements. Once published,
-verify the installer against `SHA256SUMS` and `release-manifest.json` from the
+checksum or production-acceptance requirements. Verify the downloaded
+installer against `SHA256SUMS` and `release-manifest.json` from the
 same release using the [verification guide](VERIFY.md).
 
 ## Recorded Acceptance
@@ -64,9 +68,16 @@ M2 Max, not on every platform or GPU. A narrow Mac native fixture passes exact
 input, stale-index rejection, preview controls, takeover/return, and Emergency
 Stop; it does not cover every safety or multi-window case.
 
-## Still Required Before Promotion
+## Deferred Windows Verification
 
-- Windows visible renderer and protocol/draft delivery acceptance.
+Further Windows visible renderer and protocol/draft checks were deferred by the
+maintainer on October 19 for public prerelease publication. The earlier missing
+draft remains unresolved, not passed. This does not change installer bytes,
+checksums, unsigned status, or the completed Windows checks recorded above.
+
+## Still Required Before Stable Promotion
+
+- Resolution and acceptance of the deferred Windows renderer/protocol flow.
 - Normal Linux desktop data/secondary-launch checks and the packaged
   existing-account interactive/automation provider matrix.
 - Native held-input cleanup, busy cancellation, two-task/two-native-window
@@ -75,9 +86,10 @@ Stop; it does not cover every safety or multi-window case.
 - Signed installed Mac Local Network identity and an approved real LAN request.
 - A real newer-updater download, integrity check, and install handoff, with an
   explicitly approved rollout order and protected rollback.
-- Private source integration, final promotion, and independent public hosted
-  verification. Draft hosted-download validation has passed separately.
+- Private source integration and stable promotion after the outstanding gates
+  pass. Public hosted-download integrity is a separate publication check.
 
-No required check is waived by a successful build, draft upload, hosted checksum,
-or README update. Running tasks must not be interrupted for acceptance or an
-upgrade. Maintainers should follow the [publishing contract](PUBLISHING.md).
+No pending production check is marked passed by publication, hosted checksums,
+or README updates. The maintainer authorized prerelease availability, not a
+completed production qualification. Running tasks must not be interrupted for
+acceptance or an upgrade. Follow the [publishing contract](PUBLISHING.md).

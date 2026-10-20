@@ -126,12 +126,29 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-**Release status (October 17, 2026):** `airc121` remains the recommended public
-release. The `airc134` candidate contains steering, configured-ratio compaction,
-and screenshot image-limit fixes, but required runtime acceptance is still open.
-A draft release is not available through Latest or the automatic updater. See
-[airc134 changes and acceptance status](docs/AIRC134.md); do not treat a draft
-or a source-test pass as a completed release.
+**Release status (October 19, 2026):**
+[airc134 is publicly available as a prerelease](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134)
+with steering, configured-ratio compaction, and screenshot image-limit fixes.
+Further Windows verification is deferred at the maintainer's request, and other
+runtime acceptance remains open. `airc121` remains the recommended stable Latest
+release; publishing the prerelease does not mark those checks passed or authorize
+an automatic rollout. See [airc134 changes and acceptance status](docs/AIRC134.md).
+
+### airc134 Prerelease Downloads
+
+| Platform | Architecture | Download |
+| --- | --- | --- |
+| macOS | Apple silicon (`arm64`) | [Signed and notarized ZIP](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/AiRC-1.45.0%2Bairc134-macOS-arm64.zip) |
+| Windows | x86_64 (`x64`) | [Unsigned Setup installer](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/AiRC-1.45.0%2Bairc134-Setup.exe) |
+| Debian-family Linux | x86_64 (`amd64`) | [Debian package](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/airc_1.45.0%2Bairc134_amd64.deb) |
+
+Verify downloads against the release's
+[SHA256SUMS](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/SHA256SUMS)
+and [manifest](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/release-manifest.json).
+Finish running tasks before a manual upgrade and retain a backup and known-good
+installer. Windows is intentionally unsigned (`codeSigned: false`).
+
+### Recommended Stable Release
 
 The current recommended macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc121**. Each published installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
@@ -167,7 +184,7 @@ Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`,
 
 ## How Releases Are Verified
 
-No installer is published until it passes the repository's release gates:
+Recommended stable releases must pass the repository's production release gates:
 
 - macOS signing, notarization, stapling, and Gatekeeper acceptance
 - Debian package metadata and architecture verification when a Debian installer is included
@@ -177,10 +194,12 @@ No installer is published until it passes the repository's release gates:
 - inspection for private source, credentials, logs, user data, and internal build artifacts
 
 Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
+Explicitly authorized public prereleases may retain disclosed runtime gaps;
+they are not marked stable/Latest and do not turn pending checks into passes.
 
 ## Steering, Context, Images, And Browser Graphics
 
-The [airc134 candidate](docs/AIRC134.md) addresses blocked steering admission,
+The [airc134 prerelease](docs/AIRC134.md) addresses blocked steering admission,
 compaction delayed until model capacity, and explicit provider image-count
 rejections. Steering is accepted during a running reply and delivered at agent
 input boundaries; it does not interrupt an in-progress model generation.
