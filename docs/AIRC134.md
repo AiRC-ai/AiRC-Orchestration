@@ -1,11 +1,17 @@
 # airc134 Changes And Acceptance Status
 
-Updated October 19, 2026. Version `1.45.0+airc134` is a
-[public prerelease](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134),
-published at the maintainer's request with further Windows verification deferred.
-All three installers and eight companion files are publicly downloadable.
-`airc121` remains the recommended stable Latest release. This is not completed
-production acceptance or an automatic-update rollout.
+Updated October 27, 2026. Version `1.45.0+airc134` is
+[public and currently marked stable Latest on GitHub](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134).
+It was originally published as a prerelease on October 19 (Pacific time) with
+further Windows verification deferred. The maintainer has now directed that
+its existing non-prerelease/Latest status remain unchanged. All three installers
+and eight companion files are publicly downloadable and unchanged.
+
+**Production acceptance remains incomplete.** The channel label does not
+qualify pending workflows or prove the actual updater handoff. GitHub's Latest
+release may be offered by update checks; no new rollout or installer change is
+performed by this documentation update. `airc121` remains the previous verified
+baseline and retained rollback reference, not GitHub's current Latest release.
 
 Authenticated hosted-file downloads match the accepted files.
 The [release-triggered validation workflow](https://github.com/AiRC-ai/AiRC-Orchestration/actions/runs/39361540791)
@@ -77,7 +83,7 @@ maintainer on October 19 for public prerelease publication. The earlier missing
 draft remains unresolved, not passed. This does not change installer bytes,
 checksums, unsigned status, or the completed Windows checks recorded above.
 
-## Still Required Before Stable Promotion
+## Still Required For Production Qualification
 
 - Resolution and acceptance of the deferred Windows renderer/protocol flow.
 - Normal Linux desktop data/secondary-launch checks and the packaged
@@ -85,13 +91,15 @@ checksums, unsigned status, or the completed Windows checks recorded above.
 - Native held-input cleanup, busy cancellation, two-task/two-native-window
   preview recovery, display/DPI changes, spontaneous stale references, and
   matched baseline measurements.
-- Signed installed Mac Local Network identity and an approved real LAN request.
+- Complete signed installed Mac Local Network acceptance. The current privacy
+  pane shows AiRC.app enabled; responsible-code identity and an approved real
+  LAN request remain unproven by that appearance/current-state check alone.
 - A real newer-updater download, integrity check, and install handoff, with an
   explicitly approved rollout order and protected rollback.
-- Private source integration and stable promotion after the outstanding gates
-  pass. Public hosted-download integrity is a separate publication check.
+- Private source integration and final production qualification after the
+  outstanding gates pass. Public hosted-download integrity is a separate check.
 
 No pending production check is marked passed by publication, hosted checksums,
-or README updates. The maintainer authorized prerelease availability, not a
+or README updates. Retaining the existing stable/Latest label does not claim a
 completed production qualification. Running tasks must not be interrupted for
 acceptance or an upgrade. Follow the [publishing contract](PUBLISHING.md).

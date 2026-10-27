@@ -126,15 +126,16 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-**Release status (October 19, 2026):**
-[airc134 is publicly available as a prerelease](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134)
+**Release status (October 27, 2026):**
+[airc134 is publicly available and marked Latest on GitHub](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134)
 with steering, configured-ratio compaction, and screenshot image-limit fixes.
-Further Windows verification is deferred at the maintainer's request, and other
-runtime acceptance remains open. `airc121` remains the recommended stable Latest
-release; publishing the prerelease does not mark those checks passed or authorize
-an automatic rollout. See [airc134 changes and acceptance status](docs/AIRC134.md).
+The maintainer has directed that its current non-prerelease/Latest status remain
+unchanged. **Production acceptance is still incomplete:** further Windows
+verification is deferred, and other runtime checks remain open. GitHub's label
+does not turn those checks into passes. Review
+[airc134 changes and acceptance status](docs/AIRC134.md) before upgrading.
 
-### airc134 Prerelease Downloads
+### Latest Downloads: airc134
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
@@ -148,13 +149,15 @@ and [manifest](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v
 Finish running tasks before a manual upgrade and retain a backup and known-good
 installer. Windows is intentionally unsigned (`codeSigned: false`).
 
-### Recommended Stable Release
+### Previous Verified Baseline: airc121
 
-The current recommended macOS Apple silicon, Windows, and Debian-family Linux release is **1.45.0+airc121**. Each published installer ships with checksums,
+**1.45.0+airc121** is the previous verified baseline, not the current GitHub
+Latest release. Its installers remain available for reference and a planned
+rollback with the matching data/configuration backup. Each installer ships with checksums,
 a machine-readable release manifest, and legal notices on the
 [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
 
-The `airc121` release is the latest verified public build. On macOS it reliably triggers the system Local Network permission flow with a bounded startup probe, then stops probing after the permission window closes. The signed and notarized installed app was accepted against a real LAN service from AiRC's own terminal. On Windows, upgrades and uninstall now remove two legacy Start Menu shortcuts left by earlier installers. It carries forward the security protections and application behavior from `airc115`.
+The recorded `airc121` acceptance includes the following behavior. On macOS it triggers the system Local Network permission flow with a bounded startup probe, then stops probing after the permission window closes. The signed and notarized installed app was accepted against a real LAN service from AiRC's own terminal. On Windows, upgrades and uninstall remove two legacy Start Menu shortcuts left by earlier installers. It carries forward the security protections and application behavior from `airc115`.
 
 It includes the configured sub-agent model choices and restored task-scoped sub-agent activity introduced on the `airc111` line. Before delegation, AiRC supplies each enabled slot's provider, model, reasoning support and levels, context and output limits, attachment and tool capabilities, access policy, route availability, and current global and provider stream capacity. An inherit slot resolves to the task's active provider, model, and reasoning effort. Repeated slots remain distinct choices while sharing the correct process-wide capacity budget. The primary model still assigns every run a task-specific name and purpose, and unavailable routes are rejected before launch. Settings show stable slot IDs, and the model picker remains above its editor instead of rendering behind it.
 
@@ -184,7 +187,7 @@ Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`,
 
 ## How Releases Are Verified
 
-Recommended stable releases must pass the repository's production release gates:
+Production qualification requires the repository's release gates:
 
 - macOS signing, notarization, stapling, and Gatekeeper acceptance
 - Debian package metadata and architecture verification when a Debian installer is included
@@ -194,12 +197,14 @@ Recommended stable releases must pass the repository's production release gates:
 - inspection for private source, credentials, logs, user data, and internal build artifacts
 
 Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
-Explicitly authorized public prereleases may retain disclosed runtime gaps;
-they are not marked stable/Latest and do not turn pending checks into passes.
+Public availability, GitHub channel labels, and production qualification are
+separate facts. The maintainer has chosen to retain airc134's current stable
+Latest label while its disclosed runtime gates remain incomplete. That decision
+does not waive the gates, qualify untested workflows, or prove an updater install.
 
 ## Steering, Context, Images, And Browser Graphics
 
-The [airc134 prerelease](docs/AIRC134.md) addresses blocked steering admission,
+The [airc134 release](docs/AIRC134.md) addresses blocked steering admission,
 compaction delayed until model capacity, and explicit provider image-count
 rejections. Steering is accepted during a running reply and delivered at agent
 input boundaries; it does not interrupt an in-progress model generation.

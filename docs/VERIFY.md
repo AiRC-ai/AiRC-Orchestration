@@ -7,8 +7,9 @@ checksums from different versions. Integrity verification proves file identity,
 not completion of runtime acceptance or release promotion; see
 [airc134 status](AIRC134.md).
 
-airc134 is a public prerelease with deferred Windows verification and other
-disclosed runtime gaps, not the recommended stable Latest release. Its exact
+airc134 is currently GitHub's stable Latest release, retained at the maintainer's
+request with deferred Windows verification and other disclosed runtime gaps.
+Production acceptance remains incomplete regardless of that label. Its exact
 files must still pass every integrity and signing-state check below.
 
 ## Check SHA-256

@@ -4,7 +4,8 @@ This repository is a release boundary. It must receive only versioned,
 integrity-verified artifacts from the private application source repository.
 Production releases require the full acceptance below. Explicitly authorized
 public prereleases must disclose incomplete runtime checks and remain separate
-from the recommended stable release.
+from the recommended stable release. A GitHub channel label is not itself
+evidence that production qualification passed; record both facts accurately.
 
 ## Release Artifacts
 
@@ -81,29 +82,33 @@ native safety, permission, migration, protocol, or updater acceptance. The
 as recommended, move Latest, or integrate unqualified source merely to make
 documentation match a desired release date.
 
-### Explicit Public Prerelease Authorization
+### Recorded airc134 Channel Decisions
 
-On October 19, 2026, the maintainer requested publication of airc134 with further
-Windows verification deferred. Publish that candidate only as a public
-**prerelease**, retaining airc121 as stable/Latest. Keep all recorded failures and
-pending checks, name the limits in the release notes and status page, and do not
-claim production acceptance or integrate unqualified source into private main.
-This authorization changes availability, not installer bytes or test results.
+The October 19, 2026 authorization published airc134 as a public **prerelease**
+with further Windows verification deferred, initially retaining airc121 as
+stable/Latest. Hosted-file checks and independent anonymous downloads passed;
+that event did not complete production acceptance.
 
-For this explicitly authorized prerelease, complete hosted-file integrity,
-manifest, macOS signing/notarization, and unsigned-Windows-state validation;
-publish with `prerelease: true` and `make_latest: false`; then independently
-download the anonymous public assets and repeat the applicable file validators.
-Do not install, restart applications, alter permissions, or disturb running
-tasks as part of publication. Full production qualification remains required
-before a later stable promotion. Never infer this exception for other releases.
+On October 27 (UTC), GitHub already reported airc134 as non-prerelease and Latest.
+The maintainer explicitly directed: **Leave GitHub status unchanged**. Retain
+that status. Reconcile the README, guides, release notes and status page without
+changing release flags, the Latest pointer, installers, manifest, checksums or
+updater metadata. Do not infer who previously changed the label or claim this
+documentation update performed a promotion.
 
-Documentation-only updates may be published separately. Keep the existing stable
-download links until promotion succeeds, identify the candidate and its limits,
-and retain the exact frozen source revision in the candidate manifest. Update
-the root README, installation and verification guides, release notes, and any
-version-specific status page together after verified promotion. Historical demo
-assets must not be represented as screenshots of the new version.
+All recorded failures, deferred checks and incomplete production gates remain
+visible. This decision is not permission to integrate unqualified source into
+private main, fabricate runtime passes, install over active work or disturb
+tasks. It is a specific channel decision for airc134, not a release-policy
+exception to infer for future versions. A real updater handoff still needs
+independent acceptance; GitHub Latest is not proof of a successful update.
+
+Documentation-only updates may be published separately. Link the actual current
+release and disclose its limits; retain older qualified baseline downloads as
+historical/rollback references, not as the current Latest. Preserve the frozen
+source revision and artifact identity. Update the root README, installation and
+verification guides, release notes and version-specific status page together.
+Historical demo assets must not be represented as screenshots of the new version.
 
 After changing the PowerShell download-verification example, run
 `pwsh -NoProfile -File scripts/test-download-verification.ps1`. It exercises the

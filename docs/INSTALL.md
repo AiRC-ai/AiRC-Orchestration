@@ -5,11 +5,13 @@
 
 Verify every downloaded file before opening or installing it.
 
-Use the recommended release linked in the [main README](../README.md). The
-[airc134 public prerelease](AIRC134.md) is also available for manual installation,
-with further Windows verification deferred and other acceptance gaps disclosed.
-It is not the stable Latest release or a recommended automatic update. Finish
-running work, back up important data, and keep the previous installer first.
+The [main README](../README.md) links all three installers for
+[airc134, currently GitHub's stable Latest release](AIRC134.md). The maintainer
+has chosen to retain that label; production acceptance remains incomplete,
+including deferred Windows verification and the disclosed runtime gaps.
+Finish running work, back up important data, and keep the previous installer
+before upgrading. Do not infer completed runtime or updater acceptance from
+the Latest label.
 
 ## macOS Apple Silicon
 
@@ -65,6 +67,11 @@ tasks are running. Finish the work first and retain a verified previous installe
 and configuration backup until the new version is accepted. Windows uses the
 full Setup installer for each revision; a folder named `app-1.45.0` alone does
 not identify the installed `+airc` revision. Check the app's displayed version.
+
+GitHub currently exposes airc134 as Latest, so update checks may offer it.
+The real newer-version download/install handoff remains an open acceptance
+gate. Do not change automatic-update preferences or restart active work merely
+to test this path. Review the [version-specific status](AIRC134.md) first.
 
 ## Uninstalling
 
