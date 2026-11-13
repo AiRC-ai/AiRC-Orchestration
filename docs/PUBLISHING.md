@@ -131,9 +131,10 @@ scripts/verify-macos-release.sh /path/to/draft-download/AiRC-<version>-macOS-arm
 
 Run the last command on macOS. Record the successful validator results, full
 source revision, artifact inventory and hashes, and native Windows Authenticode
-inspection. The Windows release is intentionally unsigned unless separately
-authorized otherwise: require `NotSigned` for Setup, desktop and embedded
-backend, and `codeSigned: false` in the manifest. An unsigned installer is not
+inspection. Windows releases require Authenticode signing unless the release
+owner explicitly authorizes an unsigned release. With that exception recorded,
+require `NotSigned` for Setup, desktop and embedded backend, and
+`codeSigned: false` in the manifest. An unsigned installer is not
 an exception to integrity, upgrade, launch or runtime acceptance.
 
 Only then publish the draft. Download the published assets into another empty

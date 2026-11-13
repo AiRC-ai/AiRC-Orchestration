@@ -2,6 +2,11 @@
 
 AiRC Orchestration is under active development. Issues are most useful when they clearly identify the exact build from the public [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page or an authorized private test build.
 
+For the iPhone and iPad companion, include both the companion version and the
+connected host version. AiRC 7.0 requires a compatible AiRC Orchestration host
+with companion access enabled; it does not run models on the phone. See the
+[companion privacy policy](COMPANION_PRIVACY.md) for connection and data flows.
+
 ## Before Opening An Issue
 
 1. Record the exact AiRC build or version, operating system version, and processor architecture.
