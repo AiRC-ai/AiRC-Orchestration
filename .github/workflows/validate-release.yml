@@ -27,7 +27,7 @@ jobs:
         run: scripts/validate-release.sh release
 
   validate-macos:
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       GH_TOKEN: ${{ github.token }}
       RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
