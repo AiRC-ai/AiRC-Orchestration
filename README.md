@@ -116,7 +116,7 @@ Use development tools, terminal workflows, browser work, and computer control wh
 - **In-app browser** — Open and inspect web pages directly inside AiRC; Browser tabs stay scoped to the selected task, and background task workspaces remain hidden until selected
 - **Workspace toolbar** — Reach Browser, task context and sub-agent activity, and project terminal controls from the active task while it is loading or running
 - **Computer Use** — Native screen and input control on macOS, with user-granted permissions; this is separate from the cross-platform in-app Browser
-- **Tunnel access** — Securely connect to AiRC from a mobile device through an encrypted tunnel
+- **Native companion** — Pair the iPhone or iPad app with your computer over a reachable local or private network; provider credentials and execution remain on the host
 
 ### Voice and dictation
 
@@ -126,64 +126,20 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-**Release status (October 27, 2026):**
-[airc134 is publicly available and marked Latest on GitHub](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134)
-with steering, configured-ratio compaction, and screenshot image-limit fixes.
-The maintainer has directed that its current non-prerelease/Latest status remain
-unchanged. **Production acceptance is still incomplete:** further Windows
-verification is deferred, and other runtime checks remain open. GitHub's label
-does not turn those checks into passes. Review
-[airc134 changes and acceptance status](docs/AIRC134.md) before upgrading.
-
-### Latest Downloads: airc134
+**1.45.0+airc145** adds the host support for the native AiRC 7 companion on iPhone and iPad, along with send recovery, compaction, Stop, and complete desktop history fixes. Read the [release notes and verification scope](docs/AIRC145.md) before upgrading.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [Signed and notarized ZIP](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/AiRC-1.45.0%2Bairc134-macOS-arm64.zip) |
-| Windows | x86_64 (`x64`) | [Unsigned Setup installer](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/AiRC-1.45.0%2Bairc134-Setup.exe) |
-| Debian-family Linux | x86_64 (`amd64`) | [Debian package](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/airc_1.45.0%2Bairc134_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [Signed and notarized ZIP](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc145/AiRC-1.45.0%2Bairc145-macOS-arm64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [Debian package](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc145/airc_1.45.0%2Bairc145_amd64.deb) |
 
-Verify downloads against the release's
-[SHA256SUMS](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/SHA256SUMS)
-and [manifest](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc134/release-manifest.json).
-Finish running tasks before a manual upgrade and retain a backup and known-good
-installer. Windows is intentionally unsigned (`codeSigned: false`).
+Verify the exact download with [SHA256SUMS](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc145/SHA256SUMS) and the [release manifest](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc145/release-manifest.json). Finish active work and retain a profile backup and known-good installer before upgrading. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md).
 
-### Previous Verified Baseline: airc121
+The native iOS 7.0.0 update is submitted separately to Apple; desktop publication does not make it available in the App Store. After it becomes available, configure a model on the host, enable companion access in Settings, and scan a fresh pairing QR code directly on the phone. Compare the certificate fingerprint before trusting the host. The computer runs the AI and tools and must remain reachable. Locked-phone push notifications are not enabled in this release. Read the [companion privacy policy](COMPANION_PRIVACY.md).
 
-**1.45.0+airc121** is the previous verified baseline, not the current GitHub
-Latest release. Its installers remain available for reference and a planned
-rollback with the matching data/configuration backup. Each installer ships with checksums,
-a machine-readable release manifest, and legal notices on the
-[Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page.
+Previous [airc134](docs/AIRC134.md) and [airc121](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc121) installers remain historical references and rollback options with their matching profile backups. Their acceptance scope does not qualify airc145, and older Windows installers do not supply the new companion host features.
 
-The recorded `airc121` acceptance includes the following behavior. On macOS it triggers the system Local Network permission flow with a bounded startup probe, then stops probing after the permission window closes. The signed and notarized installed app was accepted against a real LAN service from AiRC's own terminal. On Windows, upgrades and uninstall remove two legacy Start Menu shortcuts left by earlier installers. It carries forward the security protections and application behavior from `airc115`.
-
-It includes the configured sub-agent model choices and restored task-scoped sub-agent activity introduced on the `airc111` line. Before delegation, AiRC supplies each enabled slot's provider, model, reasoning support and levels, context and output limits, attachment and tool capabilities, access policy, route availability, and current global and provider stream capacity. An inherit slot resolves to the task's active provider, model, and reasoning effort. Repeated slots remain distinct choices while sharing the correct process-wide capacity budget. The primary model still assigns every run a task-specific name and purpose, and unavailable routes are rejected before launch. Settings show stable slot IDs, and the model picker remains above its editor instead of rendering behind it.
-
-It retains the project-aware chat workflow, queued follow-up messages while a
-task is running, cross-task session messaging, automation refresh while a scheduled run is active, and the
-updater, Computer Use, model, provider, long-session, exactly-once-send, goal,
-plan, Orchestrator, recovery, and privacy behavior from prior releases.
-
-The updater is available under **Settings > App > Updates**. You can check
-manually at any time or enable **Download updates automatically**. AiRC only
-accepts update metadata published with the official release, verifies the
-declared file size and SHA-512 digest, and offers **Install & Restart** after a
-verified download. Automatic downloads can also install safely when AiRC
-restarts. See the
-[airc121 release notes](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc121)
-for verification details.
-
-| Platform | Architecture | Download |
-| --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [`AiRC-1.45.0+airc121-macOS-arm64.zip`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc121/AiRC-1.45.0+airc121-macOS-arm64.zip) |
-| Windows | x86_64 (`x64`) | [`AiRC-1.45.0+airc121-Setup.exe`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc121/AiRC-1.45.0+airc121-Setup.exe) |
-| Debian-family Linux | x86_64 (`amd64`) | [`airc_1.45.0+airc121_amd64.deb`](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc121/airc_1.45.0+airc121_amd64.deb) |
-
-The macOS `airc121` build is signed with a Developer ID certificate, notarized by Apple, and carries a stapled notarization ticket. The first time a feature connects to a local device or service, macOS may ask for Local Network access. Choose **Allow** when you want AiRC to make that connection; you can review the setting later under **System Settings > Privacy & Security > Local Network**. Windows uses a one-click, per-user installer; this build is intentionally unsigned, so Windows SmartScreen may request confirmation on first launch. The release manifest records that unsigned state explicitly.
-
-Every release includes `SHA256SUMS`, a machine-readable `release-manifest.json`, the AiRC license, the retained Apache license, and third-party notices. macOS releases also include `latest-mac.yml`, which binds the in-app updater to the exact signed and notarized ZIP. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md) before first use.
+The macOS updater is under **Settings > App > Updates**. It verifies the download's declared size and SHA-512 digest against official release metadata before offering **Install & Restart**. Finish active work before restarting. The included `latest-mac.yml` identifies the same signed and notarized ZIP linked above.
 
 ## How Releases Are Verified
 
@@ -197,10 +153,7 @@ Production qualification requires the repository's release gates:
 - inspection for private source, credentials, logs, user data, and internal build artifacts
 
 Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
-Public availability, GitHub channel labels, and production qualification are
-separate facts. The maintainer has chosen to retain airc134's current stable
-Latest label while its disclosed runtime gates remain incomplete. That decision
-does not waive the gates, qualify untested workflows, or prove an updater install.
+Public availability, hosted-file validation, and installed runtime acceptance are separate checks. The [airc145 notes](docs/AIRC145.md) identify the exact source, artifact hashes, completed platform checks, and limits of that evidence.
 
 ## Steering, Context, Images, And Browser Graphics
 
@@ -222,7 +175,7 @@ the app to troubleshoot a browser or provider issue while other tasks are runnin
 
 ## Using AiRC Responsibly
 
-The current macOS build carries a valid Developer ID signature and an Apple notarization ticket. The Debian and Windows packages are architecture- and integrity-verified with matching checksums; the Windows installer is intentionally unsigned and the release manifest records that state explicitly. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
+The airc145 macOS build carries a Developer ID signature and an Apple notarization ticket. Its Debian package is architecture- and integrity-verified with matching checksums. Check the manifest for the platforms actually included in each release; historical Windows installers are unsigned. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
 
 - Review model, tool, extension, automation, and operating-system permissions before use.
 - Keep approval controls at the narrowest practical level for consequential actions.

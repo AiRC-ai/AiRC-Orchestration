@@ -2,15 +2,7 @@
 
 Verify installers before opening or installing them.
 
-Use an empty download directory for each release. Do not mix installers or
-checksums from different versions. Integrity verification proves file identity,
-not completion of runtime acceptance or release promotion; see
-[airc134 status](AIRC134.md).
-
-airc134 is currently GitHub's stable Latest release, retained at the maintainer's
-request with deferred Windows verification and other disclosed runtime gaps.
-Production acceptance remains incomplete regardless of that label. Its exact
-files must still pass every integrity and signing-state check below.
+Use an empty download directory for each release. Do not mix installers or checksums from different versions. Integrity verification proves file identity; it does not replace installed runtime acceptance. See the [airc145 verification scope](AIRC145.md), and check which platforms its release manifest includes.
 
 ## Check SHA-256
 
@@ -79,7 +71,7 @@ Get-AuthenticodeSignature -LiteralPath .\AiRC-<version>-Setup.exe |
   Select-Object Status, StatusMessage
 ```
 
-Compare the result with the `codeSigned` value for the Windows installer in `release-manifest.json`. The current installer is unsigned, so Windows may report `NotSigned`; that is expected only when the manifest also records `false` and the SHA-256 checksum matches.
+Compare the result with the `codeSigned` value for the Windows installer in `release-manifest.json`. An unsigned installer reports `NotSigned`; that is expected only when the manifest records `false`, the release explicitly identifies it as unsigned, and the SHA-256 checksum matches.
 
 ## Verify The Release Manifest
 

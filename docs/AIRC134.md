@@ -1,17 +1,8 @@
 # airc134 Changes And Acceptance Status
 
-Updated October 27, 2026. Version `1.45.0+airc134` is
-[public and currently marked stable Latest on GitHub](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134).
-It was originally published as a prerelease on October 19 (Pacific time) with
-further Windows verification deferred. The maintainer has now directed that
-its existing non-prerelease/Latest status remain unchanged. All three installers
-and eight companion files are publicly downloadable and unchanged.
+Historical acceptance record, last evaluated October 27, 2026. Version `1.45.0+airc134` remains [publicly downloadable](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc134). It was originally a prerelease on October 19 (Pacific time), then retained as stable Latest at the maintainer's direction while its disclosed runtime checks remained incomplete. The newer [airc145 release](AIRC145.md) supersedes that channel status; the failures and open gates below remain part of airc134's historical record.
 
-**Production acceptance remains incomplete.** The channel label does not
-qualify pending workflows or prove the actual updater handoff. GitHub's Latest
-release may be offered by update checks; no new rollout or installer change is
-performed by this documentation update. `airc121` remains the previous verified
-baseline and retained rollback reference, not GitHub's current Latest release.
+`airc121` remains a prior verified baseline and rollback reference with its matching data/configuration backup. No historical channel label qualifies pending runtime workflows or proves the actual updater handoff.
 
 Authenticated hosted-file downloads match the accepted files.
 The [release-triggered validation workflow](https://github.com/AiRC-ai/AiRC-Orchestration/actions/runs/39361540791)

@@ -5,13 +5,7 @@
 
 Verify every downloaded file before opening or installing it.
 
-The [main README](../README.md) links all three installers for
-[airc134, currently GitHub's stable Latest release](AIRC134.md). The maintainer
-has chosen to retain that label; production acceptance remains incomplete,
-including deferred Windows verification and the disclosed runtime gaps.
-Finish running work, back up important data, and keep the previous installer
-before upgrading. Do not infer completed runtime or updater acceptance from
-the Latest label.
+The [main README](../README.md) links the airc145 installers. Read the [version-specific release notes](AIRC145.md), finish running work, back up important data, and retain the previous installer before upgrading. Platform and signing support are recorded in the release manifest.
 
 ## macOS Apple Silicon
 
@@ -29,14 +23,14 @@ If a local connection works in Terminal but not in AiRC, confirm that AiRC is al
 
 ## Windows
 
-The Windows package targets 64-bit Windows 10 and Windows 11.
+Windows instructions apply only to releases that include a Windows installer. Check the current release manifest first. The package targets 64-bit Windows 10 and Windows 11.
 
 1. Download `AiRC-<version>-Setup.exe` and `SHA256SUMS` from the same GitHub release.
 2. Follow [Verify a download](VERIFY.md).
 3. Open `AiRC-<version>-Setup.exe`.
 4. The one-click Squirrel installer installs AiRC for the current user and launches it. Administrator access is not normally required.
 
-The current Windows installer is not Authenticode-signed, so Microsoft Defender SmartScreen may show an unrecognized-app warning. Continue only after verifying the exact installer against the release checksum and confirming it came from this repository. The release manifest records the signing state for every Windows installer.
+Historical unsigned Windows installers are not Authenticode-signed, so Microsoft Defender SmartScreen may show an unrecognized-app warning. Continue only after verifying the exact installer against the release checksum and confirming it came from this repository. The release manifest records the signing state for every Windows installer.
 
 ## Debian-Family Linux
 
@@ -68,10 +62,17 @@ and configuration backup until the new version is accepted. Windows uses the
 full Setup installer for each revision; a folder named `app-1.45.0` alone does
 not identify the installed `+airc` revision. Check the app's displayed version.
 
-GitHub currently exposes airc134 as Latest, so update checks may offer it.
-The real newer-version download/install handoff remains an open acceptance
-gate. Do not change automatic-update preferences or restart active work merely
-to test this path. Review the [version-specific status](AIRC134.md) first.
+The airc145 macOS updater metadata points to the same signed and notarized ZIP as the manual download. Do not change update preferences or restart active work merely to test the update path.
+
+## Pairing the iPhone or iPad Companion
+
+1. Install the native AiRC 7 companion when the update becomes available in the App Store. The computer app alone does not update the phone app.
+2. Open AiRC Orchestration on your computer and configure a provider and model.
+3. Enable companion access in Settings and display a fresh pairing QR code.
+4. Add the host in the companion, scan directly on the phone, and compare the certificate fingerprint before tapping Trust.
+5. Keep the host awake and reachable over your local or private network. Chats, files, tools, and provider credentials stay on the host; the companion is its remote interface.
+
+Pairing is required once per device. The companion reconnects to the saved primary host on launch. Available controls depend on the host, provider and permissions. APNs notifications while the phone is locked are not enabled. See [Companion privacy](../COMPANION_PRIVACY.md).
 
 ## Uninstalling
 
