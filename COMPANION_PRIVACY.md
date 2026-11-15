@@ -1,11 +1,44 @@
-# AiRC Companion Privacy Policy
+# AiRC Privacy Policy
 
-Updated November 12, 2026. This policy covers AiRC 7.0 and later for iPhone and
-iPad, the remote companion for AiRC Orchestration. The [earlier application
+Updated November 14, 2026. This policy covers AiRC 7 for iPhone and iPad.
+Version 7.1 adds standalone Chat alongside the Remote companion for AiRC
+Orchestration. The [earlier application
 policy](https://gist.github.com/RCFilm/50f625771a775b711c715baadbe4539c)
 applies to the older standalone 2.1 application, including its Mac version.
 
-## Your Host And Your Providers
+## Standalone Chat
+
+Chat works without an AiRC desktop or developer-managed account. You choose
+Apple Intelligence, a connected provider account, a configured model service,
+or an available model on your paired computer.
+
+On-device Apple Intelligence processes requests on your device. When supported,
+Apple cloud processing uses Private Cloud Compute after you allow cloud use.
+You can turn that choice off in Chat settings. Availability depends on the
+device, system, language, region, and Apple Intelligence settings. Apple's
+[Apple Intelligence privacy information](https://www.apple.com/legal/privacy/data/en/intelligence-engine/)
+explains its on-device and cloud processing practices.
+
+For a cloud or configured model service, the app sends the conversation needed
+for your reply and the supported attachments you choose directly to that
+service. The destination also receives ordinary connection information, such
+as your IP address. The service's account, retention, and privacy terms apply.
+Chat does not route these requests through an AiRC-operated collection server.
+
+Continue with ChatGPT opens OpenAI's sign-in service and uses your personal
+account's granted access. OpenAI handles the sign-in credentials; AiRC keeps
+the resulting connection tokens in Keychain. OpenAI API credentials are a
+separate optional connection. Review [OpenAI's privacy policy](https://openai.com/policies/privacy-policy/)
+and your account's data controls. Other configured services, including DeepSeek
+and Ollama endpoints, have their own policies and settings. A custom endpoint
+is controlled by its operator; verify the destination before connecting.
+
+Selecting a paired computer's model in Chat sends the request to that computer,
+which invokes its configured provider. Provider credentials remain on the
+computer. This connection does not enable desktop tools or create a Remote
+conversation. Chat history remains local to the phone or tablet.
+
+## Remote: Your Host And Your Providers
 
 The companion connects to the AiRC Orchestration host you choose. It sends your
 messages, selected attachments, and requested actions to that host and receives
@@ -21,16 +54,17 @@ the host; the companion does not need a developer-managed AiRC account or a
 shared developer API key. Check the host's permissions and settings before
 allowing access to private projects or services.
 
-## What The Companion Keeps On Your Device
+## What AiRC Keeps On Your Device
 
-The companion stores saved host connections, pairing credentials, preferences,
-and drafts so you can reconnect and continue working. Sensitive local records
+AiRC stores local Chat conversations and drafts, provider-connection settings,
+saved host connections, pairing credentials, and preferences so you can continue
+working. Chat history is encrypted at rest; sensitive local records
 and temporary content use encryption and Apple Keychain-backed protection.
 Downloaded or previewed content may be held temporarily on the device. Files
 you explicitly save or share remain at the destination you select and are
 subject to that destination's storage and backup settings.
 
-The companion has no advertising, tracking, or developer analytics SDK and
+AiRC has no advertising, tracking, or developer analytics SDK and
 does not send conversation content to an AiRC-operated collection server.
 This release has no configured push relay and does not register for remote
 push notifications. Local notifications and Live Activities can show task
@@ -44,6 +78,12 @@ photo. Photo and document pickers let you choose the items to send. Saving to
 Photos requires the corresponding permission. Download, Save to Files, and
 Share run only when you choose them.
 
+Dictation uses Apple's speech services after the corresponding permission.
+Processing depends on system support and your Apple settings. Read aloud uses
+system speech synthesis. AiRC does not run a developer-operated audio collection
+service. Selected photos, extracted document content, and dictated text may be
+sent with a request to the model service you choose.
+
 The optional live view displays images from the selected task's Computer Use,
 in-app browser, or Playwright activity on your host. These images can contain
 information visible in the host application or website. The companion receives
@@ -56,6 +96,12 @@ and the destination's policy before using it. External support or download
 links open the service you select, whose privacy policy also applies.
 
 ## Your Choices
+
+You can delete local Chat conversations, remove provider connections, change
+your default model and mode, and turn Apple cloud use off in Chat settings.
+Removing a local conversation or signing out does not delete copies retained
+by a provider under its own policy; use that provider's account controls for
+those copies. Removing the app does not revoke a remote provider's account.
 
 You can manage or remove saved hosts in Remotes & Connections, revoke a paired
 device or disable companion access on the host, change system permissions,
