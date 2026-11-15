@@ -35,7 +35,7 @@
     "artifacts": {
       "type": "array",
       "minItems": 1,
-      "maxItems": 3,
+      "maxItems": 4,
       "items": {
         "oneOf": [
           {
@@ -73,11 +73,14 @@
           "const": "macos"
         },
         "architecture": {
-          "const": "arm64"
+          "enum": [
+            "arm64",
+            "x64"
+          ]
         },
         "fileName": {
           "type": "string",
-          "pattern": "^AiRC-.+-macOS-arm64\\.zip$"
+          "pattern": "^AiRC-.+-macOS-(arm64|x64)\\.zip$"
         },
         "size": {
           "type": "integer",

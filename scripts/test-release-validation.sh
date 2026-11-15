@@ -16,6 +16,7 @@ trap 'rm -rf "$temporary_directory"' EXIT
 version=1.45.0+airc999
 source_commit=0123456789abcdef0123456789abcdef01234567
 macos_fixture="$temporary_directory/AiRC.zip"
+macos_intel_fixture="$temporary_directory/AiRC_intel_mac.zip"
 debian_fixture="$temporary_directory/airc.deb"
 windows_fixture="$temporary_directory/AiRC-Setup.exe"
 application_root="$temporary_directory/macos/AiRC.app/Contents"
@@ -36,6 +37,11 @@ chmod 0755 "$application_root/MacOS/airc"
 (
   cd "$temporary_directory/macos"
   zip -qr "$macos_fixture" AiRC.app
+)
+printf '#!/usr/bin/env bash\n# Distinct Intel metadata fixture\nexit 0\n' > "$application_root/MacOS/airc"
+(
+  cd "$temporary_directory/macos"
+  zip -qr "$macos_intel_fixture" AiRC.app
 )
 
 python3 - "$windows_fixture" <<'PY'
@@ -120,6 +126,78 @@ fi
 
 if [[ ! -f "$macos_staging_directory/latest-mac.yml" ]]; then
   echo "macOS-only release is missing updater metadata" >&2
+  exit 1
+fi
+
+# These unsigned ZIPs exercise metadata only. On macOS the native trust gate
+# must still reject them, after the independent structural validator succeeds.
+for mode in intel dual; do
+  architecture_staging="$temporary_directory/$mode-staging"
+  arm_input=-
+  deb_input=-
+  win_input=-
+  if [[ $mode == dual ]]; then
+    arm_input="$macos_fixture"
+    deb_input="$debian_fixture"
+    win_input="$windows_fixture"
+  fi
+  if [[ $(uname -s) == Darwin ]]; then
+    if "$repository_root/scripts/stage-release.sh" "$version" "$source_commit" \
+      "$arm_input" "$deb_input" "$win_input" "$architecture_staging" "$macos_intel_fixture" >/dev/null 2>&1; then
+      echo "unsigned $mode macOS fixture unexpectedly passed native verification" >&2
+      exit 1
+    fi
+    "$repository_root/scripts/validate-release.sh" "$architecture_staging" >/dev/null
+  else
+    "$repository_root/scripts/stage-release.sh" "$version" "$source_commit" \
+      "$arm_input" "$deb_input" "$win_input" "$architecture_staging" "$macos_intel_fixture" >/dev/null
+  fi
+  python3 - "$architecture_staging" "$mode" <<'PYMAC'
+import json
+from pathlib import Path
+import sys
+root = Path(sys.argv[1])
+all_artifacts = json.loads((root / 'release-manifest.json').read_text())['artifacts']
+assert len(all_artifacts) == (1 if sys.argv[2] == 'intel' else 4)
+artifacts = [item for item in all_artifacts if item['kind'] == 'macos-zip']
+expected = ['x64'] if sys.argv[2] == 'intel' else ['arm64', 'x64']
+assert [item['architecture'] for item in artifacts] == expected
+feed = (root / 'latest-mac.yml').read_text()
+assert [line.split('url: ', 1)[1].strip('"') for line in feed.splitlines() if '  - url: ' in line] == [item['fileName'] for item in artifacts]
+for item in artifacts:
+    assert item['fileName'].endswith('-macOS-' + item['architecture'] + '.zip')
+    assert item['codeSigned'] is True and item['notarized'] is True
+PYMAC
+done
+
+intel_staging="$temporary_directory/intel-staging"
+cp "$intel_staging/release-manifest.json" "$temporary_directory/intel-manifest.json"
+python3 - "$intel_staging/release-manifest.json" <<'PYMAC'
+import json
+from pathlib import Path
+import sys
+p = Path(sys.argv[1]); d = json.loads(p.read_text())
+d['artifacts'][0]['architecture'] = 'arm64'
+p.write_text(json.dumps(d))
+PYMAC
+if "$repository_root/scripts/validate-release.sh" "$intel_staging" >/dev/null 2>&1; then
+  echo "release validator accepted an Intel filename with wrong architecture metadata" >&2
+  exit 1
+fi
+mv "$temporary_directory/intel-manifest.json" "$intel_staging/release-manifest.json"
+
+python3 - "$temporary_directory/dual-staging/latest-mac.yml" <<'PYMAC'
+from pathlib import Path
+import sys
+p = Path(sys.argv[1]); lines = p.read_text().splitlines(keepends=True)
+indexes = [i for i, line in enumerate(lines) if line.startswith('    sha512:')]
+assert len(indexes) == 2
+assert lines[indexes[0]] != lines[indexes[1]], "Architecture fixtures must have distinct hashes"
+lines[indexes[1]] = lines[indexes[0]]
+p.write_text(''.join(lines))
+PYMAC
+if "$repository_root/scripts/validate-release.sh" "$temporary_directory/dual-staging" >/dev/null 2>&1; then
+  echo "release validator accepted a wrong Intel updater hash" >&2
   exit 1
 fi
 

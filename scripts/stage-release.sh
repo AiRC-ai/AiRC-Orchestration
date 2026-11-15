@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 6 ]]; then
-  echo "usage: $0 <version> <source-commit> <macos-zip-or-> <debian-deb-or-> <windows-setup-exe-or-> <output-directory>" >&2
+if [[ $# -lt 6 || $# -gt 7 ]]; then
+  echo "usage: $0 <version> <source-commit> <macos-zip-or-> <debian-deb-or-> <windows-setup-exe-or-> <output-directory> [<macos-intel-zip-or->]" >&2
   exit 2
 fi
 
@@ -12,6 +12,7 @@ macos_input=$3
 debian_input=$4
 windows_input=$5
 output_directory=$6
+macos_intel_input=${7:--}
 
 if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+([+-][0-9A-Za-z.-]+)?$ ]]; then
   echo "invalid version: $version" >&2
@@ -23,12 +24,12 @@ if [[ ! $source_commit =~ ^[0-9a-f]{40}$ ]]; then
   exit 1
 fi
 
-if [[ $macos_input == - && $debian_input == - && $windows_input == - ]]; then
+if [[ $macos_input == - && $debian_input == - && $windows_input == - && $macos_intel_input == - ]]; then
   echo "at least one release input is required" >&2
   exit 1
 fi
 
-for input in "$macos_input" "$debian_input" "$windows_input"; do
+for input in "$macos_input" "$debian_input" "$windows_input" "$macos_intel_input"; do
   [[ $input == - ]] && continue
   if [[ ! -f $input ]]; then
     echo "missing release input: $input" >&2
@@ -46,12 +47,17 @@ mkdir -p "$output_directory"
 output_directory=$(cd "$output_directory" && pwd)
 
 macos_name=''
+macos_intel_name=''
 debian_name=''
 windows_name=''
 
 if [[ $macos_input != - ]]; then
   macos_name="AiRC-${version}-macOS-arm64.zip"
   cp "$macos_input" "$output_directory/$macos_name"
+fi
+if [[ $macos_intel_input != - ]]; then
+  macos_intel_name="AiRC-${version}-macOS-x64.zip"
+  cp "$macos_intel_input" "$output_directory/$macos_intel_name"
 fi
 if [[ $debian_input != - ]]; then
   debian_name="airc_${version}_amd64.deb"
@@ -67,7 +73,7 @@ cp "$repository_root/licenses/Apache-2.0.txt" "$output_directory/APACHE-2.0.txt"
 cp "$repository_root/NOTICE" "$output_directory/NOTICE"
 cp "$repository_root/THIRD_PARTY_NOTICES.md" "$output_directory/THIRD_PARTY_NOTICES.md"
 
-python3 - "$version" "$source_commit" "$output_directory" "$macos_name" "$debian_name" "$windows_name" <<'PY'
+python3 - "$version" "$source_commit" "$output_directory" "$macos_name" "$debian_name" "$windows_name" "$macos_intel_name" <<'PY'
 import datetime
 import base64
 import hashlib
@@ -77,7 +83,7 @@ import pathlib
 import re
 import sys
 
-version, source_commit, output_directory, macos_name, debian_name, windows_name = sys.argv[1:]
+version, source_commit, output_directory, macos_name, debian_name, windows_name, macos_intel_name = sys.argv[1:]
 root = pathlib.Path(output_directory)
 
 
@@ -97,13 +103,15 @@ def artifact(file_name, **metadata):
 
 artifacts = []
 published_at = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
-if macos_name:
+for mac_name, architecture in [(macos_name, "arm64"), (macos_intel_name, "x64")]:
+    if not mac_name:
+        continue
     artifacts.append(
         artifact(
-            macos_name,
+            mac_name,
             kind="macos-zip",
             platform="macos",
-            architecture="arm64",
+            architecture=architecture,
             codeSigned=True,
             notarized=True,
         )
@@ -144,7 +152,8 @@ manifest = {
     "".join(f'{item["sha256"]}  {item["fileName"]}\n' for item in manifest["artifacts"])
 )
 
-if macos_name:
+mac_artifacts = [item for item in artifacts if item["kind"] == "macos-zip"]
+if mac_artifacts:
     version_match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)\+airc(\d+)", version, re.IGNORECASE)
     if not version_match:
         raise SystemExit("macOS releases require an AiRC version such as 1.45.0+airc85")
@@ -152,37 +161,45 @@ if macos_name:
     if airc_revision >= 100_000:
         raise SystemExit("AiRC release revision is too large for the macOS updater")
     native_version = f"{major}.{minor}.{patch * 100_000 + airc_revision}"
-    archive_path = root / macos_name
-    digest = hashlib.sha512()
-    with archive_path.open("rb") as artifact_file:
-        for chunk in iter(lambda: artifact_file.read(1024 * 1024), b""):
-            digest.update(chunk)
-    sha512 = base64.b64encode(digest.digest()).decode("ascii")
-
     def yaml_string(value):
         return json.dumps(str(value))
 
-    update_manifest = "\n".join(
-        [
-            f"version: {yaml_string(native_version)}",
-            "files:",
-            f"  - url: {yaml_string(macos_name)}",
+    lines = [f"version: {yaml_string(native_version)}", "files:"]
+    updates = []
+    for item in mac_artifacts:
+        archive_path = root / item["fileName"]
+        digest = hashlib.sha512()
+        with archive_path.open("rb") as artifact_file:
+            for chunk in iter(lambda: artifact_file.read(1024 * 1024), b""):
+                digest.update(chunk)
+        sha512 = base64.b64encode(digest.digest()).decode("ascii")
+        updates.append((item["fileName"], sha512))
+        lines.extend([
+            f"  - url: {yaml_string(item['fileName'])}",
             f"    sha512: {yaml_string(sha512)}",
             f"    size: {archive_path.stat().st_size}",
-            f"path: {yaml_string(macos_name)}",
-            f"sha512: {yaml_string(sha512)}",
-            f"releaseName: {yaml_string(version)}",
-            f"releaseDate: {yaml_string(published_at)}",
-            "",
-        ]
-    )
+        ])
+    fallback_name, fallback_hash = updates[0]
+    lines.extend([
+        f"path: {yaml_string(fallback_name)}",
+        f"sha512: {yaml_string(fallback_hash)}",
+        f"releaseName: {yaml_string(version)}",
+        f"releaseDate: {yaml_string(published_at)}",
+        "",
+    ])
+    update_manifest = "\n".join(lines)
     (root / "latest-mac.yml").write_text(update_manifest)
 PY
 
 "$repository_root/scripts/validate-release.sh" "$output_directory"
 
-if [[ $(uname -s) == Darwin && -n $macos_name ]]; then
-  "$repository_root/scripts/verify-macos-release.sh" "$output_directory/$macos_name"
+if [[ $(uname -s) == Darwin ]]; then
+  if [[ -n $macos_name ]]; then
+    "$repository_root/scripts/verify-macos-release.sh" "$output_directory/$macos_name" arm64
+  fi
+  if [[ -n $macos_intel_name ]]; then
+    "$repository_root/scripts/verify-macos-release.sh" "$output_directory/$macos_intel_name" x64
+  fi
 fi
 
 echo "staged AiRC $version in $output_directory"

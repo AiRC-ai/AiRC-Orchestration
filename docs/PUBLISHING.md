@@ -9,7 +9,8 @@ evidence that production qualification passed; record both facts accurately.
 
 ## Release Artifacts
 
-- `AiRC-<version>-macOS-arm64.zip` when publishing macOS
+- `AiRC-<version>-macOS-arm64.zip` when publishing for Apple silicon
+- `AiRC-<version>-macOS-x64.zip` when publishing for Intel Macs
 - `latest-mac.yml` when publishing macOS; generated from the exact notarized ZIP
 - `airc_<version>_amd64.deb` when publishing Debian
 - `AiRC-<version>-Setup.exe` when publishing Windows
@@ -59,12 +60,20 @@ runner reports a valid Authenticode signature for the exact installer.
 
 Use `-` for a platform that is not included. For example, a macOS-only release
 passes `/path/to/AiRC.zip - -` for the three installer arguments. At least one
-installer is always required.
+installer is always required. An optional seventh argument supplies the signed,
+notarized Intel Mac ZIP. Use `-` for the third argument when publishing Intel
+only. When both Mac architectures are included, the manifest records each
+separately and `latest-mac.yml` includes both exact hashes and sizes so the
+updater can select the matching architecture. Qualify both native applications;
+copying or renaming the Apple silicon ZIP does not create Intel support.
+Rosetta runtime checks must be identified separately from native Intel hardware
+acceptance.
 
 On macOS, also run:
 
 ```bash
-scripts/verify-macos-release.sh /path/to/staging-directory/AiRC-<version>-macOS-arm64.zip
+scripts/verify-macos-release.sh /path/to/staging-directory/AiRC-<version>-macOS-arm64.zip arm64
+scripts/verify-macos-release.sh /path/to/staging-directory/AiRC-<version>-macOS-x64.zip x64
 ```
 
 ## Publish Safely

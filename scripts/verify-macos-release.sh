@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo "usage: $0 <AiRC-macOS-arm64.zip>" >&2
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+  echo "usage: $0 <AiRC-macOS.zip> [arm64|x64]" >&2
   exit 2
 fi
 
 archive=$1
+expected_architecture=${2:-arm64}
+case "$expected_architecture" in
+  arm64) native_architecture=arm64 ;;
+  x64) native_architecture=x86_64 ;;
+  *) echo "unsupported macOS architecture: $expected_architecture" >&2; exit 2 ;;
+esac
 if [[ ! -f $archive ]]; then
   echo "missing macOS archive: $archive" >&2
   exit 1
@@ -34,10 +40,6 @@ if [[ ! -f $info_plist ]]; then
   exit 1
 fi
 
-if [[ $(/usr/bin/uname -m) != arm64 ]]; then
-  echo "macOS release verification requires an Apple silicon runner" >&2
-  exit 1
-fi
 
 bundle_name=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleName' "$info_plist")
 display_name=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$info_plist")
@@ -80,10 +82,35 @@ codesign --verify --deep --strict --verbose=2 "$application"
 spctl --assess --type execute --verbose=2 "$application"
 xcrun stapler validate "$application"
 
-executable_architectures=$(lipo -archs "$executable")
-if [[ $executable_architectures != *arm64* ]]; then
-  echo "AiRC executable does not contain arm64" >&2
-  exit 1
-fi
+python3 - "$application" "$native_architecture" <<'PYARCH'
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+root = Path(sys.argv[1])
+expected = sys.argv[2]
+checked = 0
+for directory, _, names in os.walk(root, followlinks=False):
+    for name in names:
+        path = Path(directory) / name
+        if path.is_symlink():
+            continue
+        with path.open('rb') as stream:
+            header = stream.read(8)
+        if header[:4] in [bytes.fromhex(x) for x in ['feedface', 'cefaedfe', 'feedfacf', 'cffaedfe']]:
+            native = True
+        else:
+            native = header[:4] in [bytes.fromhex('cafebabe'), bytes.fromhex('cafebabf')] and 1 <= int.from_bytes(header[4:8], 'big') <= 8
+        if not native:
+            continue
+        arches = subprocess.check_output(['/usr/bin/lipo', '-archs', str(path)], text=True).split()
+        if expected not in arches:
+            raise SystemExit(f"macOS component architecture mismatch: {path.relative_to(root)}; expected {expected}, found {arches}")
+        checked += 1
+if checked < 4:
+    raise SystemExit('macOS archive is missing expected native runtime components')
+print(f'Verified {checked} native components contain {expected}')
+PYARCH
 
 echo "macOS signing, notarization, and architecture verification passed"

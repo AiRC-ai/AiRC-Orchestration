@@ -46,15 +46,22 @@ mapfile_compat() {
 }
 
 macos_files=$(mapfile_compat 'AiRC-*-macOS-arm64.zip')
+macos_intel_files=$(mapfile_compat 'AiRC-*-macOS-x64.zip')
 debian_files=$(mapfile_compat 'airc_*_amd64.deb')
 windows_files=$(mapfile_compat 'AiRC-*-Setup.exe')
 
 macos_count=$(printf '%s\n' "$macos_files" | sed '/^$/d' | wc -l | tr -d ' ')
+macos_intel_count=$(printf '%s\n' "$macos_intel_files" | sed '/^$/d' | wc -l | tr -d ' ')
 debian_count=$(printf '%s\n' "$debian_files" | sed '/^$/d' | wc -l | tr -d ' ')
 windows_count=$(printf '%s\n' "$windows_files" | sed '/^$/d' | wc -l | tr -d ' ')
 
 if [[ $macos_count -gt 1 ]]; then
   echo "release may contain at most one macOS arm64 ZIP" >&2
+  exit 1
+fi
+
+if [[ $macos_intel_count -gt 1 ]]; then
+  echo "release may contain at most one macOS x64 ZIP" >&2
   exit 1
 fi
 
@@ -68,19 +75,21 @@ if [[ $windows_count -gt 1 ]]; then
   exit 1
 fi
 
-if [[ $((macos_count + debian_count + windows_count)) -eq 0 ]]; then
+if [[ $((macos_count + macos_intel_count + debian_count + windows_count)) -eq 0 ]]; then
   echo "release must contain at least one installer" >&2
   exit 1
 fi
 
 macos_file=$(printf '%s\n' "$macos_files" | sed '/^$/d')
+macos_intel_file=$(printf '%s\n' "$macos_intel_files" | sed '/^$/d')
 debian_file=$(printf '%s\n' "$debian_files" | sed '/^$/d')
 windows_file=$(printf '%s\n' "$windows_files" | sed '/^$/d')
 
 allowed_files=$(
   {
     [[ -n $macos_file ]] && basename "$macos_file"
-    [[ -n $macos_file ]] && printf '%s\n' latest-mac.yml
+    [[ -n $macos_intel_file ]] && basename "$macos_intel_file"
+    [[ -n $macos_file || -n $macos_intel_file ]] && printf '%s\n' latest-mac.yml
     [[ -n $debian_file ]] && basename "$debian_file"
     [[ -n $windows_file ]] && basename "$windows_file"
     printf '%s\n' LICENSE LICENSES.md APACHE-2.0.txt NOTICE SHA256SUMS \
@@ -134,22 +143,28 @@ if published_at.tzinfo is None:
     raise SystemExit("manifest publication timestamp must include a timezone")
 
 artifacts = manifest["artifacts"]
-if not 1 <= len(artifacts) <= 3:
-    raise SystemExit("manifest must contain one to three artifacts")
+if not 1 <= len(artifacts) <= 4:
+    raise SystemExit("manifest must contain one to four artifacts")
 
-by_kind = {item.get("kind"): item for item in artifacts}
-if len(by_kind) != len(artifacts) or not set(by_kind) <= {
+identities = {(item.get("kind"), item.get("architecture")) for item in artifacts}
+if len(identities) != len(artifacts) or any(item.get("kind") not in {
     "macos-zip", "debian-deb", "windows-installer"
-}:
-    raise SystemExit("manifest contains duplicate or unsupported artifact kinds")
+} for item in artifacts):
+    raise SystemExit("manifest contains duplicate or unsupported artifact identities")
 
-mac = by_kind.get("macos-zip")
-deb = by_kind.get("debian-deb")
-windows = by_kind.get("windows-installer")
-if mac and (
-    mac.get("platform"), mac.get("architecture"), mac.get("codeSigned"), mac.get("notarized")
-) != ("macos", "arm64", True, True):
-    raise SystemExit("macOS signing or architecture metadata is invalid")
+for kind in ("debian-deb", "windows-installer"):
+    if sum(item["kind"] == kind for item in artifacts) > 1:
+        raise SystemExit("manifest contains duplicate non-macOS artifact kinds")
+if len({item.get("fileName") for item in artifacts}) != len(artifacts):
+    raise SystemExit("manifest contains duplicate artifact filenames")
+
+macs = sorted([item for item in artifacts if item["kind"] == "macos-zip"],
+              key=lambda item: item.get("architecture", ""))
+deb = next((item for item in artifacts if item["kind"] == "debian-deb"), None)
+windows = next((item for item in artifacts if item["kind"] == "windows-installer"), None)
+for mac in macs:
+    if (mac.get("platform"), mac.get("codeSigned"), mac.get("notarized")) != ("macos", True, True) or mac.get("architecture") not in {"arm64", "x64"}:
+        raise SystemExit("macOS signing or architecture metadata is invalid")
 if deb and (deb.get("platform"), deb.get("architecture"), deb.get("packageName")) != (
     "debian", "amd64", "airc"
 ):
@@ -160,8 +175,8 @@ if windows and not isinstance(windows.get("codeSigned"), bool):
     raise SystemExit("Windows installer signing metadata is invalid")
 
 expected_names = set()
-if mac:
-    expected_names.add(f'AiRC-{manifest["version"]}-macOS-arm64.zip')
+for mac in macs:
+    expected_names.add(f'AiRC-{manifest["version"]}-macOS-{mac["architecture"]}.zip')
 if deb:
     expected_names.add(f'airc_{manifest["version"]}_amd64.deb')
 if windows:
@@ -207,7 +222,7 @@ checksum_lines = {
 if checksum_lines != {item["fileName"]: item["sha256"] for item in artifacts}:
     raise SystemExit("SHA256SUMS does not exactly match manifest artifacts")
 
-if mac:
+for mac in macs:
     mac_archive = root / mac["fileName"]
     with zipfile.ZipFile(mac_archive) as archive:
         names = archive.namelist()
@@ -229,34 +244,40 @@ if mac:
     if airc_revision >= 100_000:
         raise SystemExit("AiRC release revision is too large for the macOS updater")
     native_version = f"{major}.{minor}.{patch * 100_000 + airc_revision}"
-    sha512_digest = hashlib.sha512()
-    with mac_archive.open("rb") as artifact_file:
-        for chunk in iter(lambda: artifact_file.read(1024 * 1024), b""):
-            sha512_digest.update(chunk)
-    sha512 = base64.b64encode(sha512_digest.digest()).decode("ascii")
-
+if macs:
     def yaml_string(value):
         return json.dumps(str(value))
 
-    expected_update_manifest = "\n".join(
-        [
-            f"version: {yaml_string(native_version)}",
-            "files:",
+    lines = [f"version: {yaml_string(native_version)}", "files:"]
+    updates = []
+    for mac in macs:
+        mac_archive = root / mac["fileName"]
+        digest = hashlib.sha512()
+        with mac_archive.open("rb") as artifact_file:
+            for chunk in iter(lambda: artifact_file.read(1024 * 1024), b""):
+                digest.update(chunk)
+        sha512 = base64.b64encode(digest.digest()).decode("ascii")
+        updates.append((mac["fileName"], sha512))
+        lines.extend([
             f"  - url: {yaml_string(mac['fileName'])}",
             f"    sha512: {yaml_string(sha512)}",
             f"    size: {mac_archive.stat().st_size}",
-            f"path: {yaml_string(mac['fileName'])}",
-            f"sha512: {yaml_string(sha512)}",
-            f"releaseName: {yaml_string(manifest['version'])}",
-            f"releaseDate: {yaml_string(manifest['publishedAt'])}",
-            "",
-        ]
-    )
+        ])
+    fallback_name, fallback_hash = updates[0]
+    lines.extend([
+        f"path: {yaml_string(fallback_name)}",
+        f"sha512: {yaml_string(fallback_hash)}",
+        f"releaseName: {yaml_string(manifest['version'])}",
+        f"releaseDate: {yaml_string(manifest['publishedAt'])}",
+        "",
+    ])
+    expected_update_manifest = "\n".join(lines)
     update_manifest_path = root / "latest-mac.yml"
     if not update_manifest_path.is_file():
         raise SystemExit("macOS release is missing latest-mac.yml")
     if update_manifest_path.read_text() != expected_update_manifest:
-        raise SystemExit("latest-mac.yml does not exactly match the macOS artifact")
+        raise SystemExit("latest-mac.yml does not exactly match the macOS artifacts")
+
 PY
 
 if [[ -n $debian_file ]] && command -v dpkg-deb >/dev/null 2>&1; then
