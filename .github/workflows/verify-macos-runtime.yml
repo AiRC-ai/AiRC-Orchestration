@@ -1,0 +1,86 @@
+name: Verify installed Mac runtime
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Signed draft or published release to test
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  native-intel:
+    runs-on: macos-15-intel
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24.10.0
+      - name: Verify and install the exact signed Intel release
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = x86_64
+          scripts/download-release-assets.sh "$RELEASE_TAG" release
+          scripts/validate-release.sh release
+          archive=$(find release -maxdepth 1 -type f -name 'AiRC-*-macOS-x64.zip' -print -quit)
+          test -n "$archive"
+          scripts/verify-macos-release.sh "$archive" x64
+          test ! -e /Applications/AiRC.app
+          stage=$(mktemp -d)
+          trap 'rm -rf "$stage"' EXIT
+          ditto -x -k "$archive" "$stage"
+          ditto "$stage/AiRC.app" /Applications/AiRC.app
+          codesign --verify --deep --strict /Applications/AiRC.app
+      - name: Prepare pinned verification tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          runtime_root="$RUNNER_TEMP/airc-installed-runtime"
+          mkdir -p "$runtime_root/scripts"
+          cp verification/mac-runtime/scripts/*.mjs "$runtime_root/scripts/"
+          node --input-type=module - "$runtime_root" <<'JS'
+          import {readFileSync, writeFileSync} from 'node:fs';
+          import {join} from 'node:path';
+          const manifest = JSON.parse(readFileSync('release/release-manifest.json', 'utf8'));
+          writeFileSync(join(process.argv[2], 'package.json'), JSON.stringify({
+            private: true, type: 'module', version: manifest.version,
+            dependencies: {'@playwright/test': '1.58.2'}
+          }));
+          JS
+          cd "$runtime_root"
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm install --ignore-scripts --no-audit --no-fund
+      - name: Exercise the installed app with 4000 messages and native terminal
+        shell: bash
+        run: |
+          set -euo pipefail
+          node_path=$(command -v node)
+          runtime_root="$RUNNER_TEMP/airc-installed-runtime"
+          # Keep GitHub credentials and job service tokens outside the tested app.
+          env -i HOME="$HOME" PATH="$PATH" TMPDIR="$TMPDIR" LANG=en_US.UTF-8 CI=1 \
+            "$node_path" "$runtime_root/scripts/accept-installed-task-lifecycle.mjs" \
+            --app /Applications/AiRC.app --message-count 4000 --output "$GITHUB_WORKSPACE/runtime-result"
+          node --input-type=module <<'JS'
+          import {readFileSync} from 'node:fs';
+          const result = JSON.parse(readFileSync('runtime-result/result.json', 'utf8'));
+          if (result.status !== 'passed' || result.profileRetained !== false ||
+              result.appPath !== '/Applications/AiRC.app' || result.messageCount !== 4000 ||
+              result.measurements?.nativeTerminal?.passed !== true) {
+            throw new Error('Installed native Intel acceptance is incomplete');
+          }
+          JS
+      - name: Retain synthetic verification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-intel-installed-runtime
+          path: runtime-result/
+          if-no-files-found: warn
+          retention-days: 7

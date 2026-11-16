@@ -1,12 +1,12 @@
 # AiRC Privacy Policy
 
-Updated November 15, 2026. This policy covers AiRC 7 for iPhone and iPad.
-Version 7.1 adds standalone Chat alongside the Remote companion for AiRC
+Updated November 16, 2026. This policy covers AiRC 7 for iPhone and iPad.
+Version 7.1 adds standalone Local chat alongside the Remote companion for AiRC
 Orchestration. The [earlier application
 policy](https://gist.github.com/RCFilm/50f625771a775b711c715baadbe4539c)
 applies to the older standalone 2.1 application, including its Mac version.
 
-## Standalone Chat
+## Local Chat
 
 Chat works without an AiRC desktop or developer-managed account. You choose
 Apple Intelligence, a connected provider account, a configured model service,
@@ -37,6 +37,12 @@ Selecting a paired computer's model in Chat sends the request to that computer,
 which invokes its configured provider. Provider credentials remain on the
 computer. This connection does not enable desktop tools or create a Remote
 conversation. Chat history remains local to the phone or tablet.
+
+Local opens by default. If you have saved a remote computer, AiRC can connect
+to it while you use Local. You can turn automatic connection off and choose
+which mode opens in Settings. Changing modes does not send a draft or start a
+model request. The operating system may suspend connections when the app itself
+is in the background.
 
 ## Remote: Your Host And Your Providers
 
@@ -96,6 +102,19 @@ and the destination's policy before using it. External support or download
 links open the service you select, whose privacy policy also applies.
 
 ## Inline Media And Document Previews
+
+When Find public photos is enabled and you ask for pictures, the selected model
+helps identify concise photo-search subjects from the relevant conversation.
+AiRC sends those subjects to Wikimedia Commons and downloads image data for
+inline display with credits and source links. It does not send your complete
+conversation, attachments, account credentials, or ChatGPT connection tokens to
+Wikimedia. Wikimedia receives ordinary network information such as your IP
+address. Its [privacy policy](https://foundation.wikimedia.org/wiki/Policy:Privacy_policy)
+applies. You can disable this feature in Settings under Photos & files.
+
+Downloaded public pictures and their source credits are saved with the local
+conversation so that they remain available when you reopen it. Saving or
+sharing a picture creates a copy only at your chosen destination.
 
 Messages can contain images, video, audio and document links. Displaying linked
 media sends a normal web request to its source, which can receive your IP address
