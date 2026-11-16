@@ -5,7 +5,7 @@
 
 Verify every downloaded file before opening or installing it.
 
-The [main README](../README.md) links the airc145 installers. Read the [version-specific release notes](AIRC145.md), finish running work, back up important data, and retain the previous installer before upgrading. Platform and signing support are recorded in the release manifest.
+The [main README](../README.md) links the airc147 installers. Read the [version-specific release notes](AIRC147.md), finish running work, back up important data, and retain the previous installer before upgrading. Platform and signing support are recorded in the release manifest.
 
 ## macOS Apple Silicon And Intel
 
@@ -62,7 +62,7 @@ and configuration backup until the new version is accepted. Windows uses the
 full Setup installer for each revision; a folder named `app-1.45.0` alone does
 not identify the installed `+airc` revision. Check the app's displayed version.
 
-The airc145 macOS updater metadata points to the same signed and notarized ZIP as the manual download. Do not change update preferences or restart active work merely to test the update path.
+The airc147 macOS updater metadata points to the same signed and notarized ZIP as the manual download. Do not change update preferences or restart active work merely to test the update path.
 
 ## Pairing the iPhone or iPad Companion
 
@@ -72,7 +72,7 @@ The airc145 macOS updater metadata points to the same signed and notarized ZIP a
 4. Add the host in the companion, scan directly on the phone, and compare the certificate fingerprint before tapping Trust.
 5. Keep the host awake and reachable over your local or private network. Chats, files, tools, and provider credentials stay on the host; the companion is its remote interface.
 
-Pairing is required once per device. The companion reconnects to the saved primary host on launch. Available controls depend on the host, provider and permissions. APNs notifications while the phone is locked are not enabled. See [Companion privacy](../COMPANION_PRIVACY.md).
+Pairing is required once per device. In the upcoming Local + Remote update, Local opens by default while the saved computer connects. You can choose Remote as the startup mode or turn automatic connection off in Settings. Available controls depend on the host, provider and permissions. APNs notifications while the phone is locked are not enabled. See [Companion privacy](../COMPANION_PRIVACY.md).
 
 ## Uninstalling
 

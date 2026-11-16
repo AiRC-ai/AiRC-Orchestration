@@ -126,18 +126,19 @@ Availability depends on the selected model, provider, operating system, configur
 
 ## Download
 
-**1.45.0+airc145** adds the host support for the native AiRC 7 companion on iPhone and iPad, along with send recovery, compaction, Stop, and complete desktop history fixes. Read the [release notes and verification scope](docs/AIRC145.md) before upgrading.
+**1.45.0+airc147** adds direct, tool-free model chat for the upcoming Local + Remote phone update, with signed and notarized downloads for both Apple silicon and Intel Macs. It also includes the current companion controls, streaming recovery, compaction, Stop and history fixes. Read the [release notes and verification scope](docs/AIRC147.md) before upgrading.
 
 | Platform | Architecture | Download |
 | --- | --- | --- |
-| macOS | Apple silicon (`arm64`) | [Signed and notarized ZIP](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc145/AiRC-1.45.0%2Bairc145-macOS-arm64.zip) |
-| Debian-family Linux | x86_64 (`amd64`) | [Debian package](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc145/airc_1.45.0%2Bairc145_amd64.deb) |
+| macOS | Apple silicon (`arm64`) | [Signed and notarized ZIP](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc147/AiRC-1.45.0%2Bairc147-macOS-arm64.zip) |
+| macOS | Intel (`x64`) | [Signed and notarized ZIP](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc147/AiRC-1.45.0%2Bairc147-macOS-x64.zip) |
+| Debian-family Linux | x86_64 (`amd64`) | [Debian package](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc147/airc_1.45.0%2Bairc147_amd64.deb) |
 
-Verify the exact download with [SHA256SUMS](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc145/SHA256SUMS) and the [release manifest](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc145/release-manifest.json). Finish active work and retain a profile backup and known-good installer before upgrading. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md).
+Verify the exact download with [SHA256SUMS](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc147/SHA256SUMS) and the [release manifest](https://github.com/AiRC-ai/AiRC-Orchestration/releases/download/v1.45.0%2Bairc147/release-manifest.json). Finish active work and retain a profile backup and known-good installer before upgrading. See [Installation](docs/INSTALL.md) and [Verify a download](docs/VERIFY.md).
 
 The native iOS 7.0.0 update is submitted separately to Apple; desktop publication does not make it available in the App Store. After it becomes available, configure a model on the host, enable companion access in Settings, and scan a fresh pairing QR code directly on the phone. Compare the certificate fingerprint before trusting the host. The computer runs the AI and tools and must remain reachable. Locked-phone push notifications are not enabled in this release. Read the [companion privacy policy](COMPANION_PRIVACY.md).
 
-Previous [airc134](docs/AIRC134.md) and [airc121](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc121) installers remain historical references and rollback options with their matching profile backups. Their acceptance scope does not qualify airc145, and older Windows installers do not supply the new companion host features.
+Previous [airc134](docs/AIRC134.md) and [airc121](https://github.com/AiRC-ai/AiRC-Orchestration/releases/tag/v1.45.0%2Bairc121) installers remain historical references and rollback options with their matching profile backups. Their acceptance scope does not qualify airc147, and older Windows installers do not supply the new companion host features.
 
 The macOS updater is under **Settings > App > Updates**. It verifies the download's declared size and SHA-512 digest against official release metadata before offering **Install & Restart**. Finish active work before restarting. The included `latest-mac.yml` identifies the same signed and notarized ZIP linked above.
 
@@ -153,7 +154,7 @@ Production qualification requires the repository's release gates:
 - inspection for private source, credentials, logs, user data, and internal build artifacts
 
 Maintainer details are in [Publishing a release](docs/PUBLISHING.md).
-Public availability, hosted-file validation, and installed runtime acceptance are separate checks. The [airc145 notes](docs/AIRC145.md) identify the exact source, artifact hashes, completed platform checks, and limits of that evidence.
+Public availability, hosted-file validation, and installed runtime acceptance are separate checks. The [airc147 notes](docs/AIRC147.md) identify the exact source, artifact hashes, completed platform checks, and limits of that evidence.
 
 ## Steering, Context, Images, And Browser Graphics
 
@@ -175,7 +176,7 @@ the app to troubleshoot a browser or provider issue while other tasks are runnin
 
 ## Using AiRC Responsibly
 
-The airc145 macOS build carries a Developer ID signature and an Apple notarization ticket. Its Debian package is architecture- and integrity-verified with matching checksums. Check the manifest for the platforms actually included in each release; historical Windows installers are unsigned. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
+Both airc147 macOS builds carry a Developer ID signature and an Apple notarization ticket. Its Debian package is architecture- and integrity-verified with matching checksums. Check the manifest for the platforms actually included in each release; historical Windows installers are unsigned. Download only from this repository's [Releases](https://github.com/AiRC-ai/AiRC-Orchestration/releases) page — do not install packages offered elsewhere.
 
 - Review model, tool, extension, automation, and operating-system permissions before use.
 - Keep approval controls at the narrowest practical level for consequential actions.

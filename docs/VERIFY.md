@@ -2,7 +2,7 @@
 
 Verify installers before opening or installing them.
 
-Use an empty download directory for each release. Do not mix installers or checksums from different versions. Integrity verification proves file identity; it does not replace installed runtime acceptance. See the [airc145 verification scope](AIRC145.md), and check which platforms its release manifest includes.
+Use an empty download directory for each release. Do not mix installers or checksums from different versions. Integrity verification proves file identity; it does not replace installed runtime acceptance. See the [airc147 verification scope](AIRC147.md), and check which platforms its release manifest includes.
 
 ## Check SHA-256
 
