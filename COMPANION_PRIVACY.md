@@ -1,6 +1,6 @@
 # AiRC Privacy Policy
 
-Updated November 14, 2026. This policy covers AiRC 7 for iPhone and iPad.
+Updated November 15, 2026. This policy covers AiRC 7 for iPhone and iPad.
 Version 7.1 adds standalone Chat alongside the Remote companion for AiRC
 Orchestration. The [earlier application
 policy](https://gist.github.com/RCFilm/50f625771a775b711c715baadbe4539c)
@@ -94,6 +94,22 @@ under their enforced content policy. Those destinations can receive ordinary
 web requests and information you choose to provide. Review an app's permissions
 and the destination's policy before using it. External support or download
 links open the service you select, whose privacy policy also applies.
+
+## Inline Media And Document Previews
+
+Messages can contain images, video, audio and document links. Displaying linked
+media sends a normal web request to its source, which can receive your IP address
+and standard browser information. Supported public YouTube, Facebook, Vimeo and
+Spotify links can display an inline player. These players use separate temporary
+web sessions and have no access to AiRC’s native controls, saved host credentials,
+provider keys, or ChatGPT connection tokens. The media service’s privacy policy
+and access restrictions apply. Opening the original link uses the destination
+service you choose.
+
+When you tap Preview and save, AiRC downloads the supported file directly from
+its source into a temporary native preview. Save to Files, Save to Photos and
+Share require your action. AiRC does not upload these preview downloads to a
+developer-operated server.
 
 ## Your Choices
 

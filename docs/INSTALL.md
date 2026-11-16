@@ -7,9 +7,9 @@ Verify every downloaded file before opening or installing it.
 
 The [main README](../README.md) links the airc145 installers. Read the [version-specific release notes](AIRC145.md), finish running work, back up important data, and retain the previous installer before upgrading. Platform and signing support are recorded in the release manifest.
 
-## macOS Apple Silicon
+## macOS Apple Silicon And Intel
 
-1. Download `AiRC-<version>-macOS-arm64.zip` and `SHA256SUMS` from the same GitHub release.
+1. Check which processors the release manifest supports. Download `AiRC-<version>-macOS-arm64.zip` for Apple silicon, or `AiRC-<version>-macOS-x64.zip` for Intel, together with `SHA256SUMS` from that release. Intel downloads are available only in releases that include an x64 archive.
 2. Follow [Verify a download](VERIFY.md).
 3. Open the ZIP archive.
 4. Move `AiRC.app` to `/Applications`.

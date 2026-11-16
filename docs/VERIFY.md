@@ -10,9 +10,19 @@ Download `SHA256SUMS` into the same directory as the installer. Verify only the 
 
 ### macOS
 
+For the Apple silicon archive:
+
 ```bash
 grep 'macOS-arm64\.zip$' SHA256SUMS | shasum -a 256 -c -
 ```
+
+For an Intel archive included in the same release:
+
+```bash
+grep 'macOS-x64\.zip$' SHA256SUMS | shasum -a 256 -c -
+```
+
+The selected archive must be present and the command must print its name followed by `OK`.
 
 ### Linux
 
