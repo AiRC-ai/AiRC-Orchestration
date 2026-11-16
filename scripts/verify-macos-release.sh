@@ -82,35 +82,7 @@ codesign --verify --deep --strict --verbose=2 "$application"
 spctl --assess --type execute --verbose=2 "$application"
 xcrun stapler validate "$application"
 
-python3 - "$application" "$native_architecture" <<'PYARCH'
-import os
-from pathlib import Path
-import subprocess
-import sys
-
-root = Path(sys.argv[1])
-expected = sys.argv[2]
-checked = 0
-for directory, _, names in os.walk(root, followlinks=False):
-    for name in names:
-        path = Path(directory) / name
-        if path.is_symlink():
-            continue
-        with path.open('rb') as stream:
-            header = stream.read(8)
-        if header[:4] in [bytes.fromhex(x) for x in ['feedface', 'cefaedfe', 'feedfacf', 'cffaedfe']]:
-            native = True
-        else:
-            native = header[:4] in [bytes.fromhex('cafebabe'), bytes.fromhex('cafebabf')] and 1 <= int.from_bytes(header[4:8], 'big') <= 8
-        if not native:
-            continue
-        arches = subprocess.check_output(['/usr/bin/lipo', '-archs', str(path)], text=True).split()
-        if expected not in arches:
-            raise SystemExit(f"macOS component architecture mismatch: {path.relative_to(root)}; expected {expected}, found {arches}")
-        checked += 1
-if checked < 4:
-    raise SystemExit('macOS archive is missing expected native runtime components')
-print(f'Verified {checked} native components contain {expected}')
-PYARCH
+script_directory=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+python3 "$script_directory/verify-macos-architecture.py" "$application" "$native_architecture"
 
 echo "macOS signing, notarization, and architecture verification passed"

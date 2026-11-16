@@ -23,6 +23,8 @@ required_files=(
   scripts/validate-release.sh
   scripts/validate-repository.sh
   scripts/verify-macos-release.sh
+  scripts/verify-macos-architecture.py
+  scripts/test-macos-architecture.py
   .github/workflows/validate-release.yml
   .github/workflows/validate-repository.yml
 )

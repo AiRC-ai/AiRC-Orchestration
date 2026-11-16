@@ -21,3 +21,5 @@ dist/
 
 # Local release staging directory
 /staging/
+
+__pycache__/

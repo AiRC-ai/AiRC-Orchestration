@@ -251,4 +251,6 @@ if "$repository_root/scripts/validate-release.sh" "$staging_directory" >/dev/nul
   exit 1
 fi
 
+python3 -B "$repository_root/scripts/test-macos-architecture.py"
+
 echo "release validation self-test passed"

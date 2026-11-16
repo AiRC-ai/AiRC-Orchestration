@@ -67,7 +67,12 @@ separately and `latest-mac.yml` includes both exact hashes and sizes so the
 updater can select the matching architecture. Qualify both native applications;
 copying or renaming the Apple silicon ZIP does not create Intel support.
 Rosetta runtime checks must be identified separately from native Intel hardware
-acceptance.
+acceptance. Hosted validation uses matching Apple silicon and Intel runners for
+native backend launch checks. The app, Electron framework, backend and Computer
+Use helper must match the selected architecture. The terminal library also ships
+explicitly labeled prebuilds for both CPUs; each of those two optional files is
+checked against its folder's architecture. Its loader selects the current CPU.
+This exception does not admit mismatched app binaries or other native libraries.
 
 On macOS, also run:
 
